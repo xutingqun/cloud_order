@@ -66,7 +66,7 @@ public class RollHeaderView extends FrameLayout implements OnPageChangeListener 
 
 		// 璁゜anner鐨勯珮搴︽槸灞忓箷锟�?1/4
 		ViewGroup.LayoutParams vParams = mViewPager.getLayoutParams();
-		vParams.height = (int) (DisplayUtil.getMobileHeight(mContext) * 0.3);
+		vParams.height = (int) (DisplayUtil.getMobileHeight(mContext) * 0.22);
 		mViewPager.setLayoutParams(vParams);
 	}
 

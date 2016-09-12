@@ -11,6 +11,6 @@ public final class Manifest {
     public static final class permission {
         /**  极光推送 
          */
-        public static final String JPUSH_MESSAGE="com.xmsmart.xiuba.permission.JPUSH_MESSAGE";
+        public static final String JPUSH_MESSAGE="com.cloud.order.permission.JPUSH_MESSAGE";
     }
 }

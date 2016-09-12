@@ -1,41 +1,42 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-                xmlns:app="http://schemas.android.com/apk/res-auto"
-                xmlns:tools="http://schemas.android.com/tools"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="vertical">
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_marginTop="5dp"
+    android:background="@color/white"
+    android:orientation="vertical" >
 
     <LinearLayout
         android:id="@+id/rowBG"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignParentRight="true"
-        android:orientation="horizontal">
-
+        android:orientation="horizontal" >
 
         <RelativeLayout
             android:id="@+id/add"
-            android:visibility="gone"
             android:layout_width="85dp"
             android:layout_height="match_parent"
             android:background="#3693D0"
             android:clickable="true"
             android:focusable="true"
-            android:orientation="vertical">
+            android:orientation="vertical"
+            android:visibility="gone" >
 
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:layout_centerInParent="true"
                 android:gravity="center"
-                android:orientation="vertical">
+                android:orientation="vertical" >
 
                 <ImageView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center"
-                    android:tint="@android:color/white"/>
+                    android:tint="@android:color/white" />
 
                 <TextView
                     android:layout_width="wrap_content"
@@ -49,31 +50,31 @@
                     android:maxLines="1"
                     android:text="Add"
                     android:textColor="@android:color/white"
-                    android:textSize="12sp"/>
+                    android:textSize="12sp" />
             </LinearLayout>
         </RelativeLayout>
 
         <RelativeLayout
             android:id="@+id/edit"
-            android:visibility="gone"
             android:layout_width="85dp"
             android:layout_height="match_parent"
             android:background="#36CF8E"
             android:clickable="true"
             android:focusable="true"
-            android:orientation="vertical">
+            android:orientation="vertical"
+            android:visibility="gone" >
 
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:layout_centerInParent="true"
-                android:orientation="vertical">
+                android:orientation="vertical" >
 
                 <ImageView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center_horizontal"
-                    android:tint="@android:color/white"/>
+                    android:tint="@android:color/white" />
 
                 <TextView
                     android:layout_width="wrap_content"
@@ -87,7 +88,7 @@
                     android:maxLines="1"
                     android:text="Edit"
                     android:textColor="@android:color/white"
-                    android:textSize="12sp"/>
+                    android:textSize="12sp" />
             </LinearLayout>
         </RelativeLayout>
 
@@ -98,21 +99,20 @@
             android:background="#ff1744"
             android:clickable="true"
             android:focusable="true"
-            android:orientation="vertical">
+            android:orientation="vertical" >
 
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:layout_centerInParent="true"
                 android:gravity="center"
-                android:orientation="vertical">
+                android:orientation="vertical" >
 
                 <ImageView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center_horizontal"
-                    android:tint="@android:color/white"
-                    />
+                    android:tint="@android:color/white" />
 
                 <TextView
                     android:layout_width="wrap_content"
@@ -126,7 +126,7 @@
                     android:maxLines="1"
                     android:text="删除"
                     android:textColor="@android:color/white"
-                    android:textSize="12sp"/>
+                    android:textSize="12sp" />
             </LinearLayout>
         </RelativeLayout>
     </LinearLayout>
@@ -139,7 +139,7 @@
         android:clickable="true"
         android:focusable="true"
         android:orientation="horizontal"
-        android:visibility="visible">
+        android:visibility="visible" >
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -147,56 +147,63 @@
             android:orientation="horizontal"
             android:paddingBottom="5dp"
             android:paddingLeft="5dp"
-            android:paddingTop="5dp">
-             <ImageView
-                    android:id="@+id/imag_conta_head"
-                    android:layout_width="50dp"
-                    android:layout_height="55dp"
-                      android:layout_weight="1"
-                	android:layout_gravity="center_vertical"
-                    android:layout_marginLeft="1dp"
-                    android:src="@drawable/imag_speaker" />
-             
-		
-            <LinearLayout
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
+            android:paddingTop="5dp" >
+
+            <ImageView
+                android:id="@+id/imag_conta_head"
+                android:layout_width="120dp"
+                android:layout_height="120dp"
                 android:layout_gravity="center_vertical"
-                android:layout_weight="6"
-                android:orientation="vertical">
-                <TextView
-                    android:id="@+id/mainText"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:maxLines="1"
-                      android:textColor="#434343"
-                    android:text="修咻活动"
-                    android:textSize="16sp"
-                    android:textStyle="bold"
-                    tools:text="Row 1"/>
+                android:layout_marginLeft="1dp"
+                android:src="@drawable/imag_speaker" />
+
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="12dp"
+                android:orientation="vertical" >
 
                 <TextView
-                    android:id="@+id/subText"
+                    android:id="@+id/tv_my_suppler_name"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="2dp"
                     android:maxLines="1"
-                        android:textSize="14sp"
-                     android:textColor="#434343"
-                    tools:text="您的优惠券两天后过期"/>
+                    android:text="修咻活动"
+                    android:textColor="@color/defalute_text_color"
+                    android:textSize="17sp"
+                    android:textStyle="bold"
+                  />
+
+                <TextView
+                    android:id="@+id/tv_my_suppler_phone"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="22dp"
+                    android:maxLines="1"
+                    android:textColor="@color/defalute_text_color_hint"
+                    android:textSize="15sp"
+                     android:text="电话：1223354235326" />
+                  <TextView
+                    android:id="@+id/tv_my_suppler_address"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="10dp"
+                    android:maxLines="1"
+                    android:textColor="@color/defalute_text_color_hint"
+                    android:textSize="15sp"
+                     android:text="电话：1223354235326" />
             </LinearLayout>
 
             <Button
                 android:id="@+id/rowButton"
-                android:visibility="gone"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="right|center_vertical"
-                android:gravity="right|center_vertical"
                 android:layout_marginRight="14dp"
-                />
-            
-            <!--  
+                android:gravity="right|center_vertical"
+                android:visibility="gone" />
+
+            <!--
             <Button
                 android:id="@+id/rowButtontwo"
                 android:layout_width="wrap_content"
@@ -206,16 +213,15 @@
                 android:layout_marginRight="5dp"
                 android:background="@drawable/imag_bm_phone"
                />
-               -->
-               
-        </LinearLayout>
+            -->
 
+        </LinearLayout>
     </LinearLayout>
 
     <View
         android:layout_width="match_parent"
         android:layout_height="1dp"
         android:layout_alignParentBottom="true"
-        android:background="#67676767"
-      />
+        android:background="#67676767" />
+
 </RelativeLayout>
