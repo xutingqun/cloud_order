@@ -1,0 +1,33 @@
+package com.xmsmart.xiuba.bean;
+
+public class LoginBean extends BaseBean {
+
+	private LoginDataBean data = new LoginDataBean();
+	private String success;
+	private String message="";//´íÎóĞÅÏ¢
+	
+	public String getMessage() {
+		return message;
+	}
+	public void setMessage(String message) {
+		this.message = message;
+	}
+	public LoginDataBean getData() {
+		return data;
+	}
+	public void setData(LoginDataBean data) {
+		this.data = data;
+	}
+	public String getSuccess() {
+		return success;
+	}
+	public void setSuccess(String success) {
+		this.success = success;
+	}
+	@Override
+	public String toString() {
+		return "LoginBean [data=" + data + ", success=" + success + "]";
+	}
+
+	
+}

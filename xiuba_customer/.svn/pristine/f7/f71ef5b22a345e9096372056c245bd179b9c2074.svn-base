@@ -1,0 +1,86 @@
+package com.xmsmart.xiuba.api;
+
+public class OrderAPI {
+
+	/**
+	 * 急速修吧订单提交
+	 * 
+	 * @return
+	 */
+	public static String addRepairUrl() {
+
+		return BaseAPI.URL + "/order/save-order-reparis.htm";
+
+	}
+	/**
+	 * 获取推荐工程师
+	 * 
+	 * @return
+	 */
+	public static String getEnginerUrl() {
+
+		return BaseAPI.URL + "/order/list-recommend-engineer.htm";
+
+	}
+	/**
+	 * 获取推荐工程师
+	 * 
+	 * @return
+	 */
+	public static String getMyOrderUrl() {
+
+		return BaseAPI.URL + "/order/list-order-reparis.htm";
+
+	}
+	
+	/**
+	 * 获取订单详情
+	 * 
+	 * @return
+	 */
+	public static String getMyOrderDetails() {
+
+		return BaseAPI.URL + "/order/get-order-reparis.htm";
+
+	}
+	/**
+	 * 获取地址列表
+	 * 
+	 * @return
+	 */
+	public static String getMyAddress() {
+
+		return BaseAPI.URL + "/system/list-user-address.htm";
+
+	}
+	/**
+	 * 增加地址或修改地址
+	 * 
+	 * @return
+	 */
+	public static String addMyAddress() {
+
+		return BaseAPI.URL + "/system/save-user-address.htm";
+
+	}
+	/**
+	 * 删除地址
+	 * 
+	 * @return
+	 */
+	public static String deleteMyAddress() {
+
+		return BaseAPI.URL + "/system/delete-user-address.htm";
+
+	}
+	/**
+	 * 设置默认地址
+	 * 
+	 * @return
+	 */
+	public static String setDefaluteAddress() {
+
+		return BaseAPI.URL + "/system/set-default-address.htm";
+
+	}
+}

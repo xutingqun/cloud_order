@@ -1,0 +1,159 @@
+package com.xmsmart.xiuba.ui.user;
+
+import java.util.ArrayList;
+
+import android.annotation.SuppressLint;
+import android.graphics.Color;
+import android.os.Bundle;
+import android.support.v4.app.Fragment;
+import android.util.Log;
+import android.view.MotionEvent;
+import android.view.View;
+import android.view.View.OnLayoutChangeListener;
+import android.view.WindowManager;
+import android.view.View.OnTouchListener;
+import android.widget.ImageView;
+import android.widget.LinearLayout;
+import android.widget.RelativeLayout;
+import android.widget.TextView;
+import android.widget.RelativeLayout.LayoutParams;
+
+import com.smart.library.util.DeviceUtils;
+import com.smart.library.util.IntentUtil;
+import com.smart.library.view.MyViewPager;
+import com.xmsmart.xiuba.R;
+import com.xmsmart.xiuba.adapter.FragmentVPAdapter;
+import com.xmsmart.xiuba.ui.BaseActivity;
+/**
+ * @author xutingqun
+ */
+@SuppressLint("ResourceAsColor")
+public class RegisterActivity extends BaseActivity implements
+		OnLayoutChangeListener {
+
+	private RegisterFragment personalPage, companyPage;
+	TextView tvPersonal, tvCompany;
+	View vPersnal, vCompany;
+	LinearLayout llGoLogin, llRegMain;
+	ImageView ivRegLogo;
+	// 屏幕高度
+	private int screenHeight = 0;
+	// 软件盘弹起后所占高度阀值
+	private int keyHeight = 0;
+	private ArrayList<Fragment> mFragments = null;
+	private FragmentVPAdapter mMyFragmentPagerAdapter = null;
+	public static MyViewPager mViewPager;
+
+	@Override
+	protected void onCreate(Bundle savedInstanceState) {
+		// TODO Auto-generated method stub
+		super.onCreate(savedInstanceState);
+		setBarColor(R.color.bar);
+		setContentView(R.layout.ac_reg);
+
+		initView();
+	}
+
+	private void initView() {
+		ivRegLogo = (ImageView) findViewById(R.id.iv_reg_logo);
+		mViewPager = (MyViewPager) findViewById(R.id.mvp_reg_page);
+		tvPersonal = (TextView) findViewById(R.id.tv_reg_personal);
+		tvCompany = (TextView) findViewById(R.id.tv_reg_company);
+		vPersnal = findViewById(R.id.v_reg_personal);
+		vCompany = findViewById(R.id.v_reg_company);
+		tvPersonal.setOnClickListener(this);
+		tvCompany.setOnClickListener(this);
+		llGoLogin = (LinearLayout) findViewById(R.id.ll_reg_go_login);
+		llGoLogin.setOnClickListener(this);
+		llRegMain = (LinearLayout) findViewById(R.id.ll_reg_main);
+
+		// 获取屏幕高度
+		screenHeight = this.getWindowManager().getDefaultDisplay().getHeight();
+		// 阀值设置为屏幕高度的1/3
+		keyHeight = screenHeight / 3;
+		llRegMain.addOnLayoutChangeListener(this);
+
+		personalPage = new RegisterFragment("1", RegisterActivity.this);
+		companyPage = new RegisterFragment("2", RegisterActivity.this);
+
+		mFragments = new ArrayList<Fragment>();
+
+		mFragments.add(personalPage);
+		mFragments.add(companyPage);
+		mMyFragmentPagerAdapter = new FragmentVPAdapter(
+				getSupportFragmentManager(), mFragments);
+		mViewPager.setAdapter(mMyFragmentPagerAdapter);
+		mViewPager.setOffscreenPageLimit(2);
+		mViewPager.setOnPageChangeListener(this);
+		mViewPager.setNoScroll(false);
+
+	}
+
+	@Override
+	public void onPageSelected(int pageNum) {
+		if (pageNum == 0) {
+			isPersonalSelect(true);
+		} else if (pageNum == 1) {
+			isPersonalSelect(false);
+		}
+
+	}
+
+	@Override
+	public void onClick(View v) {
+		// TODO Auto-generated method stub
+		switch (v.getId()) {
+		case R.id.tv_reg_personal:
+			isPersonalSelect(true);
+			mViewPager.setCurrentItem(0);
+			break;
+		case R.id.tv_reg_company:
+			isPersonalSelect(false);
+			mViewPager.setCurrentItem(1);
+			break;
+		case R.id.ll_reg_go_login:
+			IntentUtil.mStartActivity(this, LoginActivity.class);
+			break;
+		default:
+			break;
+		}
+	}
+
+	private void isPersonalSelect(boolean isPersonal) {
+
+		if (isPersonal) {
+			ivRegLogo.setBackgroundResource(R.drawable.iv_reg_logo);
+			vPersnal.setBackgroundResource(R.drawable.iv_reg_select);
+			vCompany.setBackgroundResource(R.drawable.iv_reg_no_select);
+		} else {
+			ivRegLogo.setBackgroundResource(R.drawable.iv_reg_company_logo);
+			vPersnal.setBackgroundResource(R.drawable.iv_reg_no_select);
+			vCompany.setBackgroundResource(R.drawable.iv_reg_select);
+		}
+
+	}
+
+	@Override
+	public void onLayoutChange(View v, int left, int top, int right,
+			int bottom, int oldLeft, int oldTop, int oldRight, int oldBottom) {
+		// 现在认为只要控件将Activity向上推的高度超过了1/3屏幕高，就认为软键盘弹起
+		if (oldBottom != 0 && bottom != 0 && (oldBottom - bottom > keyHeight)) {
+			Log.e("弹起", "弹起");
+			setVisibility(true);
+		} else if (oldBottom != 0 && bottom != 0
+				&& (bottom - oldBottom > keyHeight)) {
+			Log.e("关闭", "关闭");
+			setVisibility(false);
+		}
+
+	}
+
+	public void setVisibility(boolean isOpen) {
+		if (isOpen) {
+			llGoLogin.setVisibility(View.INVISIBLE);
+		} else {
+			llGoLogin.setVisibility(View.VISIBLE);
+		}
+
+	}
+}

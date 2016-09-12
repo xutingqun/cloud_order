@@ -1,0 +1,412 @@
+package com.xmsmart.xiuba.ui.user;
+
+import java.io.ByteArrayOutputStream;
+import java.io.File;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
+
+import android.annotation.SuppressLint;
+import android.content.Intent;
+import android.graphics.Bitmap;
+import android.graphics.drawable.BitmapDrawable;
+import android.graphics.drawable.Drawable;
+import android.net.Uri;
+import android.os.Bundle;
+import android.os.Environment;
+import android.provider.MediaStore;
+import android.util.Log;
+import android.view.View;
+import android.widget.LinearLayout;
+import android.widget.RelativeLayout;
+import android.widget.TextView;
+
+import com.bumptech.glide.Glide;
+import com.bumptech.glide.load.engine.DiskCacheStrategy;
+import com.google.gson.Gson;
+import com.smart.library.okhttp.OkHttpClientManager;
+import com.smart.library.util.ImageUtils;
+import com.smart.library.util.ToastUtil;
+import com.smart.library.view.ActionSheet;
+import com.smart.library.view.ActionSheet.ActionSheetListener;
+import com.smart.library.view.MyImageView;
+import com.squareup.okhttp.Request;
+import com.xmsmart.xiuba.R;
+import com.xmsmart.xiuba.api.UserAPI;
+import com.xmsmart.xiuba.bean.ChangePersonalBean;
+import com.xmsmart.xiuba.bean.LoginDataBean;
+import com.xmsmart.xiuba.db.DataStorage;
+import com.xmsmart.xiuba.ui.BaseActivity;
+import com.xmsmart.xiuba.utils.DialogUtil;
+import com.xmsmart.xiuba.utils.TopUtil;
+
+/**
+ * @author xutingqun
+ */
+@SuppressLint("ResourceAsColor")
+public class EditPersonalActivity extends BaseActivity implements
+		ActionSheetListener {
+	MyImageView ivIcon;
+	TextView tvName, tvSex;
+	RelativeLayout rlIcon, rlName, rlSex;
+	private static final int PHOTO_REQUEST_TAKEPHOTO = 5;// 拍照
+	private static final int PHOTO_REQUEST_GALLERY = 2;// 从相册中选择
+	private static final int PHOTO_REQUEST_CUT = 3;// 结果
+	private static final int EDIT_NAME = 4;// 修改昵称
+	private static final int EDIT_SEX = 1;// 修改性别
+	File tempFile = new File(getPhotoFileNamed());// 临时存放照片的地方
+	File postFile;// 传到服务器的文件
+	Bitmap mBitmap;
+	String saveDir = Environment.getExternalStorageDirectory() + "/xmsmart_xiuxiu";
+	LoginDataBean loginDataBean;
+	LinearLayout rlTitleRight;
+
+	@Override
+	protected void onCreate(Bundle savedInstanceState) {
+		// TODO Auto-generated method stub
+		super.onCreate(savedInstanceState);
+		setContentView(R.layout.act_personnal_edit);
+		TopUtil.setTopBackground(this, R.color.white);
+		TopUtil.setCenterText(this, "个人资料");
+		TopUtil.setCenterTextColor(this, R.color.black);
+		TopUtil.setRightTextColor(this, R.color.black);
+		TopUtil.setLeftImage(this, R.drawable.iv_white_bg_title_back);
+		TopUtil.setViewVisiable(this, 1, 0, 0, 1, 0, 1);
+		initView();
+	}
+
+	private void initView() {
+		loginDataBean = DataStorage.getLoginData(this);
+		rlTitleRight = (LinearLayout) findViewById(R.id.ll_titlev_more);
+		rlTitleRight.setOnClickListener(this);
+		ivIcon = (MyImageView) findViewById(R.id.iv_personal_edit_icon);
+		tvName = (TextView) findViewById(R.id.tv_personal_edit_name);
+		tvSex = (TextView) findViewById(R.id.tv_personal_edit_sex);
+		rlIcon = (RelativeLayout) findViewById(R.id.rl_personal_edit_icon);
+		rlName = (RelativeLayout) findViewById(R.id.rl_personal_edit_name);
+		rlSex = (RelativeLayout) findViewById(R.id.rl_personal_edit_sex);
+
+		tvName.setText(loginDataBean.getCropName());
+		tvSex.setText(getSex(loginDataBean.getSex()));
+
+		 ImageUtils.setImage(loginDataBean.getHeadPortraitPath(), ivIcon,
+				  R.drawable.mo_cal, R.drawable.mo_cal, R.drawable.mo_cal);
+		rlIcon.setOnClickListener(this);
+		rlName.setOnClickListener(this);
+		rlSex.setOnClickListener(this);
+
+	}
+
+	private String getSex(String type) {
+		String sex = "";
+		if (type.equals("M")) {
+			sex = "女";
+		} else if (type.equals("F")) {
+			sex = "男";
+		}
+		return sex;
+
+	}
+
+	private String getSexType(String sex) {
+		String type = "";
+		if (sex.equals("女")) {
+			type = "M";
+		} else if (sex.equals("男")) {
+			type = "F";
+		}
+		return type;
+
+	}
+
+	@Override
+	public void onClick(View v) {
+		super.onClick(v);
+		switch (v.getId()) {
+		case R.id.rl_personal_edit_icon:
+			showActionSheet();
+			break;
+		case R.id.rl_personal_edit_name:
+			Intent intent = new Intent();
+			Bundle bundle = new Bundle();
+			bundle.putString("name", tvName.getText().toString());
+			bundle.putBoolean("isEditName", true);
+			intent.putExtras(bundle);
+			intent.setClass(EditPersonalActivity.this,
+					EditPersonalMessageActivity.class);
+			startActivityForResult(intent, EDIT_NAME);
+			break;
+		case R.id.rl_personal_edit_sex:
+			Intent intent1 = new Intent();
+			Bundle bundle1 = new Bundle();
+			bundle1.putString("name", tvSex.getText().toString());
+			bundle1.putBoolean("isEditName", false);
+			intent1.putExtras(bundle1);
+			intent1.setClass(EditPersonalActivity.this,
+					EditPersonalMessageActivity.class);
+			startActivityForResult(intent1, EDIT_SEX);
+			break;
+		case R.id.ll_titlev_more:
+			sexType = getSexType(tvSex.getText().toString());
+			DialogUtil.showRoundProcessDialog(this, "正在提交数据....");
+			if (postFile == null) {
+				submitNoFileData();
+			} else {
+				submitData();
+			}
+
+			break;
+
+		default:
+			break;
+		}
+
+	}
+
+	public void showActionSheet() {
+		setTheme(R.style.ActionSheetStyleIOS7);
+		ActionSheet.createBuilder(this, getSupportFragmentManager())
+				.setCancelButtonTitle("取消").setOtherButtonTitles("拍照", "相册")
+				.setCancelableOnTouchOutside(true).setListener(this).show();
+	}
+
+	@Override
+	public void onOtherButtonClick(ActionSheet actionSheet, int index) {
+		Intent intent = null;
+		switch (index) {
+		case 0:
+			intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
+			// 指定调用相机拍照后照片的储存路径
+			intent.putExtra(MediaStore.EXTRA_OUTPUT, Uri.fromFile(tempFile));
+			System.out.println("----------------------"
+					+ Uri.fromFile(tempFile).toString());
+			startActivityForResult(intent, PHOTO_REQUEST_TAKEPHOTO);
+			break;
+		case 1:
+			intent = new Intent(Intent.ACTION_PICK, null);
+			intent.setDataAndType(MediaStore.Images.Media.EXTERNAL_CONTENT_URI,
+					"image/*");
+			startActivityForResult(intent, PHOTO_REQUEST_GALLERY);
+		default:
+			break;
+		}
+	}
+
+	private String getPhotoFileNamed() {
+		Date date = new Date(System.currentTimeMillis());
+		SimpleDateFormat dateFormat = new SimpleDateFormat(
+				"'IMG'_yyyyMMdd_HHmmss");
+		return saveDir + "/" + dateFormat.format(date) + ".png";
+	}
+
+	@Override
+	protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+		// TODO Auto-generated method stub
+		if (data == null) {
+			return;
+		}
+		switch (requestCode) {
+		case PHOTO_REQUEST_TAKEPHOTO:
+			System.out.println("----------------------");
+			startPhotoZoom(Uri.fromFile(tempFile), 300);
+
+			break;
+
+		case PHOTO_REQUEST_GALLERY:
+			if (data != null)
+				startPhotoZoom(data.getData(), 300);
+			break;
+
+		case PHOTO_REQUEST_CUT:
+			if (data != null)
+				setPicToView(data);
+			break;
+
+		case EDIT_SEX:
+			tvSex.setText(data.getStringExtra("editData"));
+			break;
+		case EDIT_NAME:
+			tvName.setText(data.getStringExtra("editData"));
+			break;
+
+		}
+		super.onActivityResult(requestCode, resultCode, data);
+
+	}
+
+	private void startPhotoZoom(Uri uri, int size) {
+		Intent intent = new Intent("com.android.camera.action.CROP");
+		intent.setDataAndType(uri, "image/*");
+		// crop为true是设置在开启的intent中设置显示的view可以剪裁
+		intent.putExtra("crop", "true");
+
+		// aspectX aspectY 是宽高的比例
+		intent.putExtra("aspectX", 1);
+		intent.putExtra("aspectY", 1);
+
+		// outputX,outputY 是剪裁图片的宽高
+		intent.putExtra("outputX", size);
+		intent.putExtra("outputY", size);
+		intent.putExtra("return-data", true);
+
+		startActivityForResult(intent, PHOTO_REQUEST_CUT);
+	}
+
+	// 将进行剪裁后的图片显示到UI界面上
+	private void setPicToView(Intent picdata) {
+		Bundle bundle = picdata.getExtras();
+		if (bundle != null) {
+			Bitmap photo = bundle.getParcelable("data");
+			Drawable drawable = new BitmapDrawable(photo);
+
+			ivIcon.setImageDrawable(drawable);
+			mBitmap = bundle.getParcelable("data");
+			postFile = getPhotoFileName();
+		}
+	}
+
+	String sign_dir, jpgName;
+
+	// 使用系统当前日期加以调整作为照片的名称
+	private File getPhotoFileName() {
+		ByteArrayOutputStream baos = null;
+		String _path = null;
+		try {
+
+			sign_dir = Environment.getExternalStorageDirectory()
+					+ File.separator;
+			jpgName = loginDataBean.getId() + ".jpg";
+
+			_path = sign_dir + jpgName;
+			baos = new ByteArrayOutputStream();
+			mBitmap.compress(Bitmap.CompressFormat.JPEG, 100, baos);// Bitmap压缩成jpg,100则表示不压缩，把压缩后的数据存放到bars中
+			byte[] photoBytes = baos.toByteArray();// 用数组流将传入的对象转化为byte数组
+
+			if (photoBytes != null) {
+				new FileOutputStream(new File(_path)).write(photoBytes);
+			}
+		} catch (IOException e) {
+			e.printStackTrace();
+		} finally {
+			try {
+				if (baos != null)
+					baos.close();
+			} catch (IOException e) {
+				e.printStackTrace();
+			}
+		}
+		return new File(sign_dir, jpgName);
+	}
+
+	String sexType = "";
+
+	// 立即报修数据提交,有语音文件
+	public void submitData() {
+		try {
+
+			OkHttpClientManager
+					.postAsyn(
+							UserAPI.changePersonalUrl(),
+							new OkHttpClientManager.ResultCallback<ChangePersonalBean>() {
+
+								@Override
+								public void onResponse(ChangePersonalBean result) {
+									Log.e("result", result.toString());
+									DialogUtil.closeRoundProcessDialog();
+									if (result.getSuccess().equals("true")) {
+										ToastUtil.showToast(
+												EditPersonalActivity.this,
+												"修改个人信息成功");
+										
+										loginDataBean.setHeadPortraitId(result
+												.getData().getId());
+										loginDataBean
+												.setHeadPortraitPath(result
+														.getData()
+														.getRootPath()
+														+ result.getData()
+																.getFilePath()+"/"
+														+ result.getData()
+																.getFileName());
+										loginDataBean.setCropName(tvName
+												.getText().toString());
+										loginDataBean.setSex(sexType);
+										Gson gson = new Gson();
+										String jsonStr = gson
+												.toJson(loginDataBean);
+										DataStorage.setData(
+												EditPersonalActivity.this,
+												"loginData", jsonStr);// 存储登录信息
+									} else {
+										ToastUtil.showToast(
+												EditPersonalActivity.this,
+												result.getMessage());
+									}
+								}
+
+								@Override
+								public void onError(Request request, Exception e) {
+									DialogUtil.closeRoundProcessDialog();
+									ToastUtil.showToast(
+											EditPersonalActivity.this, e + "");
+
+								}
+							}, postFile, "head",
+							new OkHttpClientManager.Param[] {
+									new OkHttpClientManager.Param("id",
+											loginDataBean.getId()),
+									new OkHttpClientManager.Param("userName",
+											tvName.getText().toString()),
+									new OkHttpClientManager.Param("sex",
+											sexType) });
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+
+	}
+
+	// 立即报修数据提交,无语音文件
+	public void submitNoFileData() {
+
+		OkHttpClientManager.postAsyn(
+				UserAPI.changePersonalUrl(),
+				new OkHttpClientManager.ResultCallback<ChangePersonalBean>() {
+
+					@Override
+					public void onResponse(ChangePersonalBean result) {
+						Log.e("result", result + "");
+						DialogUtil.closeRoundProcessDialog();
+						if (result.getSuccess().equals("true")) {
+							ToastUtil.showToast(EditPersonalActivity.this,
+									"修改个人信息成功");
+							loginDataBean.setCropName(tvName.getText()
+									.toString());
+							loginDataBean.setSex(getSexType(tvSex.getText()
+									.toString()));
+							Gson gson = new Gson();
+							String jsonStr = gson.toJson(loginDataBean);
+							DataStorage.setData(EditPersonalActivity.this,
+									"loginData", jsonStr);// 存储登录信息
+						} else {
+							ToastUtil.showToast(EditPersonalActivity.this,
+									result.getMessage());
+						}
+					}
+
+					@Override
+					public void onError(Request request, Exception e) {
+						DialogUtil.closeRoundProcessDialog();
+						ToastUtil.showToast(EditPersonalActivity.this, e + "");
+
+					}
+				},
+				new OkHttpClientManager.Param[] {
+						new OkHttpClientManager.Param("id", loginDataBean
+								.getId()),
+						new OkHttpClientManager.Param("userName", tvName
+								.getText().toString()),
+						new OkHttpClientManager.Param("sex", sexType) });
+	}
+
+}

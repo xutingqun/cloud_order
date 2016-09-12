@@ -1,0 +1,160 @@
+package com.xmsmart.xiuba.ui.order;
+
+import android.annotation.SuppressLint;
+import android.content.Intent;
+import android.media.MediaPlayer;
+import android.os.Bundle;
+import android.util.Log;
+import android.view.View;
+import android.view.View.OnClickListener;
+import android.widget.ImageView;
+import android.widget.LinearLayout;
+import android.widget.TextView;
+
+import com.smart.library.okhttp.OkHttpClientManager;
+import com.smart.library.util.ToastUtil;
+import com.squareup.okhttp.Request;
+import com.xmsmart.xiuba.R;
+import com.xmsmart.xiuba.api.OrderAPI;
+import com.xmsmart.xiuba.bean.MyOrderBean;
+import com.xmsmart.xiuba.bean.MyOrderDetailBean;
+import com.xmsmart.xiuba.bean.MyOrderDetailBean.MyOrderDetail;
+import com.xmsmart.xiuba.db.DataStorage;
+import com.xmsmart.xiuba.ui.BaseActivity;
+import com.xmsmart.xiuba.ui.main.MainActivity;
+import com.xmsmart.xiuba.utils.TopUtil;
+import com.xmsmart.xiuba.view.recorder.MediaManager;
+
+/**
+ *  订单详情 
+ * Created by qjh on 2016/8/30.
+ */
+@SuppressLint("ResourceAsColor")
+public class OrderDetailsActivity extends BaseActivity{
+
+	private TextView tv_order_num;
+	private TextView tv_order_time;
+	private TextView tv_order_name;
+	private TextView tv_order_address;
+	private TextView tv_order_apply_bran;
+	private TextView tv_order_appl;
+	private TextView tv_order_apply_time;
+	private String audioPath;
+	private ImageView image_audio;
+	private LinearLayout li_payorder;
+	
+	@Override
+	protected void onCreate(Bundle savedInstanceState) {
+		super.onCreate(savedInstanceState);
+	
+		setContentView(R.layout.ac_orderdetails);
+		initTopView();
+		inUi();
+	}
+	private void inUi() {
+		
+		tv_order_num = (TextView) findViewById(R.id.tv_order_num);
+		tv_order_time = (TextView) findViewById(R.id.tv_order_time);
+		tv_order_name = (TextView) findViewById(R.id.tv_order_name);
+		tv_order_address = (TextView) findViewById(R.id.tv_order_address);
+		tv_order_apply_bran = (TextView) findViewById(R.id.tv_order_apply_bran);
+		tv_order_appl= (TextView) findViewById(R.id.tv_order_promber);
+		tv_order_apply_time= (TextView) findViewById(R.id.tv_order_apply_time);
+		li_payorder = (LinearLayout) findViewById(R.id.li_payorder);
+		
+		getDataMyOrderDetails();
+		
+		image_audio = (ImageView) findViewById(R.id.image_audio);
+		
+		image_audio.setOnClickListener(new OnClickListener() {
+			
+			@Override
+			public void onClick(View v) {
+				if(audioPath!=null){
+					
+				MediaManager.playSound(audioPath, OrderDetailsActivity.this,
+						new MediaPlayer.OnCompletionListener() {
+							@Override
+							public void onCompletion(MediaPlayer mp) {
+								/*
+								 * viewanim.setBackgroundResource(R.drawable.
+								 * iv_recoder_image);
+								 */
+							}
+
+						});
+					
+				}else{
+					ToastUtil.showToast(OrderDetailsActivity.this, "用户未录音");
+					
+				}
+			}
+		});
+		
+		
+	}
+	/**
+	 * 设置头部标题栏
+	 */
+	private void initTopView() {
+	
+		TopUtil.setTopBackground(this, R.color.white);
+		TopUtil.setCenterImageMax(this, R.drawable.ic_order_detail);
+		TopUtil.setLeftImage(this, R.drawable.iv_white_bg_title_back);
+		TopUtil.setViewVisiable(this, 1, 0, 0, 0, 0, 0);
+		
+		
+		
+	}
+	private void getDataMyOrderDetails() {
+		Intent intent = getIntent();
+		String orderid = intent.getStringExtra("id");
+//		Log.e("mu", orderid);
+		if(!orderid.equals("")){
+			OkHttpClientManager.postAsyn(OrderAPI.getMyOrderDetails(), 
+					new OkHttpClientManager.ResultCallback<MyOrderDetailBean>(){
+
+						@Override
+						public void onError(Request request, Exception e) {
+						}
+
+						@Override
+						public void onResponse(MyOrderDetailBean response) {
+							
+							boolean success = response.getSuccess();
+							if(success){
+								
+								MyOrderDetail 	orderDetail = response.getData();
+								audioPath = orderDetail.getAudioPath();
+								if(audioPath==null){
+									image_audio.setVisibility(View.GONE);
+								}
+//								li_payorder.setVisibility(View.VISIBLE);//支付布局
+								
+//						 	Log.e("mu", "audioPath"+audioPath);
+								tv_order_num.setText(orderDetail.getOrderCode());		
+								tv_order_time.setText(orderDetail.getCreateTime());	
+								tv_order_name.setText(orderDetail.getContactPer());
+								tv_order_address.setText(orderDetail.getAdress());
+								tv_order_apply_bran.setText(orderDetail.getBrand());
+								tv_order_appl.setText(orderDetail.getQuestionDesc());
+								tv_order_apply_time.setText(orderDetail.getServiceTime());
+							} else {
+//								String message = response.getMessage();
+//								ToastUtil.showToast(OrderDetailsActivity.this, message);
+							}
+						}
+					
+				
+			},
+			new OkHttpClientManager.Param[] {
+					new OkHttpClientManager.Param("id",orderid),
+			});
+			
+			
+		}else{
+			ToastUtil.showToast(OrderDetailsActivity.this, "用户ID为空");
+		}
+		
+	}
+}

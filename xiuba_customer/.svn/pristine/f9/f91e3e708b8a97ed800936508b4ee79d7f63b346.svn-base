@@ -1,0 +1,514 @@
+package com.xmsmart.xiuba.ui.order;
+
+import java.util.ArrayList;
+import java.util.List;
+
+import com.amap.api.location.AMapLocation;
+import com.amap.api.location.AMapLocationClient;
+import com.amap.api.location.AMapLocationClientOption;
+import com.amap.api.location.AMapLocationClientOption.AMapLocationMode;
+import com.amap.api.location.AMapLocationListener;
+import com.amap.api.maps.AMap;
+import com.amap.api.maps.AMap.OnMarkerClickListener;
+import com.amap.api.maps.AMapUtils;
+import com.amap.api.maps.CameraUpdateFactory;
+import com.amap.api.maps.LocationSource;
+import com.amap.api.maps.MapView;
+import com.amap.api.maps.model.BitmapDescriptor;
+import com.amap.api.maps.model.BitmapDescriptorFactory;
+import com.amap.api.maps.model.LatLng;
+import com.amap.api.maps.model.Marker;
+import com.amap.api.maps.model.MarkerOptions;
+import com.amap.api.maps.model.MyLocationStyle;
+import com.amap.api.services.core.LatLonPoint;
+import com.amap.api.services.core.PoiItem;
+import com.amap.api.services.core.SuggestionCity;
+import com.amap.api.services.poisearch.PoiResult;
+import com.amap.api.services.poisearch.PoiSearch;
+import com.amap.api.services.poisearch.PoiSearch.OnPoiSearchListener;
+import com.amap.api.services.poisearch.PoiSearch.SearchBound;
+import com.smart.library.util.ToastUtil;
+import com.smart.library.view.EmptyLayout;
+import com.xmsmart.xiuba.R;
+import com.xmsmart.xiuba.bean.MapModel;
+import com.xmsmart.xiuba.ui.BaseActivity;
+import com.xmsmart.xiuba.utils.TopUtil;
+import android.content.Intent;
+import android.graphics.Color;
+import android.os.Bundle;
+import android.util.Log;
+import android.view.View;
+import android.view.inputmethod.InputMethodManager;
+import android.widget.AdapterView;
+import android.widget.AdapterView.OnItemClickListener;
+import android.widget.EditText;
+import android.widget.LinearLayout;
+import android.widget.ListView;
+import android.widget.RelativeLayout;
+import android.widget.TextView;
+
+public class SearchMapActivity extends BaseActivity implements
+		OnMarkerClickListener, OnPoiSearchListener, LocationSource,
+		AMapLocationListener, OnItemClickListener {
+	MapModel saveMapModel = new MapModel();// 所选的地址信息
+	private MapView mapView;
+	private AMap aMap;
+	TextView tvSearch;
+	private PoiResult poiResult; // poi返回的结果
+	private int currentPage = 0;// 当前页面，从0开始计数
+	private PoiSearch.Query query;// Poi查询条件类
+	private PoiSearch poiSearch;// POI搜索
+	private ListView mListView;
+	EditText editAddress;
+	LinearLayout rlTitleRight;
+	EmptyLayout emEmptyLayout;
+	private OnLocationChangedListener mListener;
+	private AMapLocationClient mlocationClient;
+	private AMapLocationClientOption mLocationOption;
+
+	@Override
+	protected void onCreate(Bundle savedInstanceState) {
+		super.onCreate(savedInstanceState);
+		setBarColor(R.color.orange);
+		setContentView(R.layout.activity_searchmap);
+
+		TopUtil.setCenterText(this, "地图搜索");
+		TopUtil.setRightText(this, "确定");
+		TopUtil.setViewVisiable(this, 1, 0, 0, 1, 0, 1);
+
+		mapView = (MapView) findViewById(R.id.frg_search_map);
+		mapView.onCreate(savedInstanceState);// 此方法必须重写
+		mListView = (ListView) findViewById(R.id.lv_search);
+		mListView.setOnItemClickListener(this);
+		tvSearch = (TextView) findViewById(R.id.tv_search_map);
+		tvSearch.setOnClickListener(this);
+		editAddress = (EditText) findViewById(R.id.eidt_search_map);
+		rlTitleRight = (LinearLayout) findViewById(R.id.ll_titlev_more);
+		rlTitleRight.setOnClickListener(this);
+		emEmptyLayout = (EmptyLayout) findViewById(R.id.eml_search_map);
+		emEmptyLayout.setVisibility(View.VISIBLE);
+		initMap();
+	}
+
+	private void initMap() {
+		// TODO Auto-generated method stub
+		if (aMap == null) {
+			aMap = mapView.getMap();
+			setUpMap();
+		}
+	}
+
+	/***
+	 * =========================定位设置=========================
+	 */
+
+	/**
+	 * 设置一些amap的属性
+	 */
+	private void setUpMap() {
+		aMap.setLocationSource(this);// 设置定位监听
+		aMap.getUiSettings().setMyLocationButtonEnabled(true);// 设置默认定位按钮是否显示
+		aMap.setMyLocationEnabled(true);// 设置为true表示显示定位层并可触发定位，false表示隐藏定位层并不可触发定位，默认是false
+		// 设置定位的类型为定位模式 ，可以由定位、跟随或地图根据面向方向旋转几种
+		aMap.setMyLocationType(AMap.LOCATION_TYPE_LOCATE);
+		aMap.moveCamera(CameraUpdateFactory.zoomTo(18));
+		MyLocationStyle myLocationStyle = new MyLocationStyle();
+		myLocationStyle.myLocationIcon(BitmapDescriptorFactory
+				.fromResource(R.drawable.point1));// 设置小蓝点的图标
+		myLocationStyle.strokeColor(Color.argb(0, 0, 0, 180));// 设置圆形的边框颜色
+		myLocationStyle.radiusFillColor(Color.argb(0, 0, 0, 180));// 设置圆形的填充颜色
+		// myLocationStyle.anchor(int,int)//设置小蓝点的锚点
+		myLocationStyle.strokeWidth(0.1f);// 设置圆形的边框粗细
+		aMap.setMyLocationStyle(myLocationStyle);
+
+		// 设置定位的类型为 跟随模式
+		// aMap.setMyLocationType(AMap.LOCATION_TYPE_MAP_FOLLOW);
+		// 设置定位的类型为根据地图面向方向旋转
+		// aMap.setMyLocationType(AMap.LOCATION_TYPE_MAP_ROTATE);
+	}
+
+	/**
+	 * 方法必须重写
+	 */
+	@Override
+	protected void onResume() {
+		super.onResume();
+		mapView.onResume();
+	}
+
+	/**
+	 * 方法必须重写
+	 */
+	@Override
+	protected void onPause() {
+		super.onPause();
+		mapView.onPause();
+	}
+
+	/**
+	 * 方法必须重写
+	 */
+	@Override
+	protected void onSaveInstanceState(Bundle outState) {
+		super.onSaveInstanceState(outState);
+		mapView.onSaveInstanceState(outState);
+	}
+
+	/**
+	 * 方法必须重写
+	 */
+	@Override
+	protected void onDestroy() {
+		super.onDestroy();
+		mapView.onDestroy();
+		if (null != mlocationClient) {
+			mlocationClient.onDestroy();
+		}
+	}
+
+	LatLng nowLatLng;
+	boolean isFrist = true;// 第一次设置地标
+	private Marker marker;// 定位雷达小图标
+	String locationName,province,city,street,area;
+
+	@Override
+	public void onClick(View arg0) {
+		// TODO Auto-generated method stub
+		super.onClick(arg0);
+		switch (arg0.getId()) {
+		case R.id.tv_search_map:
+			if (editAddress.getText().toString().trim().length() > 0)
+				doAddressSearchQuery(editAddress.getText().toString().trim());
+			else {
+				doSearchQuery();
+			}
+			try {
+				InputMethodManager im = (InputMethodManager) getSystemService(this.INPUT_METHOD_SERVICE);
+				im.hideSoftInputFromWindow(getCurrentFocus()
+						.getApplicationWindowToken(),
+						InputMethodManager.HIDE_NOT_ALWAYS);
+			} catch (Exception e) {
+				// TODO: handle exception
+			}
+			break;
+		case R.id.ll_titlev_more:
+			setAddress();
+			break;
+		default:
+			break;
+		}
+	}
+
+	private void setAddress() {
+		Intent intent = new Intent();
+		intent.putExtra("name", saveMapModel.getAddressName());
+		intent.putExtra("Snippet", saveMapModel.getAddressDetails());
+		intent.putExtra("longitude", saveMapModel.getLongitude());
+		intent.putExtra("latitude", saveMapModel.getLatitude());
+		intent.putExtra("province", saveMapModel.getProvince());
+		intent.putExtra("city", saveMapModel.getCity());
+		intent.putExtra("area", saveMapModel.getArea());
+		intent.putExtra("street", saveMapModel.getStreet());
+
+		System.out.println("getSnippet=" + saveMapModel.getAddressName());// 详细地址
+		System.out.println("getPosition=" + saveMapModel.getAddressDetails());// 经纬度
+
+		/*
+		 * 调用setResult方法表示我将Intent对象返回给之前的那个Activity，
+		 * 这样就可以在onActivityResult方法中得到Intent对象，
+		 */
+		setResult(1019, intent);
+		finish();
+	}
+
+	/**
+	 * 定位成功后回调函数
+	 */
+	@Override
+	public void onLocationChanged(AMapLocation amapLocation) {
+		// TODO Auto-generated method stub
+		if (mListener != null && amapLocation != null) {
+			lp = new LatLonPoint(amapLocation.getLatitude(),
+					amapLocation.getLongitude());
+			locationName = amapLocation.getAddress();
+			province = amapLocation.getProvince();
+			city = amapLocation.getCity();
+			street = amapLocation.getStreet();
+			if (amapLocation != null && amapLocation.getErrorCode() == 0) {
+				if (isFrist) {
+					doSearchQuery();
+					nowLatLng = new LatLng(amapLocation.getLatitude(),
+							amapLocation.getLongitude());
+					aMap.moveCamera(CameraUpdateFactory.newLatLngZoom(
+							nowLatLng, 18));// 设置指定的可视区域地图
+					// CheckNet.disDilog();
+					ArrayList<BitmapDescriptor> giflist = new ArrayList<BitmapDescriptor>();
+					giflist.add(BitmapDescriptorFactory
+							.fromResource(R.drawable.point1));
+					giflist.add(BitmapDescriptorFactory
+							.fromResource(R.drawable.point2));
+					giflist.add(BitmapDescriptorFactory
+							.fromResource(R.drawable.point3));
+					giflist.add(BitmapDescriptorFactory
+							.fromResource(R.drawable.point4));
+					giflist.add(BitmapDescriptorFactory
+							.fromResource(R.drawable.point5));
+					giflist.add(BitmapDescriptorFactory
+							.fromResource(R.drawable.point6));
+					marker = aMap.addMarker(new MarkerOptions()
+							.anchor(0.5f, 0.5f).icons(giflist).period(10));
+				}
+
+				isFrist = false;
+				marker.setPosition(new LatLng(amapLocation.getLatitude(),
+						amapLocation.getLongitude()));// 定位雷达小图标
+				float bearing = aMap.getCameraPosition().bearing;
+				aMap.setMyLocationRotateAngle(bearing);// 设置小蓝点旋转角度
+				mListener.onLocationChanged(amapLocation);// 显示系统小蓝点
+
+			} else {
+				String errText = "定位失败," + amapLocation.getErrorCode() + ": "
+						+ amapLocation.getErrorInfo();
+			}
+		}
+	}
+
+	/**
+	 * 激活定位
+	 */
+	@Override
+	public void activate(OnLocationChangedListener listener) {
+		// TODO Auto-generated method stub
+		mListener = listener;
+		if (mlocationClient == null) {
+			mlocationClient = new AMapLocationClient(this);
+			mLocationOption = new AMapLocationClientOption();
+			// 设置定位监听
+			mlocationClient.setLocationListener(this);
+			// 设置为高精度定位模式
+			mLocationOption.setLocationMode(AMapLocationMode.Hight_Accuracy);
+			// 设置是否允许模拟位置,默认为false，不允许模拟位置
+			mLocationOption.setMockEnable(false);
+			// 设置定位间隔,单位毫秒,默认为2000ms
+			mLocationOption.setInterval(5000);
+
+			// 设置定位参数
+			mlocationClient.setLocationOption(mLocationOption);
+
+			// 此方法为每隔固定时间会发起一次定位请求，为了减少电量消耗或网络流量消耗，
+			// 注意设置合适的定位时间的间隔（最小间隔支持为2000ms），并且在合适时间调用stopLocation()方法来取消定位请求
+			// 在定位结束后，在合适的生命周期调用onDestroy()方法
+			// 在单次定位情况下，定位无论成功与否，都无需调用stopLocation()方法移除请求，定位sdk内部会移除
+			mlocationClient.startLocation();
+		}
+	}
+
+	/**
+	 * 停止定位
+	 */
+	@Override
+	public void deactivate() {
+		// TODO Auto-generated method stub
+		mListener = null;
+		if (mlocationClient != null) {
+			mlocationClient.stopLocation();
+			mlocationClient.onDestroy();
+		}
+		mlocationClient = null;
+	}
+
+	/***
+	 * =========================定位设置=========================
+	 */
+
+	/**
+	 * =========================搜索设置=========================
+	 */
+
+	private String keyWord = "行|院|企业|厦|局|政府|所|场|司|心";// 要输入的poi搜索关键字
+	private String addresstype = "汽车服务|汽车销售|汽车维修|摩托车服务|餐饮服务|购物服务|生活服务|体育休闲服务|医疗保健服务|住宿服务|风景名胜|商务住宅|政府机构及社会团体|科教文化服务|交通设施服务|金融保险服务|道路附属设施|地名地址信息|公共设施";
+	private LatLonPoint lp;// 当前位置坐标
+
+	private MyMapAdapter mSearchAdapter;
+	private List<MapModel> mapModels;
+
+	/**
+	 * 开始进行poi搜索
+	 */
+	protected void doSearchQuery() {
+		currentPage = 0;
+		query = new PoiSearch.Query(keyWord, addresstype, "");// 第一个参数表示搜索字符串，第二个参数表示poi搜索类型，第三个参数表示poi搜索区域（空字符串代表全国）
+		query.setPageSize(100);// 设置每页最多返回多少条poiitem
+		query.setPageNum(currentPage);// 设置查第一页
+
+		if (lp != null) {
+			poiSearch = new PoiSearch(this, query);
+			poiSearch.setOnPoiSearchListener(this);
+			poiSearch.setBound(new SearchBound(lp, 200000, true));//
+			// 设置搜索区域为以lp点为圆心，其周围200米范围
+			poiSearch.searchPOIAsyn();// 异步搜索
+		}
+	}
+
+	protected void doAddressSearchQuery(String key) {
+
+		System.out.println("搜索");
+		aMap.setOnMapClickListener(null);// 进行poi搜索时清除掉地图点击事件
+		query = new PoiSearch.Query(key, addresstype, "");// 第一个参数表示搜索字符串，第二个参数表示poi搜索类型，第三个参数表示poi搜索区域（空字符串代表全国）
+		query.setPageSize(200);// 设置每页最多返回多少条poiitem
+		// query.setPageNum(currentPage);// 设置查第一页
+
+		System.out.println(lp);
+		if (lp != null) {
+			poiSearch = new PoiSearch(this, query);
+			poiSearch.setOnPoiSearchListener(this);
+			poiSearch.setBound(new SearchBound(lp, 2000000, true));//
+			// 设置搜索区域为以lp点为圆心，其周围200米范围
+			poiSearch.searchPOIAsyn();// 异步搜索
+		}
+
+	}
+
+	@Override
+	public void onPoiItemSearched(PoiItem arg0, int arg1) {
+		// TODO Auto-generated method stub
+
+	}
+
+	/**
+	 * 搜索到的结果
+	 */
+	@Override
+	public void onPoiSearched(PoiResult result, int rCode) {
+		// TODO Auto-generated method stub
+		if (rCode == 1000) {
+			if (result != null && result.getQuery() != null) {// 搜索poi的结果
+				emEmptyLayout.setVisibility(View.GONE);
+				if (result.getQuery().equals(query)) {// 是否是同一条
+					poiResult = result;
+					// 取得搜索到的poiitems有多少页
+					List<PoiItem> poiItems = poiResult.getPois();// 取得第一页的poiitem数据，页数从数字0开始
+					List<SuggestionCity> suggestionCities = poiResult
+							.getSearchSuggestionCitys();// 当搜索不到poiitem数据时，会返回含有搜索关键字的城市信息
+					mapModels = new ArrayList<>();
+					MapModel mMapModelLocation;
+
+					mMapModelLocation = new MapModel();
+					mMapModelLocation.setAddressDetails("当前位置");
+					mMapModelLocation.setDistance("");
+					mMapModelLocation.setAddressName(locationName);
+					mMapModelLocation.setLongitude(lp.getLongitude() + "");
+					mMapModelLocation.setLatitude(lp.getLatitude() + "");
+					mMapModelLocation.setProvince(province);
+					mMapModelLocation.setCity(city);
+					mMapModelLocation.setStreet(street);
+					mMapModelLocation.setArea(area);
+					mMapModelLocation.setVisible(true);
+
+					if (locationName.trim().length() != 0)
+						mapModels.add(mMapModelLocation);
+					for (int i = 0; i < result.getPois().size(); i++) {
+						MapModel mMapModel = new MapModel();
+
+						mMapModel.setAddressDetails(result.getPois().get(i)
+								.getSnippet());
+						mMapModel.setAddressName(result.getPois().get(i)
+								.getTitle());
+						mMapModel.setLatitude(result.getPois().get(i)
+								.getLatLonPoint().getLatitude()
+								+ "");
+						mMapModel.setLongitude(result.getPois().get(i)
+								.getLatLonPoint().getLongitude()
+								+ "");
+
+						Log.e("地址详情", result.getPois().get(i).getSnippet());
+						Log.e("地址名称", result.getPois().get(i).getTitle());
+						Log.e("地址经度", result.getPois().get(i).getLatLonPoint()
+								.getLongitude()
+								+ "");
+						Log.e("地址纬度", result.getPois().get(i).getLatLonPoint()
+								.getLatitude()
+								+ "");
+						LatLng destinationLocayion = new LatLng(result
+								.getPois().get(i).getLatLonPoint()
+								.getLatitude(), result.getPois().get(i)
+								.getLatLonPoint().getLongitude());
+						LatLng myLocation = new LatLng(lp.getLatitude(),
+								lp.getLongitude());
+						;
+
+						String distance = AMapUtils.calculateLineDistance(
+								destinationLocayion, myLocation) + "";
+						Log.e("距离当前位置距离", distance + "米");
+						mMapModel.setDistance(distance);
+						mapModels.add(mMapModel);
+					}
+					saveMapModel = mapModels.get(0);
+					mSearchAdapter = new MyMapAdapter(SearchMapActivity.this,
+							mapModels);
+					mListView.setAdapter(mSearchAdapter);
+
+				}
+			} else {
+				ToastUtil.showToast(SearchMapActivity.this, "未搜索到相关地址");
+				emEmptyLayout.setVisibility(View.VISIBLE);
+				emEmptyLayout.setNoDataContent("未搜索到相关地址");
+			}
+		} else {
+			ToastUtil.showToast(this, rCode);
+		}
+
+	}
+
+	@Override
+	public boolean onMarkerClick(Marker arg0) {
+		// TODO Auto-generated method stub
+		return false;
+	}
+
+	/**
+	 * =========================搜索设置=========================
+	 */
+
+	/**
+	 * 
+	 */
+	/**
+	 * 模拟添加多个marker
+	 */
+	private void addMarkers(MapModel saveMapModel) {
+		aMap.clear();
+		ArrayList<BitmapDescriptor> giflist = new ArrayList<BitmapDescriptor>();
+		giflist.add(BitmapDescriptorFactory.fromResource(R.drawable.point1));
+		giflist.add(BitmapDescriptorFactory.fromResource(R.drawable.point2));
+		giflist.add(BitmapDescriptorFactory.fromResource(R.drawable.point3));
+		giflist.add(BitmapDescriptorFactory.fromResource(R.drawable.point4));
+		giflist.add(BitmapDescriptorFactory.fromResource(R.drawable.point5));
+		giflist.add(BitmapDescriptorFactory.fromResource(R.drawable.point6));
+		LatLng myLocation = new LatLng(lp.getLatitude(), lp.getLongitude());
+
+		marker = aMap.addMarker(new MarkerOptions().anchor(0.5f, 0.5f)
+				.position(myLocation).icons(giflist).period(10));
+		LatLng latLng = new LatLng(Double.parseDouble(saveMapModel
+				.getLatitude()),
+				Double.parseDouble(saveMapModel.getLongitude()));
+		aMap.moveCamera(CameraUpdateFactory.changeLatLng(latLng));
+		aMap.addMarker(new MarkerOptions().position(latLng)
+				.title(saveMapModel.getAddressName())
+				.icon(BitmapDescriptorFactory.fromResource(R.drawable.map))
+				.draggable(true));
+
+	}
+
+	@Override
+	public void onItemClick(AdapterView<?> parent, View view, int position,
+			long id) {
+		for (int i = 0; i < mapModels.size(); i++) {
+			mapModels.get(i).setVisible(false);
+		}
+		addMarkers(mapModels.get(position));
+		mapModels.get(position).setVisible(true);
+		mSearchAdapter.notifyDataSetChanged();
+		saveMapModel = mapModels.get(position);
+	}
+}

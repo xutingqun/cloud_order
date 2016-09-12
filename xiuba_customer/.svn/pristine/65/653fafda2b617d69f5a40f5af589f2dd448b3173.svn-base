@@ -1,0 +1,104 @@
+package com.xmsmart.xiuba.view;
+
+
+import com.xmsmart.xiuba.R;
+
+import android.content.Context;
+import android.util.AttributeSet;
+import android.view.LayoutInflater;
+import android.view.View;
+import android.widget.ImageView;
+import android.widget.LinearLayout;
+import android.widget.TextView;
+
+public class TitleView extends LinearLayout {
+
+	private LinearLayout backLl;
+	private LinearLayout moreLl;
+	private TextView backTv;
+	private TextView titleTv;
+	private TextView moreTv;
+	private ImageView backIv;
+	private ImageView titleIv;
+	private ImageView moreIv;
+
+	public TitleView(Context context, AttributeSet attrs) {
+		super(context, attrs);
+		LayoutInflater.from(context).inflate(R.layout.item_title, this);
+		backLl = (LinearLayout) findViewById(R.id.ll_titlev_back);
+		moreLl = (LinearLayout) findViewById(R.id.ll_titlev_more);
+		backTv = (TextView) findViewById(R.id.tv_titlev_back);
+		titleTv = (TextView) findViewById(R.id.tv_titlev_center);
+		moreTv = (TextView) findViewById(R.id.tv_titlev_more);
+		backIv = (ImageView) findViewById(R.id.iv_titlev_back);
+		titleIv = (ImageView) findViewById(R.id.iv_titlev_center);
+		moreIv = (ImageView) findViewById(R.id.iv_titlev_more);
+	}
+
+	/**
+	 * 设置标题
+	 * 
+	 * @param text
+	 */
+	public void setTitleText(String text) {
+		titleTv.setText(text);
+	}
+
+	/**
+	 * 设置更多名称
+	 * 
+	 * @param text
+	 */
+	public void setMoreText(String text) {
+		moreTv.setText(text);
+	}
+
+	public void setViewVisiable(int backImageVisiable, int backTextVisiable,
+			int titleImageVisiable, int titleTextVisiable,
+			int moreImageVisiable, int moreTextVisiable) {//0为不显示 1为显示
+
+		if (backImageVisiable == 0) {
+			backIv.setVisibility(View.GONE);
+		} else {
+			backIv.setVisibility(View.VISIBLE);
+		}
+
+		if (backTextVisiable == 0) {
+			backTv.setVisibility(View.GONE);
+		} else {
+			backTv.setVisibility(View.VISIBLE);
+		}
+
+		if (titleImageVisiable == 0) {
+			titleIv.setVisibility(View.GONE);
+		} else {
+			titleIv.setVisibility(View.VISIBLE);
+		}
+
+		if (titleTextVisiable == 0) {
+			titleTv.setVisibility(View.GONE);
+		} else {
+			titleTv.setVisibility(View.VISIBLE);
+		}
+
+		if (moreImageVisiable == 0) {
+			moreIv.setVisibility(View.GONE);
+		} else {
+			moreIv.setVisibility(View.VISIBLE);
+		}
+
+		if (moreTextVisiable == 0) {
+			moreTv.setVisibility(View.GONE);
+		} else {
+			moreTv.setVisibility(View.VISIBLE);
+		}
+		
+	}
+
+	// 注册监听事件
+	public void registerEvents(OnClickListener onclicklistener) {
+		backLl.setOnClickListener(onclicklistener);
+		moreLl.setOnClickListener(onclicklistener);
+	}
+
+}

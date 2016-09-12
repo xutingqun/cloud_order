@@ -1,0 +1,209 @@
+package com.xmsmart.xiuba.bean;
+
+public class LoginDataBean extends BaseBean {
+	private String registrationId = "";// app在极光注册编号
+	private boolean isLogin = false;// 是否登录
+	private String id = "";// :用户主键
+	private String headPortraitId = "";// :头像Id
+	private String headPortraitPath = "";// :头像路径
+	private String birthday = "";// :生日
+	private String sex = "";// :性别
+	private String regsiterTime = "";// :注册时间
+	private String status = "";// :状态（正常:NORMAL/停用:DISABLE/过期:EXPIRE）
+	private String cropId = "";// :企业Id
+	private String cropName = "";// :企业名称
+	private String userType = "";// :用户类型（客户：CUSTOMER/ 工程师：ENGINEER/管理员：ADMIN）
+	private String mail = "";// :邮箱
+	private String realName = "";// :真实姓名
+	private String phoneNum = "";// :电话号码
+	private String residentAdress = "";// :注册地址
+	private String userName = "";// :用户昵称
+	private String password = "";// :密码（MD5）
+	private String emergencyPhone = "";// :紧急联系人电话
+	private String serviceMode = "";// :服务方式（年:YEAR/次数:FREQUENCY）针对企业客户
+	private String idNumber = "";// :身份证号
+
+	public boolean isLogin() {
+		return isLogin;
+	}
+
+	public void setLogin(boolean isLogin) {
+		this.isLogin = isLogin;
+	}
+
+	public String getRegistrationId() {
+		return registrationId;
+	}
+
+	public void setRegistrationId(String registrationId) {
+		this.registrationId = registrationId;
+	}
+
+	public String getId() {
+		return id;
+	}
+
+	public void setId(String id) {
+		this.id = id;
+	}
+
+	public String getHeadPortraitId() {
+		return headPortraitId;
+	}
+
+	public void setHeadPortraitId(String headPortraitId) {
+		this.headPortraitId = headPortraitId;
+	}
+
+	public String getHeadPortraitPath() {
+		return headPortraitPath;
+	}
+
+	public void setHeadPortraitPath(String headPortraitPath) {
+		this.headPortraitPath = headPortraitPath;
+	}
+
+	public String getBirthday() {
+		return birthday;
+	}
+
+	public void setBirthday(String birthday) {
+		this.birthday = birthday;
+	}
+
+	public String getSex() {
+		return sex;
+	}
+
+	public void setSex(String sex) {
+		this.sex = sex;
+	}
+
+	public String getRegsiterTime() {
+		return regsiterTime;
+	}
+
+	public void setRegsiterTime(String regsiterTime) {
+		this.regsiterTime = regsiterTime;
+	}
+
+	public String getStatus() {
+		return status;
+	}
+
+	public void setStatus(String status) {
+		this.status = status;
+	}
+
+	public String getCropId() {
+		return cropId;
+	}
+
+	public void setCropId(String cropId) {
+		this.cropId = cropId;
+	}
+
+	public String getCropName() {
+		return cropName;
+	}
+
+	public void setCropName(String cropName) {
+		this.cropName = cropName;
+	}
+
+	public String getUserType() {
+		return userType;
+	}
+
+	public void setUserType(String userType) {
+		this.userType = userType;
+	}
+
+	public String getMail() {
+		return mail;
+	}
+
+	public void setMail(String mail) {
+		this.mail = mail;
+	}
+
+	public String getRealName() {
+		return realName;
+	}
+
+	public void setRealName(String realName) {
+		this.realName = realName;
+	}
+
+	public String getPhoneNum() {
+		return phoneNum;
+	}
+
+	public void setPhoneNum(String phoneNum) {
+		this.phoneNum = phoneNum;
+	}
+
+	public String getResidentAdress() {
+		return residentAdress;
+	}
+
+	public void setResidentAdress(String residentAdress) {
+		this.residentAdress = residentAdress;
+	}
+
+	public String getUserName() {
+		return userName;
+	}
+
+	public void setUserName(String userName) {
+		this.userName = userName;
+	}
+
+	public String getPassword() {
+		return password;
+	}
+
+	public void setPassword(String password) {
+		this.password = password;
+	}
+
+	public String getEmergencyPhone() {
+		return emergencyPhone;
+	}
+
+	public void setEmergencyPhone(String emergencyPhone) {
+		this.emergencyPhone = emergencyPhone;
+	}
+
+	public String getServiceMode() {
+		return serviceMode;
+	}
+
+	public void setServiceMode(String serviceMode) {
+		this.serviceMode = serviceMode;
+	}
+
+	public String getIdNumber() {
+		return idNumber;
+	}
+
+	public void setIdNumber(String idNumber) {
+		this.idNumber = idNumber;
+	}
+
+	@Override
+	public String toString() {
+		return "LoginDataBean [registrationId=" + registrationId + ", isLogin="
+				+ isLogin + ", id=" + id + ", headPortraitId=" + headPortraitId
+				+ ", headPortraitPath=" + headPortraitPath + ", birthday="
+				+ birthday + ", sex=" + sex + ", regsiterTime=" + regsiterTime
+				+ ", status=" + status + ", cropId=" + cropId + ", cropName="
+				+ cropName + ", userType=" + userType + ", mail=" + mail
+				+ ", realName=" + realName + ", phoneNum=" + phoneNum
+				+ ", residentAdress=" + residentAdress + ", userName="
+				+ userName + ", password=" + password + ", emergencyPhone="
+				+ emergencyPhone + ", serviceMode=" + serviceMode
+				+ ", idNumber=" + idNumber + "]";
+	}
+
+}

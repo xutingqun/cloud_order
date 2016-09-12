@@ -1,0 +1,203 @@
+package com.xmsmart.xiuba.bean;
+
+import java.util.ArrayList;
+import java.util.List;
+
+
+public class MyOrderDetailBean extends BaseBean{
+//	private List<MyOrderDetail> data = new ArrayList<MyOrderDetail>();
+//	private String success;
+//	private String message = "";// 错误信息
+//	public List<MyOrderDetail> getData() {
+//		return data;
+//	}
+//	public void setData(List<MyOrderDetail> data) {
+//		this.data = data;
+//	}
+	private MyOrderDetail data;
+
+	private boolean success;
+
+	public void setData(MyOrderDetail data){
+	this.data = data;
+	}
+	public MyOrderDetail getData(){
+	return this.data;
+	}
+	public void setSuccess(boolean success){
+	this.success = success;
+	}
+	public boolean getSuccess(){
+	return this.success;
+	}
+
+
+	public class MyOrderDetail { 
+		
+		private String id = "";// : 主键Id
+		private String contactPer = "";// : 联系人
+		private String phoneNum = "";// ：联系电话
+		private String audioId = "";// ：问题音频
+		private String audioPath = "";// ：音频路径
+		private String createTime = "";// ：下单时间
+		private String longitude = "";// ：经度
+		private String latitude = "";// ：纬度
+		private String adress = "";// ：地址
+		private String questionType = "";// ：问题类别
+		private String questionDesc = "";// ：问题描述
+		private String model = "";// ：型号
+		private String modelId = "";// ：型号ID
+		private String brand = "";// ：品牌
+		private String brandId = "";// ：品牌ID
+		private String engineerId = "";// ：工程师ID
+		private String engineer = "";// ：工程师名称
+		private String engineerPhone = "";// ：工程师电话号码
+		private String orderCode = "";// ：单据号码
+		private String status = "";// ：订单状态
+		private String serviceTime = "";//服务时间
+		
+		@Override
+		public String toString() {
+			return "MyOrderDetail [id=" + id + ", contactPer=" + contactPer
+					+ ", phoneNum=" + phoneNum + ", audioId=" + audioId
+					+ ", audioPath=" + audioPath + ", createTime=" + createTime
+					+ ", longitude=" + longitude + ", latitude=" + latitude
+					+ ", adress=" + adress + ", questionType=" + questionType
+					+ ", questionDesc=" + questionDesc + ", model=" + model
+					+ ", modelId=" + modelId + ", brand=" + brand
+					+ ", brandId=" + brandId + ", engineerId=" + engineerId
+					+ ", engineer=" + engineer + ", engineerPhone="
+					+ engineerPhone + ", orderCode=" + orderCode + ", status="
+					+ status + ", serviceTime=" + serviceTime + "]";
+		}
+		public String getId() {
+			return id;
+		}
+		public void setId(String id) {
+			this.id = id;
+		}
+		public String getContactPer() {
+			return contactPer;
+		}
+		public void setContactPer(String contactPer) {
+			this.contactPer = contactPer;
+		}
+		public String getPhoneNum() {
+			return phoneNum;
+		}
+		public void setPhoneNum(String phoneNum) {
+			this.phoneNum = phoneNum;
+		}
+		public String getAudioId() {
+			return audioId;
+		}
+		public void setAudioId(String audioId) {
+			this.audioId = audioId;
+		}
+		public String getAudioPath() {
+			return audioPath;
+		}
+		public void setAudioPath(String audioPath) {
+			this.audioPath = audioPath;
+		}
+		public String getCreateTime() {
+			return createTime;
+		}
+		public void setCreateTime(String createTime) {
+			this.createTime = createTime;
+		}
+		public String getLongitude() {
+			return longitude;
+		}
+		public void setLongitude(String longitude) {
+			this.longitude = longitude;
+		}
+		public String getLatitude() {
+			return latitude;
+		}
+		public void setLatitude(String latitude) {
+			this.latitude = latitude;
+		}
+		public String getAdress() {
+			return adress;
+		}
+		public void setAdress(String adress) {
+			this.adress = adress;
+		}
+		public String getQuestionType() {
+			return questionType;
+		}
+		public void setQuestionType(String questionType) {
+			this.questionType = questionType;
+		}
+		public String getQuestionDesc() {
+			return questionDesc;
+		}
+		public void setQuestionDesc(String questionDesc) {
+			this.questionDesc = questionDesc;
+		}
+		public String getModel() {
+			return model;
+		}
+		public void setModel(String model) {
+			this.model = model;
+		}
+		public String getModelId() {
+			return modelId;
+		}
+		public void setModelId(String modelId) {
+			this.modelId = modelId;
+		}
+		public String getBrand() {
+			return brand;
+		}
+		public void setBrand(String brand) {
+			this.brand = brand;
+		}
+		public String getBrandId() {
+			return brandId;
+		}
+		public void setBrandId(String brandId) {
+			this.brandId = brandId;
+		}
+		public String getEngineerId() {
+			return engineerId;
+		}
+		public void setEngineerId(String engineerId) {
+			this.engineerId = engineerId;
+		}
+		public String getEngineer() {
+			return engineer;
+		}
+		public void setEngineer(String engineer) {
+			this.engineer = engineer;
+		}
+		public String getEngineerPhone() {
+			return engineerPhone;
+		}
+		public void setEngineerPhone(String engineerPhone) {
+			this.engineerPhone = engineerPhone;
+		}
+		public String getOrderCode() {
+			return orderCode;
+		}
+		public void setOrderCode(String orderCode) {
+			this.orderCode = orderCode;
+		}
+		public String getStatus() {
+			return status;
+		}
+		public void setStatus(String status) {
+			this.status = status;
+		}
+		public String getServiceTime() {
+			return serviceTime;
+		}
+		public void setServiceTime(String serviceTime) {
+			this.serviceTime = serviceTime;
+		}
+		
+		
+		
+	}
+}

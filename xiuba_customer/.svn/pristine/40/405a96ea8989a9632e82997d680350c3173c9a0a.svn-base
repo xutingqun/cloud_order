@@ -1,0 +1,187 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <string name="app_name">修咻</string>
+    <string name="action_settings">Settings</string>
+    <string name="hello_world">Hello world!</string>
+    <string name="valtadion">验证</string>
+    <string name="begin">开始</string>
+    <string name="valtadion_text">为了方便工程师联系您，请验证手机~</string>
+    <string name="loading">正在获取数据......</string>
+    <string name="edit_hint">请选择（必选）</string>
+    <string name="edit_not_hint">请选择（非必选）</string>
+
+    <!-- 订单提交界面 -->
+    <string name="order_apply_brand_name">进行中订单</string>
+    <string name="order_apply_model_name">进行中订单</string>
+    <string name="order_apply_plese_selcet">请先选择品牌</string>
+    <string name="order_apply_tip">维修信息</string>
+    <string name="order_apply_brand">品牌：</string>
+    <string name="order_apply_time">期望服务时间：</string>
+    <string name="order_apply_model">型号：</string>
+    <string name="order_apply_promber">问题说明：</string>
+    <string name="order_apply_input_promber">请输入问题描述(必填)</string>
+    <string name="order_apply_input_phone">请输入联系人电话（必填）</string>
+    <string name="order_apply_input_name">请输入联系人名字（必填）</string>
+    <string name="order_apply_enginer">推荐工程师：</string>
+    <string name="order_apply_audit">语音说明：</string>
+    <string name="order_apply_audit_promble">语音描述问题（非必填）</string>
+    <string name="order_apply_cotanct_message">联系信息</string>
+    <string name="order_apply_contact">联系人：</string>
+    <string name="order_apply_contact_phone">联系人电话：</string>
+    <string name="order_apply_address">报修地点：</string>
+    <string name="order_apply_select_address">请选择地址</string>
+    <string name="order_apply_help_other_title">帮他人报修</string>
+    <string name="order_apply_help_other">帮报修：</string>
+    <string name="order_apply_button">立即报修</string>
+    <string name="order_apply_promber_soft">软件</string>
+    <string name="order_apply_promber_ying">硬件</string>
+    <string name="normal">按住 说话</string>
+    <string name="recording">松开 结束</string>
+    <string name="want_to_cancle">松开手指，取消录音</string>
+    <string name="shouzhishanghua">手指上滑，取消录音</string>
+    <string name="tooshort">录音时间过短</string>
+
+    <!-- 图片上传 -->
+    <string name="folder_all">所有图片</string>
+    <string name="preview">预览</string>
+    <string name="msg_no_camera">找不到系统相机</string>
+    <string name="msg_amount_limit">超过图片限制</string>
+    <string name="go_select">图片选择</string>
+    <string name="title_activity_image_select">ImageSelectActivity</string>
+    <string name="title_activity_writ_mood">WritMoodActivity</string>
+    <string name="title_activity_scroll_view">ScrollViewActivity</string>
+    <string name="title_activity_gao_si">GaoSiActivity</string>
+    <string name="title_activity_swicth_v">SwicthVActivity</string>
+
+    <!-- 个人中心 -->
+    <string name="my_order">我的订单</string>
+    <string name="message_center">消息中心</string>
+    <string name="my_wellat">我的卡券</string>
+    <string name="integer">我的积分</string>
+    <string name="personal_pay">支付方式</string>
+    <string name="personal_servise">联系客服</string>
+    <string name="service_site">服务站点</string>
+    <string name="recruiting">修吧招募</string>
+    <string name="order_now">当前订单0</string>
+    <string name="updata">更新0条</string>
+    <string name="personel_icon">头像</string>
+    <string name="personel_name">昵称</string>
+    <string name="personel_sex">性别</string>
+    <string name="personel_sex_m">女</string>
+    <string name="personel_sex_f">男</string>
+    <!-- 登录 -->
+    <string name="login_account">账号</string>
+    <string name="login_password">密码</string>
+    <string name="login_button">登录</string>
+    <string name="login_forget_password">忘记登陆密码?</string>
+    <string name="login_go_regit">还没有账号？注册。</string>
+    <string name="login_account_hint">手机号</string>
+    <string name="login_password_hint">密码</string>
+
+    <!-- 验证电话，修改密码 -->
+    <string name="forget_password_phoe_start">+86</string>
+    <string name="forget_password_phoe_hint">手机号</string>
+    <string name="forget_password_send_validate">发送验证码</string>
+    <string name="forget_password_submit_validate">确认</string>
+    <string name="forget_password_hint_validate">验证码</string>
+    <string name="forget_password_new_password">新密码</string>
+    <string name="forget_password_input_new_password">输入新密码</string>
+    <string name="forget_password_validate_title">验证</string>
+    <string name="forget_password_new_password_title">修改密码</string>
+
+    <!-- 注册 -->
+    <string name="login_company_name">公司名称</string>
+    <string name="reg_go_login">已经有账户了？登录。</string>
+    <string name="reg_type_person">个人</string>
+    <string name="reg_type_company">企业</string>
+    <string name="reg_phoe_start">CN+86</string>
+    <string name="reg_send_validate">获取验证码</string>
+    <string name="reg_send_submit">立即注册</string>
+    <!-- 设置 -->
+
+    <string name="set_address">常用地址</string>
+    <string name="set_account">绑定账号</string>
+    <string name="set_change_password">修改密码</string>
+    <string name="set_help">帮助与反馈</string>
+    <string name="set_law">法律条款</string>
+    <string name="set_about">关于修咻</string>
+    <string name="set_update">版本更新</string>
+    <string name="set_exit">安全退出</string>
+    <!-- 常用地址 -->
+    <string name="my_address_add">新增地址</string>
+    <string name="my_address_list_title">常用地址</string>
+    <string name="my_address_defalut">默认地址</string>
+    <string name="my_address_edit">编辑</string>
+    <string name="my_address_delete">删除</string>
+    <string name="my_address_name">联系人</string>
+    <string name="my_address_name_hint">您的称呼</string>
+    <string name="my_address_sex_man">先生</string>
+    <string name="my_address_sex_feman">女士</string>
+    <string name="my_address_phone">联系电话</string>
+    <string name="my_address_phone_hint">请输入您的联系电话</string>
+    <string name="my_address_address">地址</string>
+    <string name="my_address_address_hint">请选择您的地址</string>
+    <string name="my_address_address_detail">详细地址</string>
+    <string name="my_address_detail_hint">请补充您的地址（非必填）</string>
+    <string name="my_address_add_submit">保存</string>
+
+    <!-- toast -->
+
+    <string name="toast_phone_not_null">电话号码不能为空</string>
+    <string name="toast_new_password_not_null">新密码不能为空</string>
+    <string name="toast_new_password_length">新密码不能小于6位数</string>
+    <string name="toast_phone_length_wrong">请输入正确的电话号码</string>
+    <string name="toast_phone_validate_has_commit">验证码已发送</string>
+    <string name="toast_phone_validate_worng">验证码错误</string>
+    <string name="toast_phone_validate_cofirm">验证成功</string>
+    <string name="toast_content_no_complete">请将内容填写完整</string>
+    <string name="toast_content_help_no_complete">请完整填写帮报修人的联系信息</string>
+    <string name="toast_content_input_validate">请输入短信验证码</string>
+    <string name="toast_login_success">登录成功</string>
+    <string name="toast_reg_success">注册成功</string>
+    <string name="toast_change_password_success">重置密码成功</string>
+    <string name="toast_connect_to_server_failed">连接服务器失败</string>
+    <string name="toast_no_more_data">没有更多数据</string>
+    <string name="toast_add_address_success">添加成功</string>
+    <string name="toast_edit_address_success">编辑成功</string>
+
+    <!-- 首页 -->
+    <string name="toast_content_errpr">获取信息失败</string>
+    <!-- 订单 -->
+    <string name="my_order_address">地点：</string>
+    <string name="my_order_ongoing">进行中订单</string>
+    <string name="my_order_complete">已完成订单</string>
+    <string name="my_order_all">全部订单</string>
+    <string name="my_order_status_new">待接单</string>
+    <string name="my_order_status_accept">待修</string>
+    <string name="my_order_status_accept2">二次待修</string>
+    <string name="my_order_status_accept3">三次待修</string>
+    <string name="my_order_status_reparied">待付款</string>
+    <string name="my_order_status_paid">待评价</string>
+    <string name="my_order_status_done">完成</string>
+    <string name="my_order_status_button_cancel">取消订单</string>
+    <string name="my_order_status_button_pay">去付款</string>
+    <string name="my_order_status_button_contact">联系师傅</string>
+    <string name="my_order_status_button_second">二次下单</string>
+    <string name="my_order_status_button_third">三次下单</string>
+    <string name="my_order_status_button_evalute">去评价</string>
+    <string name="my_order_pay_number">服务费</string>
+    <string name="my_order_status_pay_select">选择支付方式</string>
+    <string name="my_order_status_pay_weixin">微信</string>
+    <string name="my_order_status_pay_alipay">支付宝</string>
+    <string name="my_order_status_pay_weixin_explain">推荐支付宝用户使用</string>
+    <string name="my_order_status_pay_alipay_explain">推荐微信用户使用</string>
+    <string name="my_order_status_pay_money">确认支付</string>
+    <string name="my_order_status_pay_yuan">元</string>
+
+    <!-- 订单详情界面 -->
+    <string name="orderdetails_name">订单信息</string>
+    <string name="orderdetails_contact">联系信息</string>
+    <string name="orderdetails_xiu">维修信息</string>
+    <string name="orderdetails_num">订单号：</string>
+    <string name="orderdetails_time">下单时间：</string>
+    <string name="orderdetails_contactpeople">联系人：</string>
+    <string name="orderdetails_repairlocation">报修地点：</string>
+
+</resources>

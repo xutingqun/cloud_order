@@ -1,0 +1,81 @@
+package com.xmsmart.xiuba.bean;
+
+import java.util.List;
+
+public class BusinessBean {
+	private List<Data> data ;
+
+	private int totalSize;
+
+	private boolean success;
+
+	public void setData(List<Data> data){
+	this.data = data;
+	}
+	public List<Data> getData(){
+	return this.data;
+	}
+	public void setTotalSize(int totalSize){
+	this.totalSize = totalSize;
+	}
+	public int getTotalSize(){
+	return this.totalSize;
+	}
+	public void setSuccess(boolean success){
+	this.success = success;
+	}
+	public boolean getSuccess(){
+	return this.success;
+	}
+	
+	public class Data {
+		private String code;
+
+		private int id;
+
+		private String image;
+
+		private int imageId;
+
+		private String imagePath;
+
+		private String name;
+
+		public void setCode(String code){
+		this.code = code;
+		}
+		public String getCode(){
+		return this.code;
+		}
+		public void setId(int id){
+		this.id = id;
+		}
+		public int getId(){
+		return this.id;
+		}
+		public void setImage(String image){
+		this.image = image;
+		}
+		public String getImage(){
+		return this.image;
+		}
+		public void setImageId(int imageId){
+		this.imageId = imageId;
+		}
+		public int getImageId(){
+		return this.imageId;
+		}
+		public void setImagePath(String imagePath){
+		this.imagePath = imagePath;
+		}
+		public String getImagePath(){
+		return this.imagePath;
+		}
+		public void setName(String name){
+		this.name = name;
+		}
+		public String getName(){
+		return this.name;
+		}
+	}
+}

@@ -1,0 +1,156 @@
+package com.xmsmart.xiuba.ui.settings;
+
+import android.annotation.SuppressLint;
+import android.app.ActivityManager;
+import android.os.Bundle;
+import android.util.Log;
+import android.view.View;
+import android.widget.TextView;
+
+import com.nostra13.universalimageloader.utils.StorageUtils;
+import com.smart.library.encrypt.MD5;
+import com.smart.library.manager.AppManager;
+import com.smart.library.okhttp.OkHttpClientManager;
+import com.smart.library.util.IntentUtil;
+import com.smart.library.util.ToastUtil;
+import com.squareup.okhttp.Request;
+import com.xmsmart.xiuba.R;
+import com.xmsmart.xiuba.api.UserAPI;
+import com.xmsmart.xiuba.bean.LoginDataBean;
+import com.xmsmart.xiuba.bean.SuccessBean;
+import com.xmsmart.xiuba.constant.Constant;
+import com.xmsmart.xiuba.db.DataStorage;
+import com.xmsmart.xiuba.ui.BaseActivity;
+import com.xmsmart.xiuba.ui.user.LoginActivity;
+import com.xmsmart.xiuba.utils.DialogUtil;
+import com.xmsmart.xiuba.utils.TopUtil;
+
+/**
+ * @author xutingqun
+ */
+@SuppressLint("ResourceAsColor")
+public class SettingsActivity extends BaseActivity {
+	TextView tvAddress, tvAccount, tvChangePassword, tvHelp, tvLaw, tvAbout,
+			tvUpdate, tvExit;
+	LoginDataBean loginDataBean;
+
+	@Override
+	protected void onCreate(Bundle savedInstanceState) {
+		// TODO Auto-generated method stub
+		super.onCreate(savedInstanceState);
+		setBarColor(R.color.orange);
+		setContentView(R.layout.ac_sets);
+		TopUtil.setCenterText(this, "设置");
+		TopUtil.setTopBackground(this, R.color.orange);
+		initView();
+	}
+
+	private void initView() {
+		loginDataBean = DataStorage.getLoginData(this);
+		tvAddress = (TextView) findViewById(R.id.tv_set_address);
+		tvAccount = (TextView) findViewById(R.id.tv_set_account);
+		tvChangePassword = (TextView) findViewById(R.id.tv_set_change_password);
+		tvHelp = (TextView) findViewById(R.id.tv_set_help);
+		tvLaw = (TextView) findViewById(R.id.tv_set_law);
+		tvAbout = (TextView) findViewById(R.id.tv_set_about);
+		tvUpdate = (TextView) findViewById(R.id.tv_set_update);
+		tvExit = (TextView) findViewById(R.id.tv_set_exit);
+
+		tvAddress.setOnClickListener(this);
+		tvAccount.setOnClickListener(this);
+		tvChangePassword.setOnClickListener(this);
+		tvHelp.setOnClickListener(this);
+		tvLaw.setOnClickListener(this);
+		tvAbout.setOnClickListener(this);
+		tvUpdate.setOnClickListener(this);
+		tvExit.setOnClickListener(this);
+	}
+
+	@Override
+	public void onClick(View arg0) {
+
+		super.onClick(arg0);
+		switch (arg0.getId()) {
+		case R.id.tv_set_address:
+			Bundle bundle3 = new Bundle();
+			bundle3.putBoolean("isSelect", false);
+			IntentUtil.mStartActivityWithBundle(SettingsActivity.this,
+					AddressActivity.class,bundle3);
+			break;
+		case R.id.tv_set_account:
+
+			break;
+		case R.id.tv_set_change_password:
+
+			break;
+		case R.id.tv_set_help:
+			Bundle bundle2 = new Bundle();
+			bundle2.putString("url", Constant.H5_PATH + "help.html");
+			bundle2.putString("title", "帮助与反馈");
+			IntentUtil.mStartActivityWithBundle(SettingsActivity.this,
+					WebViewActivity.class, bundle2);
+			break;
+		case R.id.tv_set_law:
+			Bundle bundle = new Bundle();
+			bundle.putString("url", Constant.H5_PATH + "legalProvisions.html");
+			bundle.putString("title", "法律条款");
+			IntentUtil.mStartActivityWithBundle(SettingsActivity.this,
+					WebViewActivity.class, bundle);
+			break;
+		case R.id.tv_set_about:
+			Bundle bundle1 = new Bundle();
+			bundle1.putString("url", Constant.H5_PATH + "about.html");
+			bundle1.putString("title", "关于修咻");
+			IntentUtil.mStartActivityWithBundle(SettingsActivity.this,
+					WebViewActivity.class, bundle1);
+			break;
+		case R.id.tv_set_update:
+
+			break;
+		case R.id.tv_set_exit:
+			loginOut();
+			break;
+
+		default:
+			break;
+		}
+	}
+
+	// 退出登录
+	public void loginOut() {
+
+		OkHttpClientManager.postAsyn(
+				UserAPI.loginOutUrl(),
+				new OkHttpClientManager.ResultCallback<SuccessBean>() {
+
+					@Override
+					public void onResponse(SuccessBean result) {
+						Log.e("result", result.toString());
+						DialogUtil.closeRoundProcessDialog();
+						if (result.getSuccess().equals("true")) {
+							DataStorage.setData(SettingsActivity.this,
+									"isLogin", "0");
+							IntentUtil.mStartActivity(SettingsActivity.this,
+									LoginActivity.class);
+						} else {
+							ToastUtil.showToast(SettingsActivity.this,
+									result.getMessage());
+						}
+
+					}
+
+					@Override
+					public void onError(Request request, Exception e) {
+						DialogUtil.closeRoundProcessDialog();
+						Log.e("error", e + "");
+						ToastUtil.showToast(SettingsActivity.this, e + "");
+					}
+				},
+				new OkHttpClientManager.Param[] {
+						new OkHttpClientManager.Param("userId", loginDataBean
+								.getId()),
+						new OkHttpClientManager.Param("registrationId",
+								DataStorage.getData(this, "regId")) });
+
+	}
+}

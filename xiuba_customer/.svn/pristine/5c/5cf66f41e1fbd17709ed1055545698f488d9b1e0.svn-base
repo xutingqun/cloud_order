@@ -1,0 +1,65 @@
+package com.xmsmart.xiuba.bean;
+
+public class MainDataBean extends BaseBean{
+	
+	private String dirty = "dirty";
+
+	private String iDValue = "iDValue";
+
+	private String maintenanceCategoryId = "maintenanceCategoryId";
+
+	private String mcCode = "mcCode";
+
+	private String mcName = "mcName";
+
+	private String rowStatus = "rowStatus";
+
+	public String getDirty() {
+		return dirty;
+	}
+
+	public void setDirty(String dirty) {
+		this.dirty = dirty;
+	}
+
+	public String getiDValue() {
+		return iDValue;
+	}
+
+	public void setiDValue(String iDValue) {
+		this.iDValue = iDValue;
+	}
+
+	public String getMaintenanceCategoryId() {
+		return maintenanceCategoryId;
+	}
+
+	public void setMaintenanceCategoryId(String maintenanceCategoryId) {
+		this.maintenanceCategoryId = maintenanceCategoryId;
+	}
+
+	public String getMcCode() {
+		return mcCode;
+	}
+
+	public void setMcCode(String mcCode) {
+		this.mcCode = mcCode;
+	}
+
+	public String getMcName() {
+		return mcName;
+	}
+
+	public void setMcName(String mcName) {
+		this.mcName = mcName;
+	}
+
+	public String getRowStatus() {
+		return rowStatus;
+	}
+
+	public void setRowStatus(String rowStatus) {
+		this.rowStatus = rowStatus;
+	}
+
+}

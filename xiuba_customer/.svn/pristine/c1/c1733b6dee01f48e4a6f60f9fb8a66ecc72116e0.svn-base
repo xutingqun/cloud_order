@@ -1,0 +1,185 @@
+package com.xmsmart.xiuba.ui.settings;
+
+import java.util.ArrayList;
+import java.util.List;
+
+import android.annotation.SuppressLint;
+import android.content.Intent;
+import android.os.Bundle;
+import android.util.Log;
+import android.view.View;
+import android.view.View.OnClickListener;
+import android.widget.AdapterView;
+import android.widget.AdapterView.OnItemClickListener;
+import android.widget.LinearLayout;
+import android.widget.ListView;
+import android.widget.TextView;
+
+import com.smart.library.okhttp.OkHttpClientManager;
+import com.smart.library.prt.PullToRefreshBase;
+import com.smart.library.prt.PullToRefreshListView;
+import com.smart.library.prt.PullToRefreshBase.OnRefreshListener;
+import com.smart.library.prt.PullToRefreshBase.PtrMode;
+import com.smart.library.util.IntentUtil;
+import com.smart.library.util.ToastUtil;
+import com.smart.library.view.EmptyLayout;
+import com.squareup.okhttp.Request;
+import com.xmsmart.xiuba.R;
+import com.xmsmart.xiuba.api.OrderAPI;
+import com.xmsmart.xiuba.bean.MyAddressBean;
+import com.xmsmart.xiuba.bean.MyAddressBean.MyAddressDataBean;
+import com.xmsmart.xiuba.bean.MyOrderBean;
+import com.xmsmart.xiuba.db.DataStorage;
+import com.xmsmart.xiuba.db.SqliteHelper;
+import com.xmsmart.xiuba.ui.BaseActivity;
+import com.xmsmart.xiuba.ui.order.MyOrderActivity;
+import com.xmsmart.xiuba.ui.order.MyOrderAdapter;
+import com.xmsmart.xiuba.utils.DialogUtil;
+import com.xmsmart.xiuba.utils.TopUtil;
+
+@SuppressLint("ResourceAsColor")
+public class AddressActivity extends BaseActivity {
+	List<MyAddressDataBean> myAddressList = new ArrayList<MyAddressDataBean>();
+	PullToRefreshListView lvMyAddress;
+	EmptyLayout mEmptyLayout;
+	MyAddressAdapter myAddressAdapter;
+	TextView tvSubmit;
+	boolean isSelect = false;
+	SqliteHelper db;
+
+	@Override
+	protected void onCreate(Bundle savedInstanceState) {
+		// TODO Auto-generated method stub
+		super.onCreate(savedInstanceState);
+		setBarColor(R.color.orange);
+		setContentView(R.layout.ac_my_address);
+		TopUtil.setTopBackground(this, R.color.orange);
+		TopUtil.setCenterText(this, "常用地址");
+		TopUtil.setViewVisiable(this, 1, 0, 0, 1, 0, 0);
+		initView();
+	}
+
+	private void initView() {
+		db = new SqliteHelper(this, "address.db", null, 1);
+
+		isSelect = getIntent().getExtras().getBoolean("isSelect");
+		tvSubmit = (TextView) findViewById(R.id.tv_my_address_add);
+		lvMyAddress = (PullToRefreshListView) findViewById(R.id.lv_my_address);
+		lvMyAddress.setMode(PtrMode.DISABLED);
+		
+		mEmptyLayout = (EmptyLayout) findViewById(R.id.eml_my_address);
+		mEmptyLayout.setVisibility(View.VISIBLE);
+		mEmptyLayout.setOnLayoutClickListener(new OnClickListener() {
+
+			@Override
+			public void onClick(View v) {
+				getLocalData();
+			}
+		});
+
+		tvSubmit.setOnClickListener(new OnClickListener() {
+
+			@Override
+			public void onClick(View v) {
+				Bundle bundle = new Bundle();
+				bundle.putBoolean("isEdit", false);
+				IntentUtil.mStartActivityWithBundle(AddressActivity.this,
+						AddAddressActivity.class, bundle);
+			}
+		});
+		lvMyAddress.getRefreshableView().setOnItemClickListener(
+				new OnItemClickListener() {
+
+					@Override
+					public void onItemClick(AdapterView<?> parent, View view,
+							int position, long id) {
+						if (isSelect) {
+							Intent intent = new Intent();
+							Bundle bundle = new Bundle();
+							bundle.putSerializable("myAddress",
+									myAddressList.get(position - 1));
+							intent.putExtras(bundle);
+							setResult(1020, intent);
+							finish();
+						}
+
+					}
+				});
+
+	}
+
+	private void getLocalData() {
+		myAddressList = db.queryAllAddress();
+		if (myAddressList.size() == 0) {
+			loadData();
+		} else {
+			mEmptyLayout.setVisibility(View.GONE);
+			myAddressAdapter = new MyAddressAdapter(AddressActivity.this,
+					myAddressList);
+			lvMyAddress.setAdapter(myAddressAdapter);
+		}
+	}
+
+	private void loadData() {
+		OkHttpClientManager
+				.postAsyn(
+						OrderAPI.getMyAddress(),
+						new OkHttpClientManager.ResultCallback<MyAddressBean>() {
+
+							@Override
+							public void onResponse(MyAddressBean result) {
+								Log.e("result", result.toString());
+								DialogUtil.closeRoundProcessDialog();
+								if (result.getSuccess().equals("true")) {
+									myAddressList = result.getData();
+									if (myAddressList.size() == 0) {
+										mEmptyLayout
+												.setNoDataContent("暂无常用地址，快去添加吧");
+										mEmptyLayout
+												.setErrorType(EmptyLayout.NODATA);
+									} else {
+										mEmptyLayout.setVisibility(View.GONE);
+										for (int i = 0; i < myAddressList
+												.size(); i++) {
+											db.addAddress(myAddressList.get(i));
+										}
+									}
+
+									myAddressAdapter = new MyAddressAdapter(
+											AddressActivity.this, myAddressList);
+									lvMyAddress.setAdapter(myAddressAdapter);
+
+								} else {
+									lvMyAddress.onRefreshComplete();
+									mEmptyLayout.setVisibility(View.VISIBLE);
+									mEmptyLayout.setNoDataContent(result
+											.getMessage());
+									mEmptyLayout
+											.setErrorType(EmptyLayout.NETWORK_ERROR);
+								}
+
+							}
+
+							@Override
+							public void onError(Request request, Exception e) {
+								DialogUtil.closeRoundProcessDialog();
+								Log.e("result", e + "");
+								mEmptyLayout.setVisibility(View.VISIBLE);
+								mEmptyLayout.setNoDataContent(e + "");
+								mEmptyLayout
+										.setErrorType(EmptyLayout.NETWORK_ERROR);
+							}
+						},
+						new OkHttpClientManager.Param[] { new OkHttpClientManager.Param(
+								"userId", DataStorage.getLoginData(this)
+										.getId()) });
+
+	}
+
+	@Override
+	protected void onResume() {
+		// TODO Auto-generated method stub
+		super.onResume();
+		getLocalData();
+	}
+}

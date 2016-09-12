@@ -1,0 +1,87 @@
+package com.xmsmart.xiuba.ui.settings;
+
+import com.smart.library.view.vebview.MyWebChromeClient;
+import com.smart.library.view.vebview.MyWebViewClient;
+import com.xmsmart.xiuba.R;
+import com.xmsmart.xiuba.ui.BaseActivity;
+import com.xmsmart.xiuba.ui.order.InitH5Data;
+import com.xmsmart.xiuba.utils.TopUtil;
+
+import android.annotation.SuppressLint;
+import android.os.Bundle;
+import android.os.Handler;
+import android.webkit.WebSettings;
+import android.webkit.WebView;
+import android.widget.ImageView;
+import android.widget.ProgressBar;
+import android.widget.TextView;
+
+/**
+ * @author xutingqun
+ */
+
+@SuppressLint("SetJavaScriptEnabled")
+public class WebViewActivity extends BaseActivity {
+
+	private WebView mWebView;
+	public static ImageView ivMain;
+	public static TextView tvGoMain;
+	private String url, title;
+	private MyWebViewClient WVClient;
+	private WebSettings webSettings;
+	private MyWebChromeClient chromeClient;
+	InitH5Data initH5Data;
+	ProgressBar progressBar;
+
+	@SuppressLint("ResourceAsColor")
+	@Override
+	protected void onCreate(Bundle savedInstanceState) {
+		super.onCreate(savedInstanceState);
+		setBarColor(R.color.orange);
+		setContentView(R.layout.act_set_web);
+		initView();
+	}
+
+	private void initView() {
+
+		url = getIntent().getExtras().getString("url");
+		title = getIntent().getExtras().getString("title");
+		TopUtil.setCenterText(WebViewActivity.this, title);
+		TopUtil.setTopBackground(this, R.color.orange);
+		progressBar = (ProgressBar) findViewById(R.id.pb_progress);
+		mWebView = (WebView) findViewById(R.id.set_webview);
+		initH5Data = new InitH5Data(this, this);
+		WVClient = new MyWebViewClient(this);
+		chromeClient = new MyWebChromeClient(progressBar);
+
+		webSettings = mWebView.getSettings();
+		webSettings.setJavaScriptEnabled(true);
+		webSettings.setBuiltInZoomControls(false);
+		webSettings.setSavePassword(false);
+
+		// 支持多种分辨率，需要js网页支持
+		webSettings.setUserAgentString("ykapp");
+		webSettings.setDefaultTextEncodingName("utf-8");
+
+		// 显示js网页
+		mWebView.loadUrl(url);
+
+		mWebView.setWebViewClient(WVClient);
+		mWebView.setWebChromeClient(chromeClient);
+
+		// 注意第二个参数JsTest，这个是JS网页调用Android方法的一个类似ID的东西
+		mWebView.addJavascriptInterface(initH5Data, "Android");
+
+	}
+
+	// 单击系统返回键网页回退
+	@Override
+	public void onBackPressed() {
+		if (mWebView.canGoBack()) {
+			mWebView.goBack();
+		} else {
+			this.finish();
+		}
+	}
+
+}

@@ -1,0 +1,189 @@
+package com.xmsmart.xiuba.ui.settings;
+
+import android.annotation.SuppressLint;
+import android.content.Intent;
+import android.os.Bundle;
+import android.util.Log;
+import android.view.View;
+import android.widget.EditText;
+import android.widget.ImageView;
+import android.widget.LinearLayout;
+import android.widget.TextView;
+
+import com.smart.library.okhttp.OkHttpClientManager;
+import com.smart.library.util.ToastUtil;
+import com.squareup.okhttp.Request;
+import com.xmsmart.xiuba.R;
+import com.xmsmart.xiuba.api.OrderAPI;
+import com.xmsmart.xiuba.bean.MapModel;
+import com.xmsmart.xiuba.bean.MyAddressBean.MyAddressDataBean;
+import com.xmsmart.xiuba.bean.SuccessBean;
+import com.xmsmart.xiuba.db.DataStorage;
+import com.xmsmart.xiuba.ui.BaseActivity;
+import com.xmsmart.xiuba.ui.order.SearchMapActivity;
+import com.xmsmart.xiuba.utils.DialogUtil;
+import com.xmsmart.xiuba.utils.TopUtil;
+
+@SuppressLint("ResourceAsColor")
+public class AddAddressActivity extends BaseActivity {
+	TextView tvSubmit, tvAddress;
+	EditText editName, editPhone, editDetail;
+	LinearLayout llMan, llFeman;
+	ImageView ivManSelect, ivFemanSelect;
+	String sex,addressId="";
+	boolean isEdit;
+	MyAddressDataBean myAddressDataBean;
+
+	@Override
+	protected void onCreate(Bundle savedInstanceState) {
+		// TODO Auto-generated method stub
+		super.onCreate(savedInstanceState);
+		setBarColor(R.color.orange);
+		setContentView(R.layout.ac_add_my_address);
+		TopUtil.setTopBackground(this, R.color.orange);
+		TopUtil.setCenterText(this, "±‡º≠≥£”√µÿ÷∑");
+		TopUtil.setViewVisiable(this, 1, 0, 0, 1, 0, 0);
+		initView();
+	}
+
+	private void initView() {
+		
+		sex = "F";
+		editName = (EditText) findViewById(R.id.edit_add_my_address_name);
+		editPhone = (EditText) findViewById(R.id.edit_add_my_address_phone);
+		editDetail = (EditText) findViewById(R.id.edit_add_my_address_detail_address);
+		tvSubmit = (TextView) findViewById(R.id.tv_add_my_address_submit);
+		tvAddress = (TextView) findViewById(R.id.tv_add_my_address_address);
+		llMan = (LinearLayout) findViewById(R.id.ll_add_my_address_sex_man);
+		llFeman = (LinearLayout) findViewById(R.id.ll_add_my_address_sex_feman);
+		ivManSelect = (ImageView) findViewById(R.id.iv_add_my_address_select_man);
+		ivFemanSelect = (ImageView) findViewById(R.id.iv_add_my_address_select_feman);
+
+		tvAddress.setOnClickListener(this);
+		llFeman.setOnClickListener(this);
+		llMan.setOnClickListener(this);
+		tvSubmit.setOnClickListener(this);
+		
+		isEdit = getIntent().getExtras().getBoolean("isEdit");
+		if(isEdit){
+			myAddressDataBean = (MyAddressDataBean) getIntent().getExtras().getSerializable("addressData");
+			tvAddress.setText(myAddressDataBean.getAddress());
+			editName.setText(myAddressDataBean.getContactPer());
+			editPhone.setText(myAddressDataBean.getPhone());
+			addressId = myAddressDataBean.getId();
+			if(myAddressDataBean.getSex().equals("F")){
+				ivManSelect.setBackgroundResource(R.drawable.iv_pay_ment_no_select);
+				ivFemanSelect.setBackgroundResource(R.drawable.iv_pay_ment_select);
+			}else{
+				ivManSelect.setBackgroundResource(R.drawable.iv_pay_ment_select);
+				ivFemanSelect.setBackgroundResource(R.drawable.iv_pay_ment_no_select);
+			}
+			
+		}else{
+			
+		}
+	}
+
+	@Override
+	public void onClick(View arg0) {
+		super.onClick(arg0);
+		switch (arg0.getId()) {
+		case R.id.tv_add_my_address_address:
+			Intent intent = new Intent();
+			intent.setClass(AddAddressActivity.this, SearchMapActivity.class);
+			startActivityForResult(intent, 1018);
+			break;
+		case R.id.tv_add_my_address_submit:
+			if(tvAddress.getText().toString().equals("")||editName.getText().toString().equals("")||editPhone.getText().toString().equals("")){
+				ToastUtil.showToast(AddAddressActivity.this, R.string.toast_content_no_complete);
+			}else{
+			loadData();
+			}
+			break;
+		case R.id.ll_add_my_address_sex_man:
+			sex = "M";
+			ivManSelect.setBackgroundResource(R.drawable.iv_pay_ment_select);
+			ivFemanSelect
+					.setBackgroundResource(R.drawable.iv_pay_ment_no_select);
+			break;
+		case R.id.ll_add_my_address_sex_feman:
+			sex = "F";
+			ivManSelect.setBackgroundResource(R.drawable.iv_pay_ment_no_select);
+			ivFemanSelect.setBackgroundResource(R.drawable.iv_pay_ment_select);
+			break;
+		default:
+			break;
+		}
+	}
+
+	private void loadData() {
+		OkHttpClientManager.postAsyn(
+				OrderAPI.addMyAddress(),
+				new OkHttpClientManager.ResultCallback<SuccessBean>() {
+
+					@Override
+					public void onResponse(SuccessBean result) {
+						Log.e("result", result.toString());
+						DialogUtil.closeRoundProcessDialog();
+						if (result.getSuccess().equals("true")) {
+							ToastUtil.showToast(AddAddressActivity.this,
+									R.string.toast_add_address_success);
+							finish();
+						} else {
+							ToastUtil.showToast(AddAddressActivity.this,
+									result.getMessage());
+						}
+
+					}
+
+					@Override
+					public void onError(Request request, Exception e) {
+						DialogUtil.closeRoundProcessDialog();
+						ToastUtil.showToast(AddAddressActivity.this,
+								e+"");
+						Log.e("result", e + "");
+
+					}
+				},
+				new OkHttpClientManager.Param[] {
+						new OkHttpClientManager.Param("userId", DataStorage
+								.getLoginData(this).getId()),
+						new OkHttpClientManager.Param("id", addressId),
+						new OkHttpClientManager.Param("province", nowAddress
+								.getProvince()),
+						new OkHttpClientManager.Param("city", nowAddress
+								.getCity()),
+						new OkHttpClientManager.Param("area", nowAddress
+								.getArea()),
+						new OkHttpClientManager.Param("street", nowAddress
+								.getStreet()),
+						new OkHttpClientManager.Param("address", tvAddress.getText().toString()
+								+ editDetail.getText().toString()),
+						new OkHttpClientManager.Param("contactPer", editName
+								.getText().toString()),
+						new OkHttpClientManager.Param("phone", editPhone
+								.getText().toString()),
+						new OkHttpClientManager.Param("sex", sex),
+						new OkHttpClientManager.Param("latitude", nowAddress
+								.getLatitude()),
+						new OkHttpClientManager.Param("longitude", nowAddress
+								.getLongitude()) });
+
+	}
+
+	MapModel nowAddress = new MapModel();
+
+	@Override
+	protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+		super.onActivityResult(requestCode, resultCode, data);
+		if (requestCode == 1018 && resultCode == 1019) {
+			nowAddress.setAddressDetails(data.getStringExtra("Snippet"));// œÍœ∏µÿ÷∑
+			nowAddress.setAddressName(data.getStringExtra("Snippet"));// œÍœ∏µÿ÷∑
+			nowAddress.setLongitude(data.getStringExtra("longitude"));
+			nowAddress.setLatitude(data.getStringExtra("latitude"));
+
+			tvAddress.setText(nowAddress.getAddressName());
+
+		}
+	}
+}

@@ -1,0 +1,27 @@
+package com.xmsmart.xiuba.api;
+
+public class MainAPI {
+
+	/**
+	 * 维修类型列表数据接口
+	 */
+	public static String MaintenanceTypesUrl() {
+
+		return BaseAPI.URL + "/mainCategoryServlet";
+
+	}
+
+	/**
+	 * 维修类型图片接口,后缀为.png
+	 * 
+	 * @param imgName
+	 *            图片名字
+	 * @return
+	 */
+	public static String MaintenanceTypesImageUrl(String imgName) {
+
+		return BaseAPI.URL + "/maintain/" + imgName + ".png";
+
+	}
+
+}

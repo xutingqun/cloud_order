@@ -1,0 +1,38 @@
+package com.xmsmart.xiuba.bean;
+
+public class ApplyOrderBean extends BaseBean {
+
+	private ApplyOrderDataBean data = new ApplyOrderDataBean();
+	private String success;
+	private String message = "";// ´íÎóĞÅÏ¢
+
+	public String getMessage() {
+		return message;
+	}
+
+	public void setMessage(String message) {
+		this.message = message;
+	}
+
+	public ApplyOrderDataBean getData() {
+		return data;
+	}
+
+	public void setData(ApplyOrderDataBean data) {
+		this.data = data;
+	}
+
+	public String getSuccess() {
+		return success;
+	}
+
+	public void setSuccess(String success) {
+		this.success = success;
+	}
+
+	@Override
+	public String toString() {
+		return "LoginBean [data=" + data + ", success=" + success + "]";
+	}
+
+}

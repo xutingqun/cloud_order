@@ -1,0 +1,108 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/rl_task_popwindow_bg"
+    android:layout_width="fill_parent"
+    android:layout_height="wrap_content"
+    android:background="@drawable/dark_bg"
+    android:orientation="vertical" >
+
+    <LinearLayout
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:orientation="vertical" >
+
+        <LinearLayout
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="10dp"
+            android:layout_marginRight="10dp"
+            android:background="@drawable/rounded_gry_line_selected"
+            android:orientation="horizontal" >
+
+
+            <com.xmsmart.xiuba.view.time.WheelView
+                android:id="@+id/wt_task_popwindow_year"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="10dip"
+                android:layout_marginLeft="5dip"
+                android:layout_marginTop="10dip"
+                android:layout_weight="1" />
+
+            <com.xmsmart.xiuba.view.time.WheelView
+                android:id="@+id/wt_task_popwindow_month"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="10dip"
+                android:layout_marginTop="10dip"
+                android:layout_weight="1" />
+
+            <com.xmsmart.xiuba.view.time.WheelView
+                android:id="@+id/wt_task_popwindow_day"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="10dip"
+                android:layout_marginTop="10dip"
+                android:layout_weight="1" />
+
+            <com.xmsmart.xiuba.view.time.WheelView
+                android:id="@+id/wt_task_popwindow_hour"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="10dip"
+                android:layout_marginRight="5dip"
+                android:layout_marginTop="10dip"
+                android:layout_weight="1" />
+
+           <com.xmsmart.xiuba.view.time.WheelView
+                android:id="@+id/wt_task_popwindow_min"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="10dip"
+                android:layout_marginRight="5dip"
+                android:layout_marginTop="10dip"
+                android:layout_weight="1" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="fill_parent"
+            android:layout_height="45dp"
+            android:layout_marginTop="10dp"
+            android:layout_marginLeft="10dp"
+            android:layout_marginRight="10dp"
+            android:layout_marginBottom="10dp"
+            android:background="@drawable/rounded_white_line_selected"
+            android:orientation="horizontal" >
+
+            <Button
+                android:id="@+id/bt_popwindow_set"
+                android:layout_width="0dip"
+                android:layout_height="fill_parent"
+                android:layout_weight="1"
+                android:background="@color/transler"
+                android:text="确定"
+                android:textColor="#1298FF" />
+
+            <TextView
+                android:layout_width="0dip"
+                android:layout_height="fill_parent"
+                android:layout_weight="0.01"
+                android:background="#E9E2DD" />
+
+            <Button
+                android:id="@+id/bt_popwindow_cancel"
+                android:layout_width="0dip"
+                android:layout_height="fill_parent"
+                android:layout_weight="1"
+                android:background="@color/transler"
+                android:text="取消"
+                android:textColor="#5C5D5C" />
+
+            
+        </LinearLayout>
+
+        
+    </LinearLayout>
+
+</RelativeLayout>

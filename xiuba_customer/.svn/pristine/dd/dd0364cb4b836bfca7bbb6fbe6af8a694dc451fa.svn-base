@@ -1,0 +1,231 @@
+package com.xmsmart.xiuba.ui.settings;
+
+import java.util.List;
+import com.smart.library.okhttp.OkHttpClientManager;
+import com.smart.library.util.IntentUtil;
+import com.smart.library.util.ToastUtil;
+import com.smart.library.view.AlertDialog;
+import com.squareup.okhttp.Request;
+import com.xmsmart.xiuba.R;
+import com.xmsmart.xiuba.api.OrderAPI;
+import com.xmsmart.xiuba.bean.MapModel;
+import com.xmsmart.xiuba.bean.SuccessBean;
+import com.xmsmart.xiuba.bean.MyAddressBean.MyAddressDataBean;
+import com.xmsmart.xiuba.bean.MyOrderBean.MyOrderDataBean;
+import com.xmsmart.xiuba.db.DataStorage;
+import com.xmsmart.xiuba.ui.TopDialogActivity;
+import com.xmsmart.xiuba.ui.user.LoginActivity;
+import com.xmsmart.xiuba.utils.DialogUtil;
+
+import android.app.Activity;
+import android.app.Dialog;
+import android.content.Context;
+import android.content.DialogInterface;
+import android.content.DialogInterface.OnDismissListener;
+import android.os.Bundle;
+import android.util.Log;
+import android.view.LayoutInflater;
+import android.view.View;
+import android.view.View.OnClickListener;
+import android.view.ViewGroup;
+import android.widget.BaseAdapter;
+import android.widget.GridView;
+import android.widget.ImageView;
+import android.widget.LinearLayout;
+import android.widget.TextView;
+
+public class MyAddressAdapter extends BaseAdapter {
+
+	private Context mContext;
+	private List<MyAddressDataBean> mList;
+
+	public MyAddressAdapter(Context mContext, List<MyAddressDataBean> mList) {
+		super();
+		this.mContext = mContext;
+		this.mList = mList;
+	}
+
+	@Override
+	public int getCount() {
+		return mList.size();
+	}
+
+	@Override
+	public Object getItem(int arg0) {
+		return mList.get(arg0);
+	}
+
+	@Override
+	public long getItemId(int arg0) {
+		return 0;
+	}
+
+	@Override
+	public View getView(final int position, View convertView, ViewGroup parent) {
+		ViewHolder holder = null;
+
+		if (convertView == null) {
+			holder = new ViewHolder();
+
+			convertView = LayoutInflater.from(mContext).inflate(
+					R.layout.item_my_address, null);
+
+			holder.tvAddress = (TextView) convertView
+					.findViewById(R.id.tv_my_address_address);
+
+			holder.tvName = (TextView) convertView
+					.findViewById(R.id.tv_my_address_name);
+
+			holder.tvPhone = (TextView) convertView
+					.findViewById(R.id.tv_my_address_phone);
+			holder.tvDefaluteAddress = (TextView) convertView
+					.findViewById(R.id.tv_my_address_defalute);
+			holder.ivIsDefalute = (ImageView) convertView
+					.findViewById(R.id.iv_my_address_defalute);
+			holder.llDefaluteAddress = (LinearLayout) convertView
+					.findViewById(R.id.ll_my_address_defalute);
+			holder.llEdit = (LinearLayout) convertView
+					.findViewById(R.id.ll_my_address_edit);
+			holder.llDelete = (LinearLayout) convertView
+					.findViewById(R.id.ll_my_address_delete);
+
+			convertView.setTag(holder);
+		} else {
+			holder = (ViewHolder) convertView.getTag();
+		}
+
+		MyAddressDataBean myAddressDataBean = mList.get(position);
+		holder.tvName.setText(myAddressDataBean.getContactPer());
+		holder.tvPhone.setText(myAddressDataBean.getPhone());
+		holder.tvAddress.setText(myAddressDataBean.getAddress());
+		if (myAddressDataBean.getIsDefalute() != null) {
+			if (myAddressDataBean.getIsDefalute().equals("0")) {
+				holder.ivIsDefalute
+						.setBackgroundResource(R.drawable.iv_pay_ment_no_select);
+			} else if (myAddressDataBean.getIsDefalute().equals("1")) {
+				holder.ivIsDefalute
+						.setBackgroundResource(R.drawable.iv_pay_ment_select);
+			}
+		}
+		holder.llDelete.setOnClickListener(new OnClickListener() {
+
+			@Override
+			public void onClick(View v) {
+				AlertDialog dialogReport = new AlertDialog(mContext);
+				dialogReport.setTitle("温馨提醒");
+				dialogReport.setMessage("是否确认删除该地址？");
+				dialogReport.setGrayButtonListener("取消", null);
+				dialogReport.setGreenButtonListener("确认",
+						new DialogInterface.OnClickListener() {
+
+							@Override
+							public void onClick(DialogInterface dialog,
+									int which) {
+								delete(position);
+							}
+						});
+				dialogReport.show();
+
+			}
+		});
+		holder.llEdit.setOnClickListener(new OnClickListener() {
+
+			@Override
+			public void onClick(View v) {
+				Bundle bundle = new Bundle();
+				bundle.putBoolean("isEdit", true);
+				bundle.putSerializable("addressData", mList.get(position));
+				IntentUtil.mStartActivityWithBundle((Activity) mContext,
+						AddAddressActivity.class, bundle);
+			}
+		});
+		holder.llDefaluteAddress.setOnClickListener(new OnClickListener() {
+
+			@Override
+			public void onClick(View v) {
+				setDefalute(position);
+			}
+		});
+		return convertView;
+	}
+
+	public static class ViewHolder {
+		public TextView tvName, tvPhone, tvAddress, tvDefaluteAddress;
+		public LinearLayout llDefaluteAddress, llEdit, llDelete;
+		public ImageView ivIsDefalute;
+
+	}
+
+	private void delete(final int postion) {
+		OkHttpClientManager
+				.postAsyn(
+						OrderAPI.deleteMyAddress(),
+						new OkHttpClientManager.ResultCallback<SuccessBean>() {
+
+							@Override
+							public void onResponse(SuccessBean result) {
+								Log.e("result", result.toString());
+								DialogUtil.closeRoundProcessDialog();
+								if (result.getSuccess().equals("true")) {
+									ToastUtil.showToast(mContext, "删除成功");
+									mList.remove(mList.get(postion));
+									notifyDataSetChanged();
+
+								} else {
+									ToastUtil.showToast(mContext,
+											result.getMessage());
+								}
+
+							}
+
+							@Override
+							public void onError(Request request, Exception e) {
+								DialogUtil.closeRoundProcessDialog();
+								ToastUtil.showToast(mContext, e + "");
+								Log.e("result", e + "");
+
+							}
+						},
+						new OkHttpClientManager.Param[] { new OkHttpClientManager.Param(
+								"id", mList.get(postion).getId()) });
+
+	}
+
+	private void setDefalute(final int postion) {
+		OkHttpClientManager
+				.postAsyn(
+						OrderAPI.setDefaluteAddress(),
+						new OkHttpClientManager.ResultCallback<SuccessBean>() {
+
+							@Override
+							public void onResponse(SuccessBean result) {
+								Log.e("result", result.toString());
+								DialogUtil.closeRoundProcessDialog();
+								if (result.getSuccess().equals("true")) {
+									ToastUtil.showToast(mContext, "设置成功");
+									for(int i = 0;i<mList.size();i++){
+										mList.get(i).setIsDefalute("0");
+									}
+									mList.get(postion).setIsDefalute("1");
+									notifyDataSetChanged();
+
+								} else {
+									ToastUtil.showToast(mContext,
+											result.getMessage());
+								}
+
+							}
+
+							@Override
+							public void onError(Request request, Exception e) {
+								DialogUtil.closeRoundProcessDialog();
+								ToastUtil.showToast(mContext, e + "");
+								Log.e("result", e + "");
+
+							}
+						},
+						new OkHttpClientManager.Param[] { new OkHttpClientManager.Param(
+								"id", mList.get(postion).getId()) });
+
+	}
+}

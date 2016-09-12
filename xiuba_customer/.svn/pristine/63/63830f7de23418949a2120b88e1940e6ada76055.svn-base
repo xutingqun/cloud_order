@@ -1,0 +1,67 @@
+package com.xmsmart.xiuba.bean;
+
+import java.util.ArrayList;
+import java.util.List;
+
+public class OrderEnginerBean extends BaseBean {
+
+	private List<OrderEnginerDataBean> data = new ArrayList<OrderEnginerDataBean>();
+	private String success;
+	private String message = "";// 错误信息
+
+	public List<OrderEnginerDataBean> getData() {
+		return data;
+	}
+
+	public void setData(List<OrderEnginerDataBean> data) {
+		this.data = data;
+	}
+
+	public String getMessage() {
+		return message;
+	}
+
+	public void setMessage(String message) {
+		this.message = message;
+	}
+
+	public String getSuccess() {
+		return success;
+	}
+
+	public void setSuccess(String success) {
+		this.success = success;
+	}
+
+	public class OrderEnginerDataBean {
+		private String id = "";// : 工程师Id
+		private String realName = "";// : 工程师姓名
+		private String phoneNum = "";// ：工程师联系电话
+
+		public String getId() {
+			return id;
+		}
+
+		public void setId(String id) {
+			this.id = id;
+		}
+
+		public String getRealName() {
+			return realName;
+		}
+
+		public void setRealName(String realName) {
+			this.realName = realName;
+		}
+
+		public String getPhoneNum() {
+			return phoneNum;
+		}
+
+		public void setPhoneNum(String phoneNum) {
+			this.phoneNum = phoneNum;
+		}
+
+	}
+
+}

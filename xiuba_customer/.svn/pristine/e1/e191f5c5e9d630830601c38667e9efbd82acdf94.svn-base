@@ -1,0 +1,272 @@
+package com.xmsmart.xiuba.ui.user;
+
+import org.json.JSONObject;
+
+import android.os.Bundle;
+import android.os.CountDownTimer;
+import android.os.Handler;
+import android.os.Message;
+import android.text.InputType;
+import android.text.TextUtils;
+import android.util.Log;
+import android.view.View;
+import android.widget.EditText;
+import android.widget.ImageView;
+import android.widget.LinearLayout;
+import android.widget.TextView;
+import android.widget.Toast;
+import cn.smssdk.EventHandler;
+import cn.smssdk.SMSSDK;
+import cn.smssdk.utils.SMSLog;
+
+import com.google.gson.Gson;
+import com.smart.library.encrypt.MD5;
+import com.smart.library.okhttp.OkHttpClientManager;
+import com.smart.library.util.DeviceUtils;
+import com.smart.library.util.ToastUtil;
+import com.squareup.okhttp.Request;
+import com.xmsmart.xiuba.R;
+import com.xmsmart.xiuba.api.UserAPI;
+import com.xmsmart.xiuba.bean.SuccessBean;
+import com.xmsmart.xiuba.ui.BaseActivity;
+import com.xmsmart.xiuba.ui.order.OrderApplyActivity;
+import com.xmsmart.xiuba.utils.DialogUtil;
+/**
+ * @author xutingqun
+ */
+public class ForgetActivity extends BaseActivity {
+
+	private TimeCount time;
+	private LinearLayout llValidate, llNewPassword, llSendValidate,
+			llSubmitValidate, llSubmitNewPassword;
+	private EditText editPhone, editValidate, editNewPassword;
+	private ImageView ivIsLook;
+	private TextView tvTitle, tvSendValidate;
+	private String Imei;
+	String intnetPhone;
+	boolean isLook = false;//密码是否可见
+
+	@Override
+	protected void onCreate(Bundle savedInstanceState) {
+		// TODO Auto-generated method stub
+		super.onCreate(savedInstanceState);
+		setContentView(R.layout.ac_forget_password);
+		EventHandler eh = new EventHandler() {
+
+			@Override
+			public void afterEvent(int event, int result, Object data) {
+				Message msg = new Message();
+				msg.arg1 = event;
+				msg.arg2 = result;
+				msg.obj = data;
+				mHandler.sendMessage(msg);
+			}
+
+		};
+		SMSSDK.registerEventHandler(eh);
+		initView();
+
+	}
+
+	private void initView() {
+		isLook = false;
+		time = new TimeCount(60000, 1000);
+		Imei = DeviceUtils.getImei(this);
+		intnetPhone = getIntent().getExtras().getString("phone");
+		System.out.println("yzm===========" + Imei);
+
+		llValidate = (LinearLayout) findViewById(R.id.ll_forget_password_validatee);
+		llNewPassword = (LinearLayout) findViewById(R.id.ll_forget_password_new_password);
+		llSendValidate = (LinearLayout) findViewById(R.id.ll_password_send_validate);
+		llSubmitValidate = (LinearLayout) findViewById(R.id.ll_commit_validate);
+		llSubmitNewPassword = (LinearLayout) findViewById(R.id.ll_password_submit_new);
+		editPhone = (EditText) findViewById(R.id.edit_password_validate_phone);
+		editValidate = (EditText) findViewById(R.id.edit_ppassword_validate_num);
+		editNewPassword = (EditText) findViewById(R.id.eidt_password_input_new);
+		ivIsLook = (ImageView) findViewById(R.id.iv_password_is_look);
+		tvTitle = (TextView) findViewById(R.id.tv_forget_password_title);
+		tvSendValidate = (TextView) findViewById(R.id.tv_password_sed_validate);
+
+		tvTitle.setText(getResources().getString(
+				R.string.forget_password_validate_title));
+		if (!intnetPhone.equals("")) {
+			editPhone.setText(intnetPhone);
+		}
+		llValidate.setVisibility(View.VISIBLE);
+		llNewPassword.setVisibility(View.GONE);
+
+		llSendValidate.setOnClickListener(this);
+		llSubmitValidate.setOnClickListener(this);
+		llSubmitNewPassword.setOnClickListener(this);
+		ivIsLook.setOnClickListener(this);
+
+	}
+
+	class TimeCount extends CountDownTimer {
+		public TimeCount(long millisInFuture, long countDownInterval) {
+			super(millisInFuture, countDownInterval);
+		}
+
+		@Override
+		public void onFinish() {
+			// TODO Auto-generated method stub
+			tvSendValidate.setText(getResources().getString(
+					R.string.forget_password_send_validate));
+			llSendValidate.setClickable(true);
+
+		}
+
+		@Override
+		public void onTick(long millisUntilFinished) {
+			// TODO Auto-generated method stub
+			llSendValidate.setClickable(false);// 防止重复点击
+			tvSendValidate.setText(millisUntilFinished / 1000 + "秒");
+		}
+
+	}
+
+	public String phone;
+
+	@Override
+	public void onClick(View v) {
+		// TODO Auto-generated method stub
+		switch (v.getId()) {
+		case R.id.ll_password_send_validate:
+			if (!TextUtils.isEmpty(editPhone.getText().toString())) {
+				time.start();// 开始计时
+				SMSSDK.getVerificationCode("86", editPhone.getText().toString());
+				phone = editPhone.getText().toString();
+
+			} else {
+				ToastUtil.showToast(this, R.string.toast_phone_not_null);
+			}
+			break;
+		case R.id.ll_commit_validate:
+			if (editPhone.getText().toString().equals("")) {
+				ToastUtil.showToast(this, R.string.toast_phone_not_null);
+			} else if (editValidate.getText().toString().equals("")) {
+				ToastUtil
+						.showToast(this, R.string.toast_content_input_validate);
+			} else {
+				SMSSDK.submitVerificationCode("86", phone, editValidate
+						.getText().toString());
+			}
+			break;
+		case R.id.ll_password_submit_new:
+			if (editNewPassword.getText().toString().equals("")) {
+				ToastUtil.showToast(this, R.string.toast_new_password_not_null);
+
+			} else if (editNewPassword.getText().toString().length() < 6) {
+				ToastUtil.showToast(this, R.string.toast_new_password_length);
+
+			} else {
+				DialogUtil.showRoundProcessDialog(this, "正在提交数据...");
+				changePassword();
+			}
+			break;
+		case R.id.iv_password_is_look:
+			if (isLook) {
+				editNewPassword
+						.setInputType(InputType.TYPE_TEXT_VARIATION_PASSWORD
+								| InputType.TYPE_CLASS_TEXT);
+				ivIsLook.setBackgroundResource(R.drawable.iv_forget_password_no_look);
+				isLook = false;
+			} else {
+				editNewPassword
+						.setInputType(InputType.TYPE_TEXT_VARIATION_VISIBLE_PASSWORD);
+				ivIsLook.setBackgroundResource(R.drawable.iv_forget_password_islook);
+				isLook = true;
+			}
+			break;
+		default:
+			break;
+		}
+
+	}
+
+	Handler mHandler = new Handler() {
+		public void handleMessage(Message msg) {
+			super.handleMessage(msg);
+			int event = msg.arg1;
+			int result = msg.arg2;
+			Object data = msg.obj;
+			Log.e("event", "event=" + event);
+			if (result == SMSSDK.RESULT_COMPLETE) {
+				System.out.println("--------result" + event);
+				if (event == SMSSDK.EVENT_SUBMIT_VERIFICATION_CODE) {// 提交验证码成功
+					ToastUtil.showToast(ForgetActivity.this,
+							R.string.toast_phone_validate_cofirm);
+					llValidate.setVisibility(View.GONE);
+					llNewPassword.setVisibility(View.VISIBLE);
+				} else if (event == SMSSDK.EVENT_GET_VERIFICATION_CODE) {
+					// 已经验证
+					ToastUtil.showToast(ForgetActivity.this,
+							R.string.toast_phone_validate_has_commit);
+				}
+
+			} else {
+				ToastUtil.showToast(ForgetActivity.this,
+						R.string.toast_phone_validate_worng);
+				int status = 0;
+				try {
+					((Throwable) data).printStackTrace();
+					Throwable throwable = (Throwable) data;
+					JSONObject object = new JSONObject(throwable.getMessage());
+					String des = object.optString("detail");
+					status = object.optInt("status");
+					if (!TextUtils.isEmpty(des)) {
+						/*Toast.makeText(ForgetActivity.this, des,
+								Toast.LENGTH_SHORT).show();*/
+						return;
+					}
+				} catch (Exception e) {
+					SMSLog.getInstance().w(e);
+				}
+			}
+
+		};
+	};
+
+	// 确认修改密码
+	public void changePassword() {
+		OkHttpClientManager.postAsyn(
+				UserAPI.setNewPwUrl(),
+				new OkHttpClientManager.ResultCallback<SuccessBean>() {
+
+					@Override
+					public void onResponse(SuccessBean result) {
+						Log.e("result", result+"");
+						DialogUtil.closeRoundProcessDialog();
+						if(result.getSuccess().equals("true")){
+							ToastUtil.showToast(ForgetActivity.this,R.string.toast_change_password_success);
+							finish();
+						}else{
+							ToastUtil.showToast(ForgetActivity.this, result.getMessage());
+						}
+
+					}
+
+					@Override
+					public void onError(Request request, Exception e) {
+						DialogUtil.closeRoundProcessDialog();
+						Log.e("result", e + "");
+						ToastUtil.showToast(ForgetActivity.this, e
+								+ "");
+					}
+				},
+				new OkHttpClientManager.Param[] {
+						new OkHttpClientManager.Param("phoneNum", phone),
+						new OkHttpClientManager.Param("password", MD5
+								.md5(editNewPassword.getText().toString())) });
+
+	}
+	@Override
+	protected void onDestroy() {
+		super.onDestroy();
+		try {
+			SMSSDK.unregisterAllEventHandler();
+		} catch (Exception e) {
+		}
+	}
+
+}

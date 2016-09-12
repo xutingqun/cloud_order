@@ -1,0 +1,107 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/window_bg"
+    android:gravity="center_horizontal"
+    android:orientation="vertical" >
+
+    <include layout="@layout/it_top" />
+
+    <com.smart.library.view.MyScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent" >
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_marginTop="16dp"
+            android:background="@color/white"
+            android:orientation="vertical" >
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="0.1dp"
+                android:background="@color/default_line_color" />
+
+            <EditText
+                android:id="@+id/edit_personal_message_name"
+                android:layout_width="match_parent"
+                android:layout_height="45dp"
+                android:layout_marginLeft="16dp"
+                android:background="@null"
+                android:hint="请输入昵称"
+                android:textColor="@color/set_item"
+                android:textColorHint="@color/defalute_text_hint"
+                android:textSize="15sp" />
+
+            <LinearLayout
+                android:id="@+id/ll_personal_message_sex"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical" >
+
+                <RelativeLayout
+                    android:id="@+id/rl_personal_message_sex_m"
+                    android:layout_width="match_parent"
+                    android:layout_height="45dp"
+                    android:layout_marginLeft="16dp"
+                    android:layout_marginRight="16dp" >
+
+                    <TextView
+                        android:id="@+id/tv_personal_message_sex_m"
+                        android:layout_width="wrap_content"
+                        android:layout_height="match_parent"
+                        android:gravity="center_vertical"
+                        android:text="@string/personel_sex_f"
+                        android:textColor="@color/set_item"
+                        android:textSize="15sp" />
+
+                    <ImageView
+                        android:id="@+id/iv_personal_message_sex_m"
+                        android:layout_width="20dp"
+                        android:layout_height="20dp"
+                        android:layout_alignParentRight="true"
+                        android:layout_centerVertical="true"
+                        android:background="@drawable/address_true" />
+                </RelativeLayout>
+
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="0.1dp"
+                    android:background="@color/default_line_color" />
+
+                <RelativeLayout
+                    android:id="@+id/rl_personal_message_sex_f"
+                    android:layout_width="match_parent"
+                    android:layout_height="45dp"
+                    android:layout_marginLeft="16dp"
+                    android:layout_marginRight="16dp" >
+
+                    <TextView
+                        android:id="@+id/tv_personal_message_sex_f"
+                        android:layout_width="wrap_content"
+                        android:layout_height="match_parent"
+                        android:gravity="center_vertical"
+                        android:text="@string/personel_sex_m"
+                        android:textColor="@color/set_item"
+                        android:textSize="15sp" />
+
+                    <ImageView
+                        android:id="@+id/iv_personal_message_sex_f"
+                        android:layout_width="20dp"
+                        android:layout_height="20dp"
+                        android:layout_alignParentRight="true"
+                        android:layout_centerVertical="true"
+                        android:background="@drawable/address_true" />
+                </RelativeLayout>
+            </LinearLayout>
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="0.1dp"
+                android:background="@color/default_line_color" />
+        </LinearLayout>
+    </com.smart.library.view.MyScrollView>
+
+</LinearLayout>

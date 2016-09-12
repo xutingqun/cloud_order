@@ -1,0 +1,58 @@
+package com.xmsmart.xiuba.upimage;
+
+
+/**
+ * Í¼Æ¬ÊµÌå
+ * Created by Nereo on 2015/4/7.
+ */
+public class Image {
+    public String path;
+    public String name;
+    public long time;
+    String pathFirst;
+    String pathScend;
+    String path_byte;
+
+    public String getPath_byte() {
+		return path_byte;
+	}
+
+	public void setPath_byte(String path_byte) {
+		this.path_byte = path_byte;
+	}
+
+	public String getPathFirst() {
+		return pathFirst;
+	}
+
+	public void setPathFirst(String pathFirst) {
+		this.pathFirst = pathFirst;
+	}
+
+	public String getPathScend() {
+		return pathScend;
+	}
+
+	public void setPathScend(String pathScend) {
+		this.pathScend = pathScend;
+	}
+public Image(){
+	
+}
+	public Image(String path, String name, long time){
+        this.path = path;
+        this.name = name;
+        this.time = time;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        try {
+            Image other = (Image) o;
+            return this.path.equalsIgnoreCase(other.path);
+        }catch (ClassCastException e){
+            e.printStackTrace();
+        }
+        return super.equals(o);
+    }
+}

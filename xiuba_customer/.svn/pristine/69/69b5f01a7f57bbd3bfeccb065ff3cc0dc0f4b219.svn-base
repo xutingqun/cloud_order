@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <color name="shallow_gray">#e3e3e3</color>
+    <color name="transler">#00000000</color>
+    <color name="window_bg">#F7F7F7</color>
+    <color name="List_bg">#F4F4F4</color>
+    <color name="orange_text">#FEB570</color>
+    <color name="orange">#FF9D02</color>
+    <color name="white1">#FAFAFA</color>
+    <color name="white">#ffffff</color>
+    <color name="gray">#aeaeae</color>
+    <color name="blue">#8DB6CD</color>
+    <color name="dark_grey">#C5C5C5</color>
+    <color name="dark_grey1">#B5B5B5</color>
+    <color name="dark_grey2">#E4E4E4</color>
+    <color name="dark_grey3">#F8F8F8</color>
+    <color name="light_grey">#EFEFEF</color>
+    <color name="light_grey1">#FAFAFA</color>
+    <color name="main_text_color">#C3C3C3</color>
+    <color name="black">#000000</color>
+    <color name="mt_grey">#D3D3D3</color>
+    <color name="mt_grey_text">#B4B4B4</color>
+    <color name="mt_grey_line">#EBEBEB</color>
+    <color name="mt_grey_address">#B1B1B1</color>
+    <color name="mt_orange_jg">#FDE356</color>
+    <color name="mt_orange_send">#F3CF2C</color>
+    <color name="mt_black_text">#484C49</color>
+    <color name="mt_blue_bg">#B7E0ED</color>
+    <color name="mt_grey_bg">#DCDCDC</color>
+    <color name="item_back_press">#10000000</color>
+    <color name="defaultTextColor">#F1F1F1</color>
+    <color name="default_shape_line_color">#666</color>
+    <color name="default_line_color">#D7D7D7</color>
+    <color name="defalute_text_hint">#D8D8D8</color>
+    <color name="forget_paswword_phone">#A2A2A2</color>
+    <color name="forget_paswword_title">#FE9115</color>
+    <color name="personaml_name">#A7A7A7</color>
+    <color name="personaml_phone">#BAB9B9</color>
+    <color name="personaml_item">#A6A6A6</color>
+    <color name="set_item">#919191</color>
+    <color name="set_item_update">#FF9F03</color>
+    <color name="bar">#FF8017</color>
+    <color name="order_apply_main">#B8B8B8</color>
+    <color name="my_order_name_text">#666666</color>
+    <color name="my_order_name_no_select_text">#BCBCBC</color>
+    <color name="my_order_item_time">#B9B9B9</color>
+    <color name="my_order_item_model">#313131</color>
+    <color name="my_order_pay_text">#BDBCBC</color>
+    <color name="personal_icon_name">#050505</color>
+
+</resources>

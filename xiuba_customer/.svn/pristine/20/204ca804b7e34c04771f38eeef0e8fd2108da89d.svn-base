@@ -1,0 +1,224 @@
+package com.xmsmart.xiuba.ui.user;
+
+import java.util.ArrayList;
+import java.util.List;
+
+import com.xmsmart.xiuba.R;
+import com.xmsmart.xiuba.bean.RowModel;
+import com.xmsmart.xiuba.ui.BaseActivity;
+import com.xmsmart.xiuba.utils.TopUtil;
+import com.xmsmart.xiuba.view.OnActivityTouchListener;
+import com.xmsmart.xiuba.view.RecyclerTouchListener;
+import com.xmsmart.xiuba.view.RecyclerTouchListener.OnSwipeOptionsClickListener;
+import com.xmsmart.xiuba.view.RecyclerTouchListener.RecyclerTouchListenerHelper;
+
+import android.annotation.SuppressLint;
+import android.app.Activity;
+import android.content.Context;
+import android.content.Intent;
+import android.net.Uri;
+import android.os.Bundle;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
+import android.util.Log;
+import android.view.LayoutInflater;
+import android.view.MotionEvent;
+import android.view.View;
+import android.view.ViewGroup;
+import android.widget.ImageView;
+import android.widget.TextView;
+
+/**
+ *  消息中心 
+ * Created by qjh on 14/8/18.
+ */
+@SuppressLint("ResourceAsColor")
+public class MessageCenterActivity extends BaseActivity implements
+RecyclerTouchListener.RecyclerTouchListenerHelper{
+	private OnActivityTouchListener touchListener;
+	private RecyclerTouchListener onTouchListener;
+//	private ImageView image_empty;
+	RecyclerView mRecyclerView;
+	
+	 MainAdapter mAdapter;
+	 private boolean flag;//取消 ，编辑
+	private List<RowModel> list;
+	 
+	
+	@Override
+	protected void onCreate(Bundle savedInstanceState) {
+		super.onCreate(savedInstanceState);
+		setBarColor(R.color.orange);
+		setContentView(R.layout.ac_messagecenter);
+		
+		initTopView();
+		
+		mRecyclerView = (RecyclerView) findViewById(R.id.recyclerView);
+//		image_empty = (ImageView) findViewById(R.id.image_birthday_empty);
+		  mAdapter = new MainAdapter(this, getData());
+	        mRecyclerView.setAdapter(mAdapter);
+	        
+		mRecyclerView.setLayoutManager(new LinearLayoutManager(this));
+
+		onTouchListener = new RecyclerTouchListener(this, mRecyclerView);
+		onTouchListener
+//				.setIndependentViews(R.id.rowButto, R.id.rowButtontwo)
+//				.setViewsToFade(R.id.rowButto, R.id.rowButtontwo)
+//				.setClickable(new RecyclerTouchListener.OnRowClickListener() {
+//					@Override
+//					public void onRowClicked(int position) {
+//						// item 点击 短信联系
+//						Log.e("result", "result---"+position);
+//					}
+//
+//					@Override
+//					public void onIndependentViewClicked(int independentViewID,
+//							int position) {
+//
+//						switch (independentViewID) {
+//						
+//						case R.id.rowButtontwo:// 短信联系
+//
+//							Log.e("rowButtontwo", "result---"+position);
+//							
+//							break;
+//
+//						case R.id.rowButto:// 电话联系
+//							
+//							Log.e("rowButto", "result---"+position);
+//
+//							break;
+//						default:
+//							break;
+//						}
+//
+//					}
+//				})
+				.setSwipeOptionViews(R.id.add, R.id.edit, R.id.change)
+				.setSwipeable(
+						R.id.rowFG,
+						R.id.rowBG,
+						new RecyclerTouchListener.OnSwipeOptionsClickListener() {
+							@Override
+							public void onSwipeOptionClicked(int viewID,
+									int position) {
+								
+								// 侧滑 删除
+							
+
+							}
+						});
+
+		mRecyclerView.addOnItemTouchListener(onTouchListener);
+		
+		
+		
+		
+	}
+
+	/**
+	 * 设置头部标题栏
+	 */
+	private void initTopView() {
+	
+		TopUtil.setTopBackground(this, R.color.orange);
+		TopUtil.setViewVisiable(this, 1, 0, 0, 1, 0, 1);
+		TopUtil.setCenterText(this, "消息");
+//		TopUtil.setRightText(this, "编辑");
+		TopUtil.setLeftImage(this, R.drawable.iv_title_back);
+		TopUtil.setViewOnClick(this);
+
+	}
+	
+	@Override
+	public void setOnActivityTouchListener(OnActivityTouchListener listener) {
+		this.touchListener = listener;
+	}
+
+	@Override
+	public boolean dispatchTouchEvent(MotionEvent ev) {
+		if (touchListener != null)
+			touchListener.getTouchCoordinates(ev);
+		return super.dispatchTouchEvent(ev);
+	}
+	@Override
+	protected void onDestroy() {
+		super.onDestroy();
+		mRecyclerView.removeOnItemTouchListener(onTouchListener);
+	}
+	
+	@Override
+	public void onClick(View v) {
+		
+		switch (v.getId()) {
+		case R.id.ll_titlev_more:
+		
+			if(!flag){
+//				TopUtil.setRightText(this, "取消");
+				flag=true;
+			}else {
+//				TopUtil.setRightText(this, "编辑");
+				flag=false;
+			}
+			break;
+		case R.id.ll_titlev_back:	
+			finish();
+			break;
+
+		default:
+			break;
+		}
+		
+		
+	}
+	
+	 private List<RowModel> getData() {
+	        list = new ArrayList<RowModel>(5);
+	        for (int i = 0; i < 5; i++) {
+	            list.add(new RowModel("修咻活动" + (i + 1), "您的优惠券两天后过期"));
+	        }
+	        return list;
+	    }
+	
+	 private class MainAdapter extends RecyclerView.Adapter<MainAdapter.MainViewHolder> {
+	        LayoutInflater inflater;
+	        List<RowModel> modelList;
+
+	        public MainAdapter(Context context, List<RowModel> list) {
+	            inflater = LayoutInflater.from(context);
+	            modelList = new ArrayList<RowModel>(list);
+	        }
+
+	        @Override
+	        public MainViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+	            View view = inflater.inflate(R.layout.recycler_row, parent, false);
+	            return new MainViewHolder(view);
+	        }
+
+	        @Override
+	        public void onBindViewHolder(MainViewHolder holder, int position) {
+	            holder.bindData(modelList.get(position));
+	        }
+
+	        @Override
+	        public int getItemCount() {
+	            return modelList.size();
+	        }
+
+	        class MainViewHolder extends RecyclerView.ViewHolder {
+
+	            TextView mainText, subText;
+
+	            public MainViewHolder(View itemView) {
+	                super(itemView);
+	                mainText = (TextView) itemView.findViewById(R.id.mainText);
+	                subText = (TextView) itemView.findViewById(R.id.subText);
+	            }
+
+	            public void bindData(RowModel rowModel) {
+	                mainText.setText(rowModel.getMainText());
+	                subText.setText(rowModel.getSubText());
+	            }
+	        }
+	    }
+}

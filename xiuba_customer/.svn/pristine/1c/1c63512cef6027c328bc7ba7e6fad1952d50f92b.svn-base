@@ -1,0 +1,118 @@
+package com.xmsmart.xiuba.ui.user;
+
+import android.annotation.SuppressLint;
+import android.content.Intent;
+
+import android.os.Bundle;
+import android.view.View;
+import android.widget.EditText;
+import android.widget.ImageView;
+import android.widget.LinearLayout;
+import android.widget.RelativeLayout;
+import android.widget.TextView;
+
+import com.xmsmart.xiuba.R;
+import com.xmsmart.xiuba.ui.BaseActivity;
+import com.xmsmart.xiuba.utils.TopUtil;
+
+/**
+ * @author xutingqun
+ */
+@SuppressLint("ResourceAsColor")
+public class EditPersonalMessageActivity extends BaseActivity {
+	EditText editName;
+	LinearLayout llSex, rlTitleRight;
+	RelativeLayout rlSexM, rlSexF;
+	ImageView ivMan, ivFman;
+	TextView tvMan, tvFman;
+	String editData="";
+	boolean isEditName;
+	String name;
+
+	@Override
+	protected void onCreate(Bundle savedInstanceState) {
+		// TODO Auto-generated method stub
+		super.onCreate(savedInstanceState);
+		setContentView(R.layout.act_personnal_edit_message);
+		TopUtil.setTopBackground(this, R.color.white);
+		TopUtil.setCenterText(this, "个人资料修改");
+		TopUtil.setCenterTextColor(this, R.color.black);
+		TopUtil.setRightTextColor(this, R.color.black);
+		TopUtil.setLeftImage(this, R.drawable.iv_white_bg_title_back);
+		TopUtil.setViewVisiable(this, 1, 0, 0, 1, 0, 1);
+		initView();
+	}
+
+	private void initView() {
+		isEditName = getIntent().getExtras().getBoolean("isEditName");
+		name = getIntent().getExtras().getString("name");
+		rlTitleRight = (LinearLayout) findViewById(R.id.ll_titlev_more);
+		rlTitleRight.setOnClickListener(this);
+		editName = (EditText) findViewById(R.id.edit_personal_message_name);
+		llSex = (LinearLayout) findViewById(R.id.ll_personal_message_sex);
+		rlSexF = (RelativeLayout) findViewById(R.id.rl_personal_message_sex_f);
+		rlSexM = (RelativeLayout) findViewById(R.id.rl_personal_message_sex_m);
+		ivMan = (ImageView) findViewById(R.id.iv_personal_message_sex_m);
+		ivFman = (ImageView) findViewById(R.id.iv_personal_message_sex_f);
+		tvMan = (TextView) findViewById(R.id.tv_personal_message_sex_m);
+		tvFman = (TextView) findViewById(R.id.tv_personal_message_sex_f);
+
+		if (isEditName) {
+			editName.setVisibility(View.VISIBLE);
+			llSex.setVisibility(View.GONE);
+				editName.setText(name);
+		} else {
+			editName.setVisibility(View.GONE);
+			llSex.setVisibility(View.VISIBLE);
+			if (name.equals("女")) {
+				ivFman.setVisibility(View.VISIBLE);
+				ivMan.setVisibility(View.GONE);
+
+			} else {
+				ivFman.setVisibility(View.GONE);
+				ivMan.setVisibility(View.VISIBLE);
+			}
+		}
+
+		rlSexF.setOnClickListener(this);
+		rlSexM.setOnClickListener(this);
+	}
+
+	@Override
+	public void onClick(View v) {
+		super.onClick(v);
+		switch (v.getId()) {
+		case R.id.rl_personal_message_sex_f:
+			ivFman.setVisibility(View.VISIBLE);
+			ivMan.setVisibility(View.GONE);
+			editData = "女";
+
+			break;
+		case R.id.rl_personal_message_sex_m:
+			ivFman.setVisibility(View.GONE);
+			ivMan.setVisibility(View.VISIBLE);
+			editData = "男";
+
+			break;
+		case R.id.ll_titlev_more:
+			if (isEditName) {
+				editData = editName.getText().toString();
+			}else{
+				if(editData.equals("")){
+					editData = "男";
+				}
+			}
+			Intent intent = new Intent();
+			intent.putExtra("editData", editData);
+
+			setResult(1019, intent);
+			finish();
+			break;
+
+		default:
+			break;
+		}
+
+	}
+
+}

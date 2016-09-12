@@ -1,0 +1,192 @@
+package com.xmsmart.xiuba.ui.user;
+
+import android.annotation.SuppressLint;
+import android.os.Bundle;
+import android.util.Log;
+import android.view.View;
+import android.view.View.OnLayoutChangeListener;
+import android.widget.EditText;
+import android.widget.LinearLayout;
+import android.widget.TextView;
+
+import com.google.gson.Gson;
+import com.smart.library.util.IntentUtil;
+import com.smart.library.util.ToastUtil;
+import com.smart.library.encrypt.MD5;
+import com.smart.library.okhttp.OkHttpClientManager;
+import com.squareup.okhttp.Request;
+import com.xmsmart.xiuba.R;
+import com.xmsmart.xiuba.api.BaseAPI;
+import com.xmsmart.xiuba.api.UserAPI;
+import com.xmsmart.xiuba.bean.LoginBean;
+import com.xmsmart.xiuba.bean.LoginDataBean;
+import com.xmsmart.xiuba.db.DataStorage;
+import com.xmsmart.xiuba.ui.BaseActivity;
+import com.xmsmart.xiuba.ui.main.MainActivity;
+import com.xmsmart.xiuba.ui.order.OrderApplyActivity;
+import com.xmsmart.xiuba.utils.DialogUtil;
+
+/**
+ * @author xutingqun
+ */
+@SuppressLint({ "ResourceAsColor", "NewApi" })
+public class LoginActivity extends BaseActivity implements
+		OnLayoutChangeListener {
+	private EditText editAccount, editPassword;
+	private LinearLayout llSubmit, llGoReg, llMain;
+	private TextView tvForgetPw;
+	LoginDataBean loginDataBean;
+
+	@Override
+	protected void onCreate(Bundle savedInstanceState) {
+		super.onCreate(savedInstanceState);
+		setBarColor(R.color.bar);
+		setContentView(R.layout.ac_login);
+		initView();
+	}
+
+	private void initView() {
+		loginDataBean = DataStorage.getLoginData(this);
+		editAccount = (EditText) findViewById(R.id.edit_login_account);
+		editPassword = (EditText) findViewById(R.id.edit_login_password);
+		llSubmit = (LinearLayout) findViewById(R.id.ll_login_btn);
+		llGoReg = (LinearLayout) findViewById(R.id.ll_login_go_reg);
+		tvForgetPw = (TextView) findViewById(R.id.tv_login_forget_password);
+		llMain = (LinearLayout) findViewById(R.id.ll_login_main);
+
+		if (loginDataBean != null) {
+			editAccount.setText(loginDataBean.getPhoneNum());
+		}
+		llSubmit.setOnClickListener(this);
+		llGoReg.setOnClickListener(this);
+		tvForgetPw.setOnClickListener(this);
+
+		// 获取屏幕高度
+		screenHeight = this.getWindowManager().getDefaultDisplay().getHeight();
+		// 阀值设置为屏幕高度的1/3
+		keyHeight = screenHeight / 3;
+		llMain.addOnLayoutChangeListener(this);
+	}
+
+	String phone = "";
+
+	@Override
+	public void onClick(View v) {
+		super.onClick(v);
+		switch (v.getId()) {
+		case R.id.ll_login_btn:
+			if (editAccount.getText().toString().equals("")
+					|| editPassword.getText().toString().equals("")) {
+				ToastUtil.showToast(this, R.string.toast_content_no_complete);
+			} else {
+				DialogUtil.showRoundProcessDialog(this, "正在登录...");
+				login();
+			}
+			break;
+		case R.id.ll_login_go_reg:
+			IntentUtil.mStartActivity(LoginActivity.this,
+					RegisterActivity.class);
+
+			break;
+		case R.id.tv_login_forget_password:
+			LoginDataBean loginBean = DataStorage.getLoginData(this);
+			if (!editAccount.getText().toString().equals("")) {
+				phone = editAccount.getText().toString();
+			} else if (loginBean != null) {
+				phone = loginBean.getPhoneNum();
+			} else {
+				phone = "";
+			}
+			Bundle bundle = new Bundle();
+			bundle.putString("phone", phone);
+			IntentUtil.mStartActivityWithBundle(LoginActivity.this,
+					ForgetActivity.class, bundle);
+
+			break;
+		default:
+			break;
+		}
+
+	}
+
+	LoginDataBean loginBean;
+
+	public void login() {
+		OkHttpClientManager
+				.postAsyn(
+						UserAPI.LoginUrl(),
+						new OkHttpClientManager.ResultCallback<LoginBean>() {
+
+							@Override
+							public void onResponse(LoginBean result) {
+								Log.e("result", result + "");
+								DialogUtil.closeRoundProcessDialog();
+								if (result.getSuccess().equals("true")) {
+									ToastUtil.showToast(LoginActivity.this,
+											R.string.toast_login_success);
+									loginBean = result.getData();
+									Gson gson = new Gson();
+									String jsonStr = gson.toJson(loginBean);
+									DataStorage.setData(LoginActivity.this,
+											"loginData", jsonStr);// 存储登录信息
+									DataStorage.setData(LoginActivity.this,
+											"isLogin", "1");// 设置为已登录
+									IntentUtil.mStartActivity(
+											LoginActivity.this,
+											MainActivity.class);
+								} else {
+									ToastUtil.showToast(LoginActivity.this,
+											result.getMessage());
+								}
+
+							}
+
+							@Override
+							public void onError(Request request, Exception e) {
+								DialogUtil.closeRoundProcessDialog();
+								Log.e("result", e + "");
+								ToastUtil.showToast(LoginActivity.this, e + "");
+							}
+						},
+						new OkHttpClientManager.Param[] {
+								new OkHttpClientManager.Param("phoneNum",
+										editAccount.getText().toString()),
+								new OkHttpClientManager.Param("password", MD5
+										.md5(editPassword.getText().toString())),
+								new OkHttpClientManager.Param("registrationId",
+										DataStorage.getData(this, "regId")),
+								new OkHttpClientManager.Param("diviceType",
+										"Android") });
+
+	}
+
+	// 屏幕高度
+	private int screenHeight = 0;
+	// 软件盘弹起后所占高度阀值
+	private int keyHeight = 0;
+
+	@Override
+	public void onLayoutChange(View v, int left, int top, int right,
+			int bottom, int oldLeft, int oldTop, int oldRight, int oldBottom) {
+		// 现在认为只要控件将Activity向上推的高度超过了1/3屏幕高，就认为软键盘弹起
+		if (oldBottom != 0 && bottom != 0 && (oldBottom - bottom > keyHeight)) {
+			Log.e("弹起", "弹起");
+			setVisibility(true);
+		} else if (oldBottom != 0 && bottom != 0
+				&& (bottom - oldBottom > keyHeight)) {
+			Log.e("关闭", "关闭");
+			setVisibility(false);
+		}
+
+	}
+
+	public void setVisibility(boolean isOpen) {
+		if (isOpen) {
+			llGoReg.setVisibility(View.INVISIBLE);
+		} else {
+			llGoReg.setVisibility(View.VISIBLE);
+		}
+
+	}
+
+}

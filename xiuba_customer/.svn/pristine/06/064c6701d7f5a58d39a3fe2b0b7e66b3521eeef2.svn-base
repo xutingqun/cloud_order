@@ -1,0 +1,75 @@
+package com.xmsmart.xiuba.bean;
+
+import java.util.List;
+
+public class BannerModel {
+	private List<Data> data ;
+
+	private boolean success;
+
+	public void setData(List<Data> data){
+	this.data = data;
+	}
+	public List<Data> getData(){
+	return this.data;
+	}
+	public void setSuccess(boolean success){
+	this.success = success;
+	}
+	public boolean getSuccess(){
+	return this.success;
+	}
+	
+	public class Data {
+		private String adName;
+
+		private String code;
+
+		private int id;
+
+		private String image;
+
+		private String imagePath;
+
+		private String redirect;
+
+		public void setAdName(String adName){
+		this.adName = adName;
+		}
+		public String getAdName(){
+		return this.adName;
+		}
+		public void setCode(String code){
+		this.code = code;
+		}
+		public String getCode(){
+		return this.code;
+		}
+		public void setId(int id){
+		this.id = id;
+		}
+		public int getId(){
+		return this.id;
+		}
+		public void setImage(String image){
+		this.image = image;
+		}
+		public String getImage(){
+		return this.image;
+		}
+		public void setImagePath(String imagePath){
+		this.imagePath = imagePath;
+		}
+		public String getImagePath(){
+		return this.imagePath;
+		}
+		public void setRedirect(String redirect){
+		this.redirect = redirect;
+		}
+		public String getRedirect(){
+		return this.redirect;
+		}
+
+		}
+	
+}

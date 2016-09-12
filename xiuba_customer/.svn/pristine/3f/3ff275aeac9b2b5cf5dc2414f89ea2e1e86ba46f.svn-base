@@ -1,0 +1,142 @@
+package com.xmsmart.xiuba.ui.order;
+
+import java.util.ArrayList;
+
+import android.annotation.SuppressLint;
+import android.graphics.Color;
+import android.os.Bundle;
+import android.support.v4.app.Fragment;
+import android.view.View;
+import android.widget.RelativeLayout;
+import android.widget.TextView;
+
+import com.smart.library.view.MyViewPager;
+import com.xmsmart.xiuba.R;
+import com.xmsmart.xiuba.adapter.FragmentVPAdapter;
+import com.xmsmart.xiuba.api.OrderAPI;
+import com.xmsmart.xiuba.ui.BaseActivity;
+import com.xmsmart.xiuba.utils.TopUtil;
+
+@SuppressLint("ResourceAsColor")
+public class MyOrderActivity extends BaseActivity {
+
+	private MyOrderFragment completedPage, ongoingPage, allPage;
+	private TextView tvCompleted, tvOngoing, tvAll;
+	private View vComplete, vOnging, vAll;
+
+	private ArrayList<Fragment> mFragments = null;
+	private FragmentVPAdapter mMyFragmentPagerAdapter = null;
+	public static  MyViewPager mViewPager;
+
+	@Override
+	protected void onCreate(Bundle savedInstanceState) {
+		// TODO Auto-generated method stub
+		super.onCreate(savedInstanceState);
+		setContentView(R.layout.ac_my_order);
+		TopUtil.setTopBackground(this, R.color.white);
+		TopUtil.setCenterImageMax(this, R.drawable.iv_my_order_title);
+		TopUtil.setLeftImage(this, R.drawable.iv_white_bg_title_back);
+		TopUtil.setViewVisiable(this, 1, 0, 0, 0, 0, 0);
+		initView();
+	}
+
+	private void initView() {
+		mViewPager = (MyViewPager) findViewById(R.id.mvp_my_order_page);
+		tvAll = (TextView) findViewById(R.id.tv_my_order_all);
+		tvCompleted = (TextView) findViewById(R.id.tv_my_order_complete);
+		tvOngoing = (TextView) findViewById(R.id.tv_my_order_ongoing);
+		vOnging = findViewById(R.id.v_my_order_ongoing);
+		vComplete = findViewById(R.id.v_my_order_complete);
+		vAll = findViewById(R.id.v_my_order_all);
+		vComplete.setVisibility(View.INVISIBLE);
+		vAll.setVisibility(View.INVISIBLE);
+
+		tvAll.setOnClickListener(this);
+		tvCompleted.setOnClickListener(this);
+		tvOngoing.setOnClickListener(this);
+
+		completedPage = new MyOrderFragment("1", "0", MyOrderActivity.this);
+		ongoingPage = new MyOrderFragment("2", "1", MyOrderActivity.this);
+		allPage = new MyOrderFragment("3", "", MyOrderActivity.this);
+
+		mFragments = new ArrayList<Fragment>();
+
+		mFragments.add(completedPage);
+		mFragments.add(ongoingPage);
+		mFragments.add(allPage);
+		mMyFragmentPagerAdapter = new FragmentVPAdapter(
+				getSupportFragmentManager(), mFragments);
+		mViewPager.setAdapter(mMyFragmentPagerAdapter);
+		mViewPager.setOffscreenPageLimit(2);
+		mViewPager.setOnPageChangeListener(this);
+		mViewPager.setNoScroll(false);
+	}
+
+	@Override
+	public void onPageSelected(int pageNum) {
+		if (pageNum == 0) {
+			setPageColor(1, 0, 0);
+		} else if (pageNum == 1) {
+			setPageColor(0, 1, 0);
+		} else if (pageNum == 2) {
+			setPageColor(0, 0, 1);
+		}
+
+	}
+
+	@Override
+	public void onClick(View v) {
+		// TODO Auto-generated method stub
+		switch (v.getId()) {
+		case R.id.tv_my_order_ongoing:
+			setPageColor(1, 0, 0);
+			mViewPager.setCurrentItem(0);
+			break;
+		case R.id.tv_my_order_complete:
+			setPageColor(0, 1, 0);
+			mViewPager.setCurrentItem(1);
+			break;
+		case R.id.tv_my_order_all:
+			setPageColor(0, 0, 1);
+			mViewPager.setCurrentItem(2);
+			break;
+		default:
+			break;
+		}
+	}
+
+	private void setPageColor(int first, int second, int three) {
+
+		if (first == 1) {
+			vOnging.setVisibility(View.VISIBLE);
+			vComplete.setVisibility(View.INVISIBLE);
+			vAll.setVisibility(View.INVISIBLE);
+			tvOngoing.setTextColor(getResources().getColor(
+					R.color.my_order_name_text));
+			tvCompleted.setTextColor(getResources().getColor(
+					R.color.my_order_name_no_select_text));
+			tvAll.setTextColor(getResources().getColor(
+					R.color.my_order_name_no_select_text));
+		} else if (second == 1) {
+			vOnging.setVisibility(View.INVISIBLE);
+			vComplete.setVisibility(View.VISIBLE);
+			vAll.setVisibility(View.INVISIBLE);
+			tvOngoing.setTextColor(getResources().getColor(
+					R.color.my_order_name_no_select_text));
+			tvCompleted.setTextColor(getResources().getColor(
+					R.color.my_order_name_text));
+			tvAll.setTextColor(getResources().getColor(
+					R.color.my_order_name_no_select_text));
+		} else if (three == 1) {
+			vOnging.setVisibility(View.INVISIBLE);
+			vComplete.setVisibility(View.INVISIBLE);
+			vAll.setVisibility(View.VISIBLE);
+			tvOngoing.setTextColor(getResources().getColor(
+					R.color.my_order_name_no_select_text));
+			tvCompleted.setTextColor(getResources().getColor(
+					R.color.my_order_name_no_select_text));
+			tvAll.setTextColor(getResources().getColor(
+					R.color.my_order_name_text));
+		}
+	}
+}

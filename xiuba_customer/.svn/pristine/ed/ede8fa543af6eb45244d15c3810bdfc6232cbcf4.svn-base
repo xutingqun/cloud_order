@@ -1,0 +1,572 @@
+package com.xmsmart.xiuba.ui.order;
+
+import java.io.File;
+import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
+
+import android.annotation.SuppressLint;
+import android.app.LocalActivityManager;
+import android.content.Intent;
+import android.media.MediaPlayer;
+import android.os.Bundle;
+import android.util.Log;
+import android.view.LayoutInflater;
+import android.view.View;
+import android.widget.EditText;
+import android.widget.FrameLayout;
+import android.widget.ImageView;
+import android.widget.RelativeLayout;
+import android.widget.TextView;
+
+import com.smart.library.okhttp.OkHttpClientManager;
+import com.smart.library.util.IntentUtil;
+import com.smart.library.util.KeyboardUtil;
+import com.smart.library.util.TimeUtils;
+import com.smart.library.util.ToastUtil;
+import com.squareup.okhttp.Request;
+import com.xmsmart.xiuba.R;
+import com.xmsmart.xiuba.api.OrderAPI;
+import com.xmsmart.xiuba.bean.ApplyOrderBean;
+import com.xmsmart.xiuba.bean.LoginDataBean;
+import com.xmsmart.xiuba.bean.MapModel;
+import com.xmsmart.xiuba.bean.MyAddressBean.MyAddressDataBean;
+import com.xmsmart.xiuba.bean.OrderEnginerBean;
+import com.xmsmart.xiuba.bean.OrderEnginerBean.OrderEnginerDataBean;
+import com.xmsmart.xiuba.constant.Constant;
+import com.xmsmart.xiuba.db.DataStorage;
+import com.xmsmart.xiuba.db.SqliteHelper;
+import com.xmsmart.xiuba.ui.BaseActivity;
+import com.xmsmart.xiuba.ui.settings.AddAddressActivity;
+import com.xmsmart.xiuba.ui.settings.AddressActivity;
+import com.xmsmart.xiuba.ui.settings.WebViewActivity;
+import com.xmsmart.xiuba.utils.DialogUtil;
+import com.xmsmart.xiuba.utils.LocationManager;
+import com.xmsmart.xiuba.utils.LocationManager.MyLocationListener;
+import com.xmsmart.xiuba.utils.TopUtil;
+import com.xmsmart.xiuba.view.recorder.AudioRecordButton;
+import com.xmsmart.xiuba.view.recorder.AudioRecordButton.AudioFinishRecorderListener;
+import com.xmsmart.xiuba.view.recorder.MediaManager;
+import com.xmsmart.xiuba.view.time.selector.NoSecondTime;
+
+/**
+ * @author xutingqun
+ */
+public class OrderApplyActivity extends BaseActivity {
+
+	RelativeLayout rlBrand, rlModel, rlEnginer, rlContact, rlContactName,
+			rlAddress, rlHelpApply, rlTime;
+	TextView tvSubmit, tvAddress, tvTime, tvRecorderPlay, tvName, tvPhone;
+	public static TextView tvBrand, tvModel, tvEnginer, tvIsSoft, tvIsHardware,
+			tvAddressHint, tvSex;
+	EditText editPhone, editPhoneName, editPromble;
+	FrameLayout ivRecorderPlay;
+	ImageView ivHelpApply, ivIsEnginer;
+	String isHelp = "0";// 是否帮报修，0不是，1是
+	String isEnginer = "1";// 是否推荐工程师，0不是，1是
+	String questionType = "SOFT";// SOFT软件，HARD 硬件
+	String businessId, phone, name;
+	String path;
+	File file;
+	LoginDataBean loginDataBean;
+	MapModel nowAddress = new MapModel();
+	AudioRecordButton ivRecorder;
+	public static String isBrand = "0";
+	NoSecondTime mPopwindow;
+	String enginerId;
+	private LayoutInflater inflater = null;
+	SqliteHelper db;
+	List<MyAddressDataBean> myAddressDataDefalute = new ArrayList<MyAddressDataBean>();
+
+	@SuppressLint("ResourceAsColor")
+	@Override
+	protected void onCreate(Bundle savedInstanceState) {
+		super.onCreate(savedInstanceState);
+		setContentView(R.layout.ac_order_apply);
+		TopUtil.setTopBackground(this, R.color.white);
+		TopUtil.setCenterImage(this, R.drawable.iv_white_bg_title_main);
+		TopUtil.setLeftImage(this, R.drawable.iv_white_bg_title_back);
+		TopUtil.setViewVisiable(this, 1, 0, 1, 0, 0, 0);
+		initView();
+	}
+
+	public void initView() {
+		db = new SqliteHelper(this, "address.db", null, 1);
+		myAddressDataDefalute = db.queryAllAddress();
+		loginDataBean = DataStorage.getLoginData(this);
+		businessId = getIntent().getExtras().getString("businessId");
+		isHelp = "0";
+		questionType = "SOFT";
+		isEnginer = "1";
+		inflater = (LayoutInflater) getSystemService(LAYOUT_INFLATER_SERVICE);
+		tvIsHardware = (TextView) findViewById(R.id.tv_order_apply_promble_is_hard);
+		tvIsSoft = (TextView) findViewById(R.id.tv_order_apply_promble_is_soft);
+		editPromble = (EditText) findViewById(R.id.edit_order_apply_promber);
+		ivRecorderPlay = (FrameLayout) findViewById(R.id.fl_order_apply_audit_play);
+		ivRecorderPlay.setVisibility(View.GONE);
+		ivRecorder = (AudioRecordButton) findViewById(R.id.iv_order_apply_audit);
+		tvRecorderPlay = (TextView) findViewById(R.id.tv_order_apply_audit_play);
+		tvRecorderPlay.setVisibility(View.VISIBLE);
+		tvEnginer = (TextView) findViewById(R.id.tv_order_apply_enginer);
+		ivIsEnginer = (ImageView) findViewById(R.id.iv_order_apply_is_enginer);
+		rlBrand = (RelativeLayout) findViewById(R.id.rl_order_apply_brand);
+		rlModel = (RelativeLayout) findViewById(R.id.rl_order_apply_model);
+		rlEnginer = (RelativeLayout) findViewById(R.id.rl_order_apply_enginer);
+		rlContact = (RelativeLayout) findViewById(R.id.rl_order_apply_contact);
+		rlContact.setVisibility(View.GONE);
+		rlContactName = (RelativeLayout) findViewById(R.id.rl_order_apply_contact_name);
+		rlContactName.setVisibility(View.GONE);
+		rlAddress = (RelativeLayout) findViewById(R.id.rl_order_apply_address);
+		rlHelpApply = (RelativeLayout) findViewById(R.id.rl_order_apply_help_other);
+		tvSubmit = (TextView) findViewById(R.id.tv_order_apply_submit);
+		ivHelpApply = (ImageView) findViewById(R.id.iv_order_apply_is_help);
+		tvBrand = (TextView) findViewById(R.id.tv_order_apply_brand);
+		tvModel = (TextView) findViewById(R.id.tv_order_apply_model);
+		tvAddress = (TextView) findViewById(R.id.tv_order_apply_address);
+		editPhone = (EditText) findViewById(R.id.edit_order_apply_contact);
+		editPhoneName = (EditText) findViewById(R.id.edit_order_apply_contact_name);
+		rlTime = (RelativeLayout) findViewById(R.id.rl_order_apply_time);
+		tvTime = (TextView) findViewById(R.id.tv_order_apply_time);
+		tvName = (TextView) findViewById(R.id.tv_order_apply_contact_name);
+		tvPhone = (TextView) findViewById(R.id.tv_order_apply_contact_phone);
+		tvTime.setText(TimeUtils.getSystemTimeNoSecond());
+		tvAddressHint = (TextView) findViewById(R.id.tv_order_apply_address_hint);
+		tvSex = (TextView) findViewById(R.id.tv_order_apply_contact_sex);
+
+		if (myAddressDataDefalute.size() != 0) {
+			boolean isHasDefalute = false;
+			int defalutePosition = 0;
+			tvAddressHint.setVisibility(View.GONE);
+			for (int i = 0; i < myAddressDataDefalute.size(); i++) {
+				if (myAddressDataDefalute.get(i).getIsDefalute().equals("1")) {
+					isHasDefalute = true;
+					defalutePosition = i;
+				}
+			}
+			if (isHasDefalute) {
+				tvEnginer.setText("正在为你推荐工程师...");
+				getEnginer(myAddressDataDefalute.get(defalutePosition)
+						.getLatitude(),
+						myAddressDataDefalute.get(defalutePosition)
+								.getLongitude());
+				tvAddress.setText(myAddressDataDefalute.get(defalutePosition)
+						.getAddress());
+				tvName.setText(myAddressDataDefalute.get(defalutePosition)
+						.getContactPer());
+				if (myAddressDataDefalute.get(defalutePosition).getSex()
+						.equals("F")) {
+
+					tvSex.setText("女士");
+				} else {
+					tvSex.setText("先生");
+				}
+				tvPhone.setText(myAddressDataDefalute.get(defalutePosition)
+						.getPhone());
+				lontidute = myAddressDataDefalute.get(defalutePosition).getLongitude();
+				latidute = myAddressDataDefalute.get(defalutePosition).getLatitude();
+			} else {
+				tvEnginer.setText("正在为你推荐工程师...");
+				getEnginer(myAddressDataDefalute.get(0).getLatitude(),
+						myAddressDataDefalute.get(0).getLongitude());
+				tvAddress.setText(myAddressDataDefalute.get(0).getAddress());
+				tvPhone.setText(myAddressDataDefalute.get(0).getPhone());
+				tvName.setText(myAddressDataDefalute.get(defalutePosition)
+						.getContactPer());
+				if (myAddressDataDefalute.get(0).getSex().equals("F")) {
+					tvSex.setText("女士");
+				} else {
+					tvSex.setText("先生");
+				}
+				lontidute = myAddressDataDefalute.get(0).getLongitude();
+				latidute = myAddressDataDefalute.get(0).getLatitude();
+			}
+
+		} else {
+			tvAddressHint.setVisibility(View.VISIBLE);
+		}
+
+		tvIsHardware.setOnClickListener(this);
+		tvIsSoft.setOnClickListener(this);
+		ivIsEnginer.setOnClickListener(this);
+		ivRecorderPlay.setOnClickListener(this);
+		rlBrand.setOnClickListener(this);
+		rlModel.setOnClickListener(this);
+		rlAddress.setOnClickListener(this);
+		tvSubmit.setOnClickListener(this);
+		ivHelpApply.setOnClickListener(this);
+		rlTime.setOnClickListener(this);
+		/*
+		 * new LocationManager(this).location(new MyLocationListener() {
+		 * 
+		 * @Override public void onLocationFailure() { // TODO Auto-generated
+		 * method stub
+		 * 
+		 * }
+		 * 
+		 * @Override public void onLocation(MapModel zone) { nowAddress = zone;
+		 * tvAddress.setText(zone.getAddressDetails()); getEnginer(); } });
+		 */
+		// 录音完成监听
+		ivRecorder
+				.setAudioFinishRecorderListener(new AudioFinishRecorderListener() {
+
+					@Override
+					public void onFinished(float seconds, String filePath,
+							File cfile) {
+						tvRecorderPlay.setVisibility(View.GONE);
+						ivRecorderPlay.setVisibility(View.VISIBLE);
+						path = filePath;
+						file = cfile;
+					}
+				});
+
+	}
+
+	@Override
+	public void onClick(View v) {
+		super.onClick(v);
+		switch (v.getId()) {
+		case R.id.rl_order_apply_brand:// 选择品牌
+			isBrand = "0";
+			Bundle bundle2 = new Bundle();
+			bundle2.putString("url", Constant.H5_PATH
+					+ "list.php?businesstypeid=2");
+			bundle2.putString("title", "品牌");
+			IntentUtil.mStartActivityWithBundle(OrderApplyActivity.this,
+					WebViewActivity.class, bundle2);
+			break;
+		case R.id.rl_order_apply_model:// 选择型号
+			isBrand = "1";
+			if (tvBrand.getTag() == null) {
+				ToastUtil.showToast(OrderApplyActivity.this,
+						R.string.order_apply_plese_selcet);
+			} else {
+				Bundle bundle = new Bundle();
+				bundle.putString("url", Constant.H5_PATH + "list.php?brandid="
+						+ tvBrand.getTag());
+				bundle.putString("title", "型号");
+				IntentUtil.mStartActivityWithBundle(OrderApplyActivity.this,
+						WebViewActivity.class, bundle);
+			}
+			break;
+		case R.id.rl_order_apply_address:// 选择地址
+			Intent intent = new Intent();
+			Bundle bundle = new Bundle();
+			bundle.putBoolean("isSelect", true);
+			intent.putExtras(bundle);
+			intent.setClass(OrderApplyActivity.this, AddressActivity.class);
+			startActivityForResult(intent, 1019);
+			break;
+		case R.id.tv_order_apply_submit:// 提交报修信息
+			if (tvBrand.getTag() == null
+					|| editPromble.getText().toString().equals("")
+					|| tvAddress.getText().toString().equals("")) {
+				ToastUtil.showToast(OrderApplyActivity.this,
+						R.string.toast_content_no_complete);
+			} else {
+				if (isHelp.equals("1")
+						&& (editPhone.getText().toString().equals("") || editPhoneName
+								.getText().toString().equals(""))) {
+					ToastUtil.showToast(OrderApplyActivity.this,
+							R.string.toast_content_help_no_complete);
+
+				} else {
+					DialogUtil.showRoundProcessDialog(OrderApplyActivity.this,
+							"正在提交数据...");
+					if (enginerDataBeans == null
+							|| enginerDataBeans.size() == 0) {
+						enginerId = "";
+					} else {
+						enginerId = enginerDataBeans.get(0).getId();
+					}
+					if (file == null) {
+						submitNoFileData();
+					} else {
+						submitData();
+					}
+				}
+			}
+			break;
+		case R.id.iv_order_apply_is_help:// 是否帮报修
+			if (isHelp.equals("1")) {
+				ivHelpApply
+						.setBackgroundResource(R.drawable.iv_order_apply_bo_help);
+				rlContact.setVisibility(View.GONE);
+				rlContactName.setVisibility(View.GONE);
+				isHelp = "0";
+			} else {
+				ivHelpApply
+						.setBackgroundResource(R.drawable.iv_order_apply_help);
+				rlContact.setVisibility(View.VISIBLE);
+				rlContactName.setVisibility(View.VISIBLE);
+				isHelp = "1";
+			}
+			break;
+		case R.id.iv_order_apply_is_enginer:// 是否推荐工程师
+			if (isEnginer.equals("0")) {
+				ivIsEnginer
+						.setBackgroundResource(R.drawable.iv_order_apply_help);
+				tvEnginer.setText(enginerMessage);
+				isEnginer = "1";
+			} else {
+				ivIsEnginer
+						.setBackgroundResource(R.drawable.iv_order_apply_bo_help);
+				tvEnginer.setText("无");
+				isEnginer = "0";
+			}
+
+			break;
+		case R.id.tv_order_apply_promble_is_soft:// 问题为软件
+			tvIsSoft.setBackgroundResource(R.drawable.shape_line_orange_bg);
+			tvIsSoft.setTextColor(getResources().getColor(R.color.white));
+			tvIsHardware.setBackgroundResource(R.drawable.shape_white_line_bg);
+			tvIsHardware
+					.setTextColor(getResources().getColor(R.color.set_item));
+			questionType = "SOFT";
+			break;
+		case R.id.tv_order_apply_promble_is_hard:// 问题为硬件
+			tvIsSoft.setBackgroundResource(R.drawable.shape_white_line_bg);
+			tvIsSoft.setTextColor(getResources().getColor(R.color.set_item));
+			tvIsHardware.setBackgroundResource(R.drawable.shape_line_orange_bg);
+			tvIsHardware.setTextColor(getResources().getColor(R.color.white));
+			questionType = "HARD";
+			break;
+		case R.id.fl_order_apply_audit_play:
+			MediaManager.playSound(path, this,
+					new MediaPlayer.OnCompletionListener() {
+
+						@Override
+						public void onCompletion(MediaPlayer mp) {
+							/*
+							 * viewanim.setBackgroundResource(R.drawable.
+							 * iv_recoder_image);
+							 */
+
+						}
+
+					});
+			break;
+		case R.id.rl_order_apply_time:
+			KeyboardUtil.hideKeyboard(this);
+			mPopwindow = new NoSecondTime(inflater, this, tvTime);
+			if (mPopwindow != null)
+				mPopwindow.showPopwindow(mPopwindow.getDataPick());
+			break;
+		default:
+			break;
+		}
+	}
+
+	String enginerMessage = "";
+	List<OrderEnginerDataBean> enginerDataBeans = new ArrayList<OrderEnginerDataBean>();
+
+	public void getEnginer(String latidute, String longtidute) {
+		OkHttpClientManager
+				.postAsyn(
+						OrderAPI.getEnginerUrl(),
+						new OkHttpClientManager.ResultCallback<OrderEnginerBean>() {
+
+							@Override
+							public void onResponse(OrderEnginerBean result) {
+								if (result.getSuccess().equals("true")) {
+									enginerDataBeans = result.getData();
+									for (int i = 0; i < enginerDataBeans.size(); i++) {
+										if (i == 0) {
+											enginerMessage = result.getData()
+													.get(0).getRealName();
+										} else {
+											enginerMessage = enginerMessage
+													+ ","
+													+ result.getData().get(i)
+															.getRealName();
+										}
+									}
+									tvEnginer.setText(enginerMessage);
+								} else {
+									ToastUtil.showToast(
+											OrderApplyActivity.this,
+											result.getMessage());
+								}
+							}
+
+							@Override
+							public void onError(Request request, Exception e) {
+								DialogUtil.closeRoundProcessDialog();
+								ToastUtil.showToast(OrderApplyActivity.this, e
+										+ "");
+
+							}
+						},
+						new OkHttpClientManager.Param[] {
+								new OkHttpClientManager.Param("userId",
+										DataStorage.getLoginData(this).getId()),
+								new OkHttpClientManager.Param("businessId",
+										businessId),
+								new OkHttpClientManager.Param("latitude",
+										latidute),
+								new OkHttpClientManager.Param("longitude",
+										longtidute) });
+
+	}
+
+	// 立即报修数据提交,有语音文件
+	public void submitData() {
+		try {
+			OkHttpClientManager.postAsyn(
+					OrderAPI.addRepairUrl(),
+					new OkHttpClientManager.ResultCallback<ApplyOrderBean>() {
+
+						@Override
+						public void onResponse(ApplyOrderBean result) {
+							Log.e("result", result + "");
+							DialogUtil.closeRoundProcessDialog();
+							if (result.getSuccess().equals("true")) {
+								ToastUtil.showToast(OrderApplyActivity.this,
+										"订单提交成功");
+								finish();
+								IntentUtil.mStartActivity(
+										OrderApplyActivity.this,
+										MyOrderActivity.class);
+
+							} else {
+								ToastUtil.showToast(OrderApplyActivity.this,
+										result.getMessage());
+							}
+						}
+
+						@Override
+						public void onError(Request request, Exception e) {
+							DialogUtil.closeRoundProcessDialog();
+							ToastUtil
+									.showToast(OrderApplyActivity.this, e + "");
+
+						}
+					},
+					file,
+					"audio",
+					new OkHttpClientManager.Param[] {
+							new OkHttpClientManager.Param("userId",
+									loginDataBean.getId()),
+							new OkHttpClientManager.Param("businessId",
+									businessId),
+							new OkHttpClientManager.Param("brandId", tvBrand
+									.getTag() + ""),
+							new OkHttpClientManager.Param("modelId", tvModel
+									.getTag() + ""),
+							new OkHttpClientManager.Param("questionType",
+									questionType),
+							new OkHttpClientManager.Param("questionDesc",
+									editPromble.getText().toString()),
+							new OkHttpClientManager.Param("engineerId",
+									enginerId),
+							new OkHttpClientManager.Param("contactPer", tvName
+									.getText().toString()),
+							new OkHttpClientManager.Param("phoneNum", tvPhone
+									.getText().toString()),
+							new OkHttpClientManager.Param("adress", tvAddress
+									.getText().toString()),
+							new OkHttpClientManager.Param("latitude",
+									myAddressDataBean.getLatitude()),
+							new OkHttpClientManager.Param("longitude",
+									myAddressDataBean.getLongitude()),
+							new OkHttpClientManager.Param("serviceTime", tvTime
+									.getText().toString()) });
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+
+	}
+
+	// 立即报修数据提交,无语音文件
+	public void submitNoFileData() {
+
+		OkHttpClientManager
+				.postAsyn(
+						OrderAPI.addRepairUrl(),
+						new OkHttpClientManager.ResultCallback<ApplyOrderBean>() {
+
+							@Override
+							public void onResponse(ApplyOrderBean result) {
+								Log.e("result", result + "");
+								DialogUtil.closeRoundProcessDialog();
+								if (result.getSuccess().equals("true")) {
+									ToastUtil.showToast(
+											OrderApplyActivity.this, "订单提交成功");
+									finish();
+									IntentUtil.mStartActivity(
+											OrderApplyActivity.this,
+											MyOrderActivity.class);
+								} else {
+									ToastUtil.showToast(
+											OrderApplyActivity.this,
+											result.getMessage());
+								}
+							}
+
+							@Override
+							public void onError(Request request, Exception e) {
+								DialogUtil.closeRoundProcessDialog();
+								ToastUtil.showToast(OrderApplyActivity.this, e
+										+ "");
+
+							}
+						}, new OkHttpClientManager.Param[] {
+								new OkHttpClientManager.Param("userId",
+										loginDataBean.getId()),
+								new OkHttpClientManager.Param("businessId",
+										businessId),
+								new OkHttpClientManager.Param("brandId",
+										tvBrand.getTag() + ""),
+								new OkHttpClientManager.Param("modelId",
+										tvModel.getTag() + ""),
+								new OkHttpClientManager.Param("questionType",
+										questionType),
+								new OkHttpClientManager.Param("questionDesc",
+										editPromble.getText().toString()),
+								new OkHttpClientManager.Param("engineerId",
+										enginerId),
+								new OkHttpClientManager.Param("contactPer",
+										tvName.getText().toString()),
+								new OkHttpClientManager.Param("phoneNum",
+										tvPhone.getText().toString()),
+								new OkHttpClientManager.Param("adress",
+										tvAddress.getText().toString()),
+								new OkHttpClientManager.Param("latitude",
+										myAddressDataBean.getLatitude()),
+								new OkHttpClientManager.Param("longitude",
+										myAddressDataBean.getLongitude()),
+								new OkHttpClientManager.Param("serviceTime",
+										tvTime.getText().toString()) });
+	}
+
+	MyAddressDataBean myAddressDataBean;
+	String lontidute, latidute;
+
+	@Override
+	protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+		super.onActivityResult(requestCode, resultCode, data);
+		if (requestCode == 1019 && resultCode == 1020) {
+			if (data == null) {
+				tvAddressHint.setVisibility(View.VISIBLE);
+			} else {
+
+				tvAddressHint.setVisibility(View.GONE);
+				myAddressDataBean = (MyAddressDataBean) data.getExtras()
+						.getSerializable("myAddress");
+				tvEnginer.setText("正在为你推荐工程师...");
+				getEnginer(myAddressDataBean.getLatitude(),
+						myAddressDataBean.getLongitude());
+
+				lontidute = myAddressDataBean.getLongitude();
+				latidute = myAddressDataBean.getLatitude();
+				tvAddress.setText(myAddressDataBean.getAddress());
+				if (myAddressDataBean.getSex().equals("F")) {
+					tvSex.setText("女士");
+				} else {
+					tvSex.setText("先生");
+				}
+				tvPhone.setText(myAddressDataBean.getPhone());
+			}
+		}
+	}
+}

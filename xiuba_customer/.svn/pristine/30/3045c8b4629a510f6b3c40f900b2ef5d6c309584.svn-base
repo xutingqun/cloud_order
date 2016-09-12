@@ -1,0 +1,62 @@
+package com.xmsmart.xiuba.api;
+
+public class UserAPI {
+	/**
+	 * 注册接口
+	 * 
+	 * @param phoneNum
+	 *            电话号码
+	 * @param password
+	 *            密码
+	 * @param cropName
+	 *            企业名称（个人注册非必填） post
+	 * @return
+	 */
+	public static String RegUrl() {
+
+		return BaseAPI.URL + "/system/registe-user.htm";
+
+	}
+
+	/**
+	 * 登录接口
+	 * 
+	 * @param phoneNum电话号码
+	 * @param password
+	 *            密码
+	 * @param registrationId
+	 *            app在极光注册编号
+	 * @param diviceType
+	 *            登录的设备类型：(IOS;Android）
+	 * @return
+	 */
+	public static String LoginUrl() {
+
+		return BaseAPI.URL + "/login.htm";
+
+	}
+	/**
+	 * 设置新密码
+	 */
+	public static String setNewPwUrl() {
+
+		return BaseAPI.URL + "/system/edit-user-password.htm";
+
+	}
+	/**
+	 *修改个人信息
+	 */
+	public static String changePersonalUrl() {
+
+		return BaseAPI.URL + "/system/edit-user.htm";
+
+	}
+	/**
+	 *退出登录
+	 */
+	public static String loginOutUrl() {
+
+		return BaseAPI.URL + "//login-out.htm";
+
+	}
+}

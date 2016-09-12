@@ -1,0 +1,7 @@
+package com.xmsmart.xiuba.bean;
+
+public class ApplyOrderDataBean extends BaseBean {
+
+	
+	
+}

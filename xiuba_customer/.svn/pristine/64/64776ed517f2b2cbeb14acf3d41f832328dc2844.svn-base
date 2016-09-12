@@ -1,0 +1,115 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@drawable/iv_login_bg" >
+
+    <LinearLayout
+        android:id="@+id/ll_reg_main"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:focusable="true"
+        android:focusableInTouchMode="true"
+        android:orientation="vertical" >
+
+        <com.smart.library.view.MyScrollView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:scrollbars="none"
+            >
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:orientation="vertical" >
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="170dp"
+                    android:gravity="center" >
+
+                    <ImageView
+                        android:id="@+id/iv_reg_logo"
+                        android:layout_width="100dp"
+                        android:layout_height="100dp"
+                        android:background="@drawable/iv_reg_logo" />
+                </LinearLayout>
+
+                <LinearLayout
+                    android:id="@+id/aa"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical" >
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="horizontal" >
+
+                        <TextView
+                            android:id="@+id/tv_reg_personal"
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"
+                            android:gravity="center"
+                           
+                            android:text="@string/reg_type_person"
+                            android:textColor="@color/white" />
+
+                        <TextView
+                            android:id="@+id/tv_reg_company"
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"
+                            android:gravity="center"
+                            android:text="@string/reg_type_company"
+                            android:textColor="@color/white" />
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="10dp"
+                        android:orientation="horizontal" >
+
+                        <View
+                            android:id="@+id/v_reg_personal"
+                            android:layout_width="0dp"
+                            android:layout_height="0.3dp"
+                            android:layout_weight="1"
+                            android:background="@drawable/iv_reg_select" />
+
+                        <View
+                            android:id="@+id/v_reg_company"
+                            android:layout_width="0dp"
+                            android:layout_height="0.3dp"
+                            android:layout_weight="1"
+                            android:background="@drawable/iv_reg_no_select" />
+                    </LinearLayout>
+
+                    <com.smart.library.view.MyViewPager
+                        android:id="@+id/mvp_reg_page"
+                        android:layout_width="match_parent"
+                        android:layout_height="300dp" >
+                    </com.smart.library.view.MyViewPager>
+                </LinearLayout>
+            </LinearLayout>
+        </com.smart.library.view.MyScrollView>
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/ll_reg_go_login"
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:layout_alignParentBottom="true"
+        android:background="@color/orange"
+        android:gravity="center" >
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/reg_go_login"
+            android:textColor="@color/white" />
+    </LinearLayout>
+
+</RelativeLayout>

@@ -1,0 +1,29 @@
+package com.xmsmart.xiuba.ui.order;
+
+import com.smart.library.manager.AppManager;
+import com.xmsmart.xiuba.ui.settings.WebViewActivity;
+
+import android.content.Context;
+import android.support.v4.app.FragmentActivity;
+import android.webkit.JavascriptInterface;
+
+public class InitH5Data {
+
+	public InitH5Data(Context context, FragmentActivity mActivity) {
+
+	}
+
+	@JavascriptInterface
+	public void idAndName(String id, String name) {
+		AppManager.getAppManager().finishActivity(WebViewActivity.class);
+		if (OrderApplyActivity.isBrand.equals("0")) {
+			OrderApplyActivity.tvBrand.setTag(id);
+			OrderApplyActivity.tvBrand.setText(name);
+
+		} else {
+
+			OrderApplyActivity.tvModel.setTag(id);
+			OrderApplyActivity.tvModel.setText(name);
+		}
+	}
+}

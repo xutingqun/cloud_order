@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#FFFFFF"
+    android:orientation="vertical" >
+    
+  <include layout="@layout/it_top" />
+  
+  <com.smart.library.view.EmptyLayout
+            android:id="@+id/empty_lay"
+         
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+         
+             >
+        </com.smart.library.view.EmptyLayout>
+  <ScrollView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:scrollbars="none" >
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:orientation="vertical" >
+                
+  <com.xmsmart.xiuba.view.RollHeaderView
+        android:id="@+id/banner"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        >
+    </com.xmsmart.xiuba.view.RollHeaderView>
+                
+      
+
+       
+
+        <com.smart.library.view.NewGridView
+            android:id="@+id/gv_main_icon"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:listSelector="@android:color/transparent"
+            android:numColumns="3" >
+        </com.smart.library.view.NewGridView>         
+                
+                
+            </LinearLayout>
+        </ScrollView>
+</LinearLayout>

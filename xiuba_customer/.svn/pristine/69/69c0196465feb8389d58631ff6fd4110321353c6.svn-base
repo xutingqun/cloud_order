@@ -1,0 +1,149 @@
+package com.xmsmart.xiuba.bean;
+
+import java.io.Serializable;
+import java.util.ArrayList;
+import java.util.List;
+
+public class MyAddressBean extends BaseBean {
+
+	private List<MyAddressDataBean> data = new ArrayList<MyAddressDataBean>();
+	private String success;
+	private String message = "";// 错误信息
+
+	public List<MyAddressDataBean> getData() {
+		return data;
+	}
+
+	public void setData(List<MyAddressDataBean> data) {
+		this.data = data;
+	}
+
+	public String getMessage() {
+		return message;
+	}
+
+	public void setMessage(String message) {
+		this.message = message;
+	}
+
+	public String getSuccess() {
+		return success;
+	}
+
+	public void setSuccess(String success) {
+		this.success = success;
+	}
+
+	public class MyAddressDataBean implements Serializable {
+		private String id = "";// : 地址Id,
+		private String province = "";// : "省",
+		private String city = "";// ,
+		private String area = "";// "区",
+		private String street = "";// : "街道"= "";//,
+		private String address = "";// : "详细地址，到门牌号或是其它",
+		private String contactPer = "";// :"地址联系人姓名"，
+		private String phone = "";// : "联系人电话",
+		private String sex = "";// : "联系人性别",（F|M）
+		private String latitude = "";// ": "纬度",
+		private String longitude = "";// ": "经度"
+		private String isDefalute = "0";// 0不是默认地址，1是默认地址
+
+		public String getIsDefalute() {
+			return isDefalute;
+		}
+
+		public void setIsDefalute(String isDefalute) {
+			this.isDefalute = isDefalute;
+		}
+
+		public String getId() {
+			return id;
+		}
+
+		public void setId(String id) {
+			this.id = id;
+		}
+
+		public String getProvince() {
+			return province;
+		}
+
+		public void setProvince(String province) {
+			this.province = province;
+		}
+
+		public String getCity() {
+			return city;
+		}
+
+		public void setCity(String city) {
+			this.city = city;
+		}
+
+		public String getArea() {
+			return area;
+		}
+
+		public void setArea(String area) {
+			this.area = area;
+		}
+
+		public String getStreet() {
+			return street;
+		}
+
+		public void setStreet(String street) {
+			this.street = street;
+		}
+
+		public String getAddress() {
+			return address;
+		}
+
+		public void setAddress(String address) {
+			this.address = address;
+		}
+
+		public String getContactPer() {
+			return contactPer;
+		}
+
+		public void setContactPer(String contactPer) {
+			this.contactPer = contactPer;
+		}
+
+		public String getPhone() {
+			return phone;
+		}
+
+		public void setPhone(String phone) {
+			this.phone = phone;
+		}
+
+		public String getSex() {
+			return sex;
+		}
+
+		public void setSex(String sex) {
+			this.sex = sex;
+		}
+
+		public String getLatitude() {
+			return latitude;
+		}
+
+		public void setLatitude(String latitude) {
+			this.latitude = latitude;
+		}
+
+		public String getLongitude() {
+			return longitude;
+		}
+
+		public void setLongitude(String longitude) {
+			this.longitude = longitude;
+		}
+
+	}
+
+}

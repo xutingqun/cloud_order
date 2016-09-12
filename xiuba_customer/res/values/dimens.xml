@@ -1,0 +1,30 @@
+<resources>
+
+    <!-- Default screen margins, per the Android Design guidelines. -->
+    <dimen name="activity_horizontal_margin">16dp</dimen>
+    <dimen name="activity_vertical_margin">16dp</dimen>
+    
+    
+    <!-- slidmenu -->
+    <dimen name="d_tv_splash_version">20sp</dimen>
+    <dimen name="d_pb_splash">20dip</dimen>
+    <dimen name="d_et_edit">350dip</dimen>
+    <dimen name="d_tv_mian_function">18sp</dimen>
+    <dimen name="d_login_margintop">15dip</dimen>
+    <dimen name="d_login_widget_padding">5dip</dimen>
+    <dimen name="d_et_login">13dip</dimen>
+    <dimen name="slidingmenu_offset">200dp</dimen>
+    <dimen name="list_padding">10dp</dimen>
+    <dimen name="shadow_width">5dp</dimen>
+    
+   	<!-- img select -->
+	<dimen name="image_size">120dp</dimen>
+    <dimen name="space_size">2dp</dimen>
+    <dimen name="folder_cover_size">72dp</dimen>
+
+    <!-- login -->
+     <dimen name="longin_box">250sp</dimen>
+      <dimen name="longin_logo_width">180sp</dimen>
+       <dimen name="longin_logo_height">80sp</dimen>
+       
+</resources>

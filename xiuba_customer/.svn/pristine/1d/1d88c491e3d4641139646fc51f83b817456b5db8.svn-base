@@ -1,0 +1,172 @@
+package com.xmsmart.xiuba.ui.order;
+
+import java.util.ArrayList;
+import java.util.List;
+
+import android.annotation.SuppressLint;
+import android.app.Activity;
+import android.os.Bundle;
+import android.support.v4.app.Fragment;
+import android.util.Log;
+import android.view.LayoutInflater;
+import android.view.View;
+import android.view.View.OnClickListener;
+import android.view.ViewGroup;
+import android.widget.AdapterView;
+import android.widget.AdapterView.OnItemClickListener;
+import android.widget.ListView;
+
+import com.smart.library.okhttp.OkHttpClientManager;
+import com.smart.library.prt.PullToRefreshBase;
+import com.smart.library.prt.PullToRefreshBase.OnRefreshListener;
+import com.smart.library.prt.PullToRefreshBase.PtrMode;
+import com.smart.library.prt.PullToRefreshListView;
+import com.smart.library.util.ToastUtil;
+import com.smart.library.view.EmptyLayout;
+import com.squareup.okhttp.Request;
+import com.xmsmart.xiuba.R;
+import com.xmsmart.xiuba.api.OrderAPI;
+import com.xmsmart.xiuba.bean.MyOrderBean;
+import com.xmsmart.xiuba.bean.MyOrderBean.MyOrderDataBean;
+import com.xmsmart.xiuba.db.DataStorage;
+import com.xmsmart.xiuba.utils.DialogUtil;
+
+@SuppressLint("ValidFragment")
+public class MyOrderFragment extends Fragment {
+	EmptyLayout mEmptyLayout;
+	private String currentPage, status;
+	private Activity mActivity;
+	/* List<MyOrderDataBean> myOrderAllList = new ArrayList<MyOrderDataBean>(); */
+	List<MyOrderDataBean> myOrderList = new ArrayList<MyOrderDataBean>();
+	PullToRefreshListView lvMyOrder;
+	MyOrderAdapter myOrderAdapter;
+	int pageNum = 1;
+	int limit = 3;
+
+	public MyOrderFragment(String currentPage, String status, Activity mActivity) {
+		super();
+		this.currentPage = currentPage;
+		this.status = status;
+		this.mActivity = mActivity;
+	}
+
+	@Override
+	public View onCreateView(LayoutInflater inflater, ViewGroup container,
+			Bundle savedInstanceState) {
+		View view = inflater.inflate(R.layout.frg_my_order, null, false);
+		lvMyOrder = (PullToRefreshListView) view.findViewById(R.id.lv_my_order);
+		mEmptyLayout = (EmptyLayout) view.findViewById(R.id.eml_my_order);
+		mEmptyLayout.setVisibility(View.VISIBLE);
+		mEmptyLayout.setOnLayoutClickListener(new OnClickListener() {
+
+			@Override
+			public void onClick(View v) {
+				mEmptyLayout.setErrorType(EmptyLayout.NETWORK_LOADING);
+				if (MyOrderActivity.mViewPager.getCurrentItem() == 0) {
+					status = "0";
+				} else if (MyOrderActivity.mViewPager.getCurrentItem() == 1) {
+					status = "1";
+				} else if (MyOrderActivity.mViewPager.getCurrentItem() == 2) {
+					status = "";
+				}
+				loadData(1);
+
+			}
+		});
+		lvMyOrder.setMode(PtrMode.BOTH);
+		lvMyOrder.setOnRefreshListener(new OnRefreshListener<ListView>() {
+			@Override
+			public void onRefresh(PullToRefreshBase<ListView> refreshView) {
+				switch (refreshView.getCurrentMode()) {
+				case PULL_FROM_END:
+					pageNum = pageNum + 1;
+					loadData(pageNum);
+					break;
+				case PULL_FROM_START:
+					pageNum = 1;
+					loadData(pageNum);
+					break;
+				default:
+					break;
+				}
+			}
+		});
+		loadData(pageNum);
+		return view;
+	}
+
+	private void loadData(final int page) {
+		OkHttpClientManager
+				.postAsyn(
+						OrderAPI.getMyOrderUrl(),
+						new OkHttpClientManager.ResultCallback<MyOrderBean>() {
+
+							@Override
+							public void onResponse(MyOrderBean result) {
+								Log.e("result", result.toString());
+								DialogUtil.closeRoundProcessDialog();
+								if (result.getSuccess().equals("true")) {
+									lvMyOrder.onRefreshComplete();
+									if (page == 1) {
+										myOrderList = result.getData();
+										if (myOrderList.size() == 0) {
+											mEmptyLayout
+													.setNoDataContent("暂无相关订单");
+											mEmptyLayout
+													.setErrorType(EmptyLayout.NODATA);
+										} else {
+											mEmptyLayout
+													.setVisibility(View.GONE);
+										}
+
+										myOrderAdapter = new MyOrderAdapter(
+												mActivity, myOrderList);
+										lvMyOrder.setAdapter(myOrderAdapter);
+
+									} else {
+										if (result.getData().size() == 0) {
+											ToastUtil
+													.showToast(
+															mActivity,
+															R.string.toast_no_more_data);
+										} else {
+											myOrderList.addAll(result.getData());
+											myOrderAdapter
+													.notifyDataSetChanged();
+										}
+									}
+
+								} else {
+									lvMyOrder.onRefreshComplete();
+									mEmptyLayout.setVisibility(View.VISIBLE);
+									mEmptyLayout.setNoDataContent(result
+											.getMessage());
+									mEmptyLayout
+											.setErrorType(EmptyLayout.NETWORK_ERROR);
+								}
+
+							}
+
+							@Override
+							public void onError(Request request, Exception e) {
+								DialogUtil.closeRoundProcessDialog();
+								Log.e("result", e + "");
+								mEmptyLayout.setVisibility(View.VISIBLE);
+								mEmptyLayout.setNoDataContent(e + "");
+								mEmptyLayout
+										.setErrorType(EmptyLayout.NETWORK_ERROR);
+							}
+						},
+						new OkHttpClientManager.Param[] {
+								new OkHttpClientManager.Param("customerId",
+										DataStorage.getLoginData(mActivity)
+												.getId()),
+								new OkHttpClientManager.Param("status", status),
+								new OkHttpClientManager.Param("limit", limit
+										+ ""),
+								new OkHttpClientManager.Param("currentPage",
+										page + "") });
+
+	}
+
+}

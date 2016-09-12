@@ -1,0 +1,31 @@
+package com.xmsmart.xiuba.bean;
+
+import java.util.List;
+
+public class MainBean extends BaseBean{
+	
+	private List<MainDataBean> weatherInfo ;//存放错误信息或动态id
+	private String msg = "msg";//“1”或者“0”
+
+	
+
+	public String getMsg() {
+		return msg;
+	}
+
+	public void setMsg(String msg) {
+		this.msg = msg;
+	}
+
+	public List<MainDataBean> getWeatherInfo() {
+		return weatherInfo;
+	}
+
+	public void setWeatherInfo(List<MainDataBean> weatherInfo) {
+		this.weatherInfo = weatherInfo;
+	}
+
+	
+	
+
+}

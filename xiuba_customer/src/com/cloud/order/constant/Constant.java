@@ -1,0 +1,35 @@
+package com.cloud.order.constant;
+
+public class Constant {
+
+	public static boolean ISLOGIN = false;
+
+	// 填写从短信SDK应用后台注册得到的APPKEY
+	public static String APPKEY = "15fe541078970";
+
+	// 填写从短信SDK应用后台注册得到的APPSECRET
+	public static String APPSECRET = "0472c15469c0e410d4415720a6b7eafb";
+
+	// 图片上传
+	public static final int REQUEST_IMAGE = 2;
+	public static final int MAX_IMG = 9;// 最大图片数量
+
+	// 百度地图key
+	public static final String BAIDU_MAP_KEY = "9rt5MWGogGMp8RCZsDgnmTEd";
+
+	// 极光推送
+	public static final String JG_APP_KEY = "1456145ab0189c72f67973f5";
+	public static final String JG_SECRET_KEY = "f4e4c24054bfe8055f07020b";
+
+	// 极光推送数据类型
+	public static final int DIALOG_NEW_VERSION = 1001;
+	public static final int DIALOG_OFFLINE = 1002;
+
+	public static final String PUSH_OFFLINE_NEED_DIALOG = "offline";
+	public static final String PUSH_MESSAGE = "msg";
+	public static final String PUSH_NORMAL = "normal";
+
+	// 嵌套h5地址
+	public static final String H5_PATH = "http://www.xmsmart.com/xiuxiu/";
+
+}

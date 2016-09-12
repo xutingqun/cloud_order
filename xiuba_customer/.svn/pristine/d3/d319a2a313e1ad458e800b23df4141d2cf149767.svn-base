@@ -1,0 +1,66 @@
+package com.xmsmart.xiuba.ui.order;
+
+import android.annotation.SuppressLint;
+import android.os.Bundle;
+import android.view.View;
+import android.widget.ImageView;
+import android.widget.RelativeLayout;
+import android.widget.TextView;
+
+import com.xmsmart.xiuba.R;
+import com.xmsmart.xiuba.ui.BaseActivity;
+import com.xmsmart.xiuba.utils.TopUtil;
+
+@SuppressLint("ResourceAsColor")
+public class PaymentActivity extends BaseActivity {
+
+	TextView tvMoney, tvSubmit;
+	RelativeLayout rlAlipay, rlWeixin;
+	ImageView ivAlipay, ivWeixin;
+
+	@Override
+	protected void onCreate(Bundle savedInstanceState) {
+		// TODO Auto-generated method stub
+		super.onCreate(savedInstanceState);
+		setContentView(R.layout.ac_pay_ment);
+		TopUtil.setTopBackground(this, R.color.white);
+		TopUtil.setCenterImageMax(this, R.drawable.iv_pay_ment_title);
+		TopUtil.setLeftImage(this, R.drawable.iv_white_bg_title_back);
+		TopUtil.setViewVisiable(this, 1, 0, 0, 0, 0, 0);
+		initView();
+	}
+
+	private void initView() {
+		tvSubmit = (TextView) findViewById(R.id.tv_pay_ment_submit);
+		tvMoney = (TextView) findViewById(R.id.tv_pay_ment_money);
+		rlAlipay = (RelativeLayout) findViewById(R.id.rl_pay_ment_alipay);
+		rlWeixin = (RelativeLayout) findViewById(R.id.rl_pay_ment_weixin);
+		ivAlipay = (ImageView) findViewById(R.id.iv_pay_ment_alipay);
+		ivWeixin = (ImageView) findViewById(R.id.iv_pay_ment_weixin);
+
+		tvSubmit.setText("»∑»œ÷ß∏∂50");
+		tvSubmit.setOnClickListener(this);
+		rlAlipay.setOnClickListener(this);
+		rlWeixin.setOnClickListener(this);
+
+	}
+
+	@Override
+	public void onClick(View arg0) {
+		super.onClick(arg0);
+		switch (arg0.getId()) {
+		case R.id.rl_pay_ment_alipay:
+			ivAlipay.setBackgroundResource(R.drawable.iv_pay_ment_select);
+			ivWeixin.setBackgroundResource(R.drawable.iv_pay_ment_no_select);
+			break;
+		case R.id.rl_pay_ment_weixin:
+			ivAlipay.setBackgroundResource(R.drawable.iv_pay_ment_no_select);
+			ivWeixin.setBackgroundResource(R.drawable.iv_pay_ment_select);
+			break;
+		case R.id.tv_pay_ment_submit:
+			break;
+		default:
+			break;
+		}
+	}
+}

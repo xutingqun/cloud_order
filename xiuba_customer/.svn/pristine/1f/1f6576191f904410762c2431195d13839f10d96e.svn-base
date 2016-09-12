@@ -1,0 +1,205 @@
+package com.xmsmart.xiuba.db;
+
+import java.util.ArrayList;
+import java.util.List;
+
+import com.xmsmart.xiuba.bean.MyAddressBean;
+import com.xmsmart.xiuba.bean.MyAddressBean.MyAddressDataBean;
+
+import android.R.integer;
+import android.content.Context;
+import android.database.Cursor;
+import android.database.sqlite.SQLiteDatabase;
+import android.database.sqlite.SQLiteDatabase.CursorFactory;
+import android.database.sqlite.SQLiteOpenHelper;
+import android.util.Log;
+
+/**
+ * 2016-7-11
+ * 
+ * @author xutingqun
+ * 
+ */
+public class SqliteHelper extends SQLiteOpenHelper {
+
+	public SqliteHelper(Context context, String name, CursorFactory factory,
+			int version) {
+		super(context, name, factory, version);
+	}
+
+	@Override
+	public void onCreate(SQLiteDatabase db) {
+		String sql = "create table address(_id integer Primary Key autoincrement,addressId varchar(20),province varchar(20),city varchar(20),area varchar(20),street varchar(20),address varchar(20),contactPer varchar(20),phone varchar(20),sex varchar(20),latitude varchar(100),longitude varchar(100),isdefalute varchar(100))";
+		db.execSQL(sql);
+	}
+
+	@Override
+	public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
+	}
+
+	// 添加 一条数据
+	public void addAddress(MyAddressDataBean address) {
+		SQLiteDatabase db = getWritableDatabase();
+		db.execSQL("insert into address(addressId,province,city,area,street,address,contactPer,phone,sex,latitude,longitude,isdefalute) values("
+				+ String.format("'%s'", address.getId())
+				+ ","
+				+ String.format("'%s'", address.getProvince())
+				+ ","
+				+ String.format("'%s'", address.getCity())
+				+ ","
+				+ String.format("'%s'", address.getArea())
+				+ ","
+				+ String.format("'%s'", address.getStreet())
+				+ ","
+				+ String.format("'%s'", address.getAddress())
+				+ " ,"
+				+ String.format("'%s'", address.getContactPer())
+				+ " ,"
+				+ String.format("'%s'", address.getPhone())
+				+ " ,"
+				+ String.format("'%s'", address.getSex())
+				+ " ,"
+				+ String.format("'%s'", address.getLatitude())
+				+ " ,"
+				+ String.format("'%s'", address.getLongitude())
+				+ " ,"
+				+ String.format("'%s'", address.getIsDefalute()) + ")"); // 插入数据库
+		db.close();
+	}
+
+	/**
+	 * 修改某条数据
+	 */
+	public void updateAddress(MyAddressDataBean address) {
+		SQLiteDatabase db = getWritableDatabase();
+		String sql = "update address set province="
+				+ String.format("'%s'", address.getProvince()) + ",city="
+				+ String.format("'%s'", address.getCity()) + ",area="
+				+ String.format("'%s'", address.getArea()) + ",street="
+				+ String.format("'%s'", address.getStreet()) + ",address="
+				+ String.format("'%s'", address.getAddress()) + ",contactPer="
+				+ String.format("'%s'", address.getContactPer()) + ",phone="
+				+ String.format("'%s'", address.getPhone()) + ",sex="
+				+ String.format("'%s'", address.getSex()) + ",latitude="
+				+ String.format("'%s'", address.getLatitude()) + ",longitude="
+				+ String.format("'%s'", address.getLongitude())
+				+ ",isdefalute="
+				+ String.format("'%s'", address.getIsDefalute())
+				+ " where addressId=" + String.format("'%s'", address.getId());
+		Log.e("updatePerson", sql);
+		db.execSQL(sql);
+		db.close(); //
+	}
+
+	/**
+	 * 修改某条数据的某个值
+	 */
+	public void updateAddressItem(String id, String isDefalute) {
+		SQLiteDatabase db = getWritableDatabase();
+		String sql = "update address set isdefalute="
+				+ String.format("'%s'", isDefalute) + " where addressId="
+				+ String.format("'%s'", id);
+		Log.e("updatePerson", sql);
+		db.execSQL(sql);
+		db.close(); //
+	}
+
+	/**
+	 * 主表删除某条数据
+	 */
+	public void deleteCustomer(String _id) {
+		SQLiteDatabase db = getWritableDatabase();
+		String sql = "addressId = ?";
+		String wheres[] = { String.valueOf(_id) };
+		db.delete("address", sql, wheres);
+		db.close();
+	}
+
+	/**
+	 * 主表查询所有数据
+	 */
+	public List<MyAddressDataBean> queryAllAddress() {
+		List<MyAddressDataBean> list = new ArrayList<MyAddressDataBean>();
+		SQLiteDatabase db = getReadableDatabase();
+		String sql = "select * from address";
+		Cursor cursor = db.rawQuery(sql, null);
+		while (cursor.moveToNext()) {
+			String addressId = cursor.getString(cursor
+					.getColumnIndex("addressId"));
+			String province = cursor.getString(cursor
+					.getColumnIndex("province"));
+			String city = cursor.getString(cursor.getColumnIndex("city"));
+			String area = cursor.getString(cursor.getColumnIndex("area"));
+			String street = cursor.getString(cursor.getColumnIndex("street"));
+			String address = cursor.getString(cursor.getColumnIndex("address"));
+			String contactPer = cursor.getString(cursor
+					.getColumnIndex("contactPer"));
+			String phone = cursor.getString(cursor.getColumnIndex("phone"));
+			String sex = cursor.getString(cursor.getColumnIndex("sex"));
+			String latitude = cursor.getString(cursor
+					.getColumnIndex("latitude"));
+			String longitude = cursor.getString(cursor
+					.getColumnIndex("longitude"));
+			String isdefalute = cursor.getString(cursor
+					.getColumnIndex("isdefalute"));
+			MyAddressDataBean myAddressDataBean = new MyAddressDataBean();
+			myAddressDataBean.setId(addressId);
+			myAddressDataBean.setProvince(province);
+			myAddressDataBean.setCity(city);
+			myAddressDataBean.setArea(area);
+			myAddressDataBean.setStreet(street);
+			myAddressDataBean.setAddress(address);
+			myAddressDataBean.setContactPer(contactPer);
+			myAddressDataBean.setPhone(phone);
+			myAddressDataBean.setLatitude(latitude);
+			myAddressDataBean.setLongitude(longitude);
+			myAddressDataBean.setIsDefalute(isdefalute);
+			myAddressDataBean.setSex(sex);
+			list.add(myAddressDataBean);
+		}
+		cursor.close();
+		db.close();
+		return list;
+	}
+
+	// 主表根据isdefalute查询某条数据
+	public MyAddressDataBean queryAddressByDefalute(String isDefalute) {
+		MyAddressDataBean sortModel = null;
+		SQLiteDatabase db = getReadableDatabase();
+		String[] columns = { "addressId", "province", "city", "area", "street",
+				"address", "contactPer", "phone", "sex", "latitude",
+				"longitude", "isdefalute" };
+		String selection = "isdefalute=?";
+		String[] selectionArgs = { isDefalute };
+		Cursor cursor = db.query("address", columns, selection, selectionArgs,
+				null, null, null);
+		if (cursor.moveToNext()) {
+			sortModel = new MyAddressDataBean();
+			sortModel
+					.setId(cursor.getString(cursor.getColumnIndex("addressId")));
+			sortModel.setProvince(cursor.getString(cursor
+					.getColumnIndex("province")));
+			sortModel.setCity(cursor.getString(cursor.getColumnIndex("city")));
+			sortModel.setArea(cursor.getString(cursor.getColumnIndex("area")));
+			sortModel.setStreet(cursor.getString(cursor
+					.getColumnIndex("street")));
+			sortModel.setAddress(cursor.getString(cursor
+					.getColumnIndex("address")));
+			sortModel.setContactPer(cursor.getString(cursor
+					.getColumnIndex("contactPer")));
+			sortModel
+					.setPhone(cursor.getString(cursor.getColumnIndex("phone")));
+			sortModel.setSex(cursor.getString(cursor.getColumnIndex("sex")));
+			sortModel.setLatitude(cursor.getString(cursor
+					.getColumnIndex("latitude")));
+			sortModel.setLongitude(cursor.getString(cursor
+					.getColumnIndex("longitude")));
+			sortModel.setIsDefalute(cursor.getString(cursor
+					.getColumnIndex("isdefalute")));
+		}
+		db.close();
+		return sortModel;
+
+	}
+
+}
