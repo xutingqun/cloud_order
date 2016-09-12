@@ -46,7 +46,16 @@ public class TimeUtils {
 		return str;
 
 	}
+	//获取当前时间
+		public static String getSystemTimeNoSecond() {
+			SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd HH:mm");
 
+			Date curDate = new Date(System.currentTimeMillis());// 获取当前时间
+
+			String str = formatter.format(curDate);
+			return str;
+
+		}
 	/**
 	 * @describe:根据timeFormat获取当前的时间
 	 * @return 当前时间字符串

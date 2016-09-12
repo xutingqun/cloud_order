@@ -15,6 +15,10 @@
  *******************************************************************************/
 package com.smart.library.prt;
 
+import com.smart.library.R;
+import com.smart.library.prt.PullToRefreshBase.Orientation;
+import com.smart.library.prt.PullToRefreshBase.PtrMode;
+
 import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.res.ColorStateList;
@@ -33,11 +37,8 @@ import android.view.animation.LinearInterpolator;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.ProgressBar;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
-
-import com.smart.library.R;
-import com.smart.library.prt.PullToRefreshBase.Mode;
-import com.smart.library.prt.PullToRefreshBase.Orientation;
 
 @SuppressLint("ViewConstructor")
 public abstract class LoadingLayout extends FrameLayout implements ILoadingLayout {
@@ -46,7 +47,7 @@ public abstract class LoadingLayout extends FrameLayout implements ILoadingLayou
 
 	static final Interpolator ANIMATION_INTERPOLATOR = new LinearInterpolator();
 
-	private FrameLayout mInnerLayout;
+	private final RelativeLayout mInnerLayout;
 
 	protected final ImageView mHeaderImage;
 	protected final ProgressBar mHeaderProgress;
@@ -56,29 +57,29 @@ public abstract class LoadingLayout extends FrameLayout implements ILoadingLayou
 	private final TextView mHeaderText;
 	private final TextView mSubHeaderText;
 
-	protected final Mode mMode;
+	protected final PtrMode mMode;
 	protected final Orientation mScrollDirection;
 
 	private CharSequence mPullLabel;
 	private CharSequence mRefreshingLabel;
 	private CharSequence mReleaseLabel;
 
-	public LoadingLayout(Context context, final Mode mode, final Orientation scrollDirection, TypedArray attrs) {
+	public LoadingLayout(Context context, final PtrMode mode, final Orientation scrollDirection, TypedArray attrs) {
 		super(context);
 		mMode = mode;
 		mScrollDirection = scrollDirection;
 
 		switch (scrollDirection) {
 			case HORIZONTAL:
-				LayoutInflater.from(context).inflate(R.layout.pull_to_refresh_header_horizontal, this);
+				LayoutInflater.from(context).inflate(R.layout.ptr_header_horizontal, this);
 				break;
 			case VERTICAL:
 			default:
-				LayoutInflater.from(context).inflate(R.layout.pull_to_refresh_header_vertical, this);
+				LayoutInflater.from(context).inflate(R.layout.ptr_header_vertical, this);
 				break;
 		}
 
-		mInnerLayout = (FrameLayout) findViewById(R.id.fl_inner);
+		mInnerLayout = (RelativeLayout) findViewById(R.id.fl_inner);
 		mHeaderText = (TextView) mInnerLayout.findViewById(R.id.pull_to_refresh_text);
 		mHeaderProgress = (ProgressBar) mInnerLayout.findViewById(R.id.pull_to_refresh_progress);
 		mSubHeaderText = (TextView) mInnerLayout.findViewById(R.id.pull_to_refresh_sub_text);
@@ -197,7 +198,9 @@ public abstract class LoadingLayout extends FrameLayout implements ILoadingLayou
 				return mInnerLayout.getWidth();
 			case VERTICAL:
 			default:
-				return mInnerLayout.getHeight();
+				//TODO modify:hyh 解决首次进入附近页，自动刷新显示header布局错误的bug(以下修改未能很好解决)
+				return mInnerLayout.getHeight()==0?getResources().getDimensionPixelOffset(
+						R.dimen.pull_to_refresh_header_view_default_height):mInnerLayout.getHeight();
 		}
 	}
 
@@ -225,8 +228,8 @@ public abstract class LoadingLayout extends FrameLayout implements ILoadingLayou
 	public final void pullToRefresh() {
 		if (null != mHeaderText) {
 			mHeaderText.setText(mPullLabel);
+			mHeaderText.setVisibility(View.VISIBLE);
 		}
-
 		// Now call the callback
 		pullToRefreshImpl();
 	}
@@ -243,9 +246,11 @@ public abstract class LoadingLayout extends FrameLayout implements ILoadingLayou
 			refreshingImpl();
 		}
 
-		if (null != mSubHeaderText) {
-			mSubHeaderText.setVisibility(View.GONE);
-		}
+		//@modify: mayday 20130603 注释以下代码，在刷新的状态显示最后更新时�?begin
+//		if (null != mSubHeaderText) {
+//			mSubHeaderText.setVisibility(View.GONE);
+//		}
+		//@modify: mayday 20130603 在刷新的状�?显示�?��更新时间 end
 	}
 
 	public final void releaseToRefresh() {
@@ -284,6 +289,7 @@ public abstract class LoadingLayout extends FrameLayout implements ILoadingLayou
 		setSubHeaderText(label);
 	}
 
+	@Override
 	public final void setLoadingDrawable(Drawable imageDrawable) {
 		// Set Drawable
 		mHeaderImage.setImageDrawable(imageDrawable);
@@ -293,14 +299,17 @@ public abstract class LoadingLayout extends FrameLayout implements ILoadingLayou
 		onLoadingDrawableSet(imageDrawable);
 	}
 
+	@Override
 	public void setPullLabel(CharSequence pullLabel) {
 		mPullLabel = pullLabel;
 	}
 
+	@Override
 	public void setRefreshingLabel(CharSequence refreshingLabel) {
 		mRefreshingLabel = refreshingLabel;
 	}
 
+	@Override
 	public void setReleaseLabel(CharSequence releaseLabel) {
 		mReleaseLabel = releaseLabel;
 	}
@@ -348,7 +357,7 @@ public abstract class LoadingLayout extends FrameLayout implements ILoadingLayou
 			if (TextUtils.isEmpty(label)) {
 				mSubHeaderText.setVisibility(View.GONE);
 			} else {
-				mSubHeaderText.setText(label);
+				mSubHeaderText.setText(getResources().getString(R.string.pull_to_refresh_lasttime)+label);
 
 				// Only set it to Visible if we're GONE, otherwise VISIBLE will
 				// be set soon
@@ -389,4 +398,8 @@ public abstract class LoadingLayout extends FrameLayout implements ILoadingLayou
 		}
 	}
 
+	@Override
+	public void setLastUpdatedVisible(int visible) {
+		mSubHeaderText.setVisibility(visible);
+	}
 }

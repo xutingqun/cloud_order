@@ -15,14 +15,14 @@
  *******************************************************************************/
 package com.smart.library.prt;
 
-import android.view.View;
-import android.view.animation.Interpolator;
-
-import com.smart.library.prt.PullToRefreshBase.Mode;
 import com.smart.library.prt.PullToRefreshBase.OnPullEventListener;
 import com.smart.library.prt.PullToRefreshBase.OnRefreshListener;
 import com.smart.library.prt.PullToRefreshBase.OnRefreshListener2;
+import com.smart.library.prt.PullToRefreshBase.PtrMode;
 import com.smart.library.prt.PullToRefreshBase.State;
+
+import android.view.View;
+import android.view.animation.Interpolator;
 
 public interface IPullToRefresh<T extends View> {
 
@@ -43,7 +43,7 @@ public interface IPullToRefresh<T extends View> {
 	 * 
 	 * @return Mode that the view is currently in
 	 */
-	public Mode getCurrentMode();
+	public PtrMode getCurrentMode();
 
 	/**
 	 * Returns whether the Touch Events are filtered or not. If true is
@@ -91,7 +91,7 @@ public interface IPullToRefresh<T extends View> {
 	 * 
 	 * @return Mode that the view has been set to
 	 */
-	public Mode getMode();
+	public PtrMode getMode();
 
 	/**
 	 * Get the Wrapped Refreshable View. Anything returned here has already been
@@ -170,7 +170,7 @@ public interface IPullToRefresh<T extends View> {
 	 * 
 	 * @param mode - Mode to set the View to
 	 */
-	public void setMode(Mode mode);
+	public void setMode(PtrMode mode);
 
 	/**
 	 * Set OnPullEventListener for the Widget

@@ -2,6 +2,14 @@
 <resources>
 
     <!-- Loading -->
+    <color name="orange_normal">#FF9D02</color>
+    <color name="orange_pressed">#FF7F24</color>
+     <color name="green_dark_normal">#56a322</color>
+    <color name="green_dark_pressed">#56902c</color>
+     <color name="green_disable_dark">#abcd94</color>
+    <color name="white">#ffffff</color>
+    <color name="black">#000000</color>
+    <color name="transparent">#00000000</color>
     <color name="window_bg">#F7F7F7</color>
     <color name="bar">#FF8017</color>
     <color name="grey">#ff888888</color>
@@ -25,5 +33,5 @@
     <color name="shadow">#25808080</color>
     <color name="dialog_bg">#f5f5f5</color>
     <color name="error_text">#BCBCBC</color>
-
+<color name="text">#666666</color>
 </resources>

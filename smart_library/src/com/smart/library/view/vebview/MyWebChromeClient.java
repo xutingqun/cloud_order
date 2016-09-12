@@ -2,17 +2,34 @@ package com.smart.library.view.vebview;
 
 import android.graphics.Bitmap;
 import android.util.Log;
+import android.view.View;
 import android.webkit.JsPromptResult;
 import android.webkit.JsResult;
 import android.webkit.WebChromeClient;
 import android.webkit.WebView;
+import android.widget.ProgressBar;
 
-public class MyWebChromeClient extends WebChromeClient{
+public class MyWebChromeClient extends WebChromeClient {
+	ProgressBar progressBar;
+
+	public MyWebChromeClient(ProgressBar progressBar) {
+		this.progressBar = progressBar;
+	}
 
 	@Override
 	public void onProgressChanged(WebView view, int newProgress) {
 		// TODO Auto-generated method stub
-		Log.d("hujun","newProgress--->"+newProgress);
+		Log.d("hujun", "newProgress--->" + newProgress);
+		if (newProgress == 100) {
+			// Õ¯“≥º”‘ÿÕÍ≥…
+			progressBar.setVisibility(View.GONE);
+		} else {
+			if (View.INVISIBLE == progressBar.getVisibility()) {
+				progressBar.setVisibility(View.VISIBLE);
+			}
+			progressBar.setProgress(newProgress);
+		}
+		super.onProgressChanged(view, newProgress);
 	}
 
 	@Override

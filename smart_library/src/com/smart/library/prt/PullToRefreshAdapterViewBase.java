@@ -15,6 +15,8 @@
  *******************************************************************************/
 package com.smart.library.prt;
 
+import com.smart.library.R;
+
 import android.content.Context;
 import android.content.res.TypedArray;
 import android.util.AttributeSet;
@@ -32,10 +34,7 @@ import android.widget.FrameLayout;
 import android.widget.LinearLayout;
 import android.widget.ListAdapter;
 
-import com.smart.library.R;
-
-public abstract class PullToRefreshAdapterViewBase<T extends AbsListView> extends PullToRefreshBase<T> implements
-		OnScrollListener {
+public abstract class PullToRefreshAdapterViewBase<T extends AbsListView> extends PullToRefreshBase<T> implements OnScrollListener {
 
 	private static FrameLayout.LayoutParams convertEmptyViewLayoutParams(ViewGroup.LayoutParams lp) {
 		FrameLayout.LayoutParams newLp = null;
@@ -52,7 +51,7 @@ public abstract class PullToRefreshAdapterViewBase<T extends AbsListView> extend
 
 		return newLp;
 	}
-	
+
 	private boolean mLastItemVisible;
 	private OnScrollListener mOnScrollListener;
 	private OnLastItemVisibleListener mOnLastItemVisibleListener;
@@ -74,12 +73,12 @@ public abstract class PullToRefreshAdapterViewBase<T extends AbsListView> extend
 		mRefreshableView.setOnScrollListener(this);
 	}
 
-	public PullToRefreshAdapterViewBase(Context context, Mode mode) {
+	public PullToRefreshAdapterViewBase(Context context, PtrMode mode) {
 		super(context, mode);
 		mRefreshableView.setOnScrollListener(this);
 	}
 
-	public PullToRefreshAdapterViewBase(Context context, Mode mode, AnimationStyle animStyle) {
+	public PullToRefreshAdapterViewBase(Context context, PtrMode mode, AnimationStyle animStyle) {
 		super(context, mode, animStyle);
 		mRefreshableView.setOnScrollListener(this);
 	}
@@ -88,7 +87,7 @@ public abstract class PullToRefreshAdapterViewBase<T extends AbsListView> extend
 	 * Gets whether an indicator graphic should be displayed when the View is in
 	 * a state where a Pull-to-Refresh can happen. An example of this state is
 	 * when the Adapter View is scrolled to the top and the mode is set to
-	 * {@link Mode#PULL_FROM_START}. The default value is <var>true</var> if
+	 * {@link PtrMode#PULL_FROM_START}. The default value is <var>true</var> if
 	 * {@link PullToRefreshBase#isPullToRefreshOverScrollEnabled()
 	 * isPullToRefreshOverScrollEnabled()} returns false.
 	 * 
@@ -98,9 +97,13 @@ public abstract class PullToRefreshAdapterViewBase<T extends AbsListView> extend
 		return mShowIndicator;
 	}
 
-	public final void onScroll(final AbsListView view, final int firstVisibleItem, final int visibleItemCount,
+	public View getEmptyView() {
+		return mEmptyView;
+	}
+	
+	@Override
+	public void onScroll(final AbsListView view, final int firstVisibleItem, final int visibleItemCount,
 			final int totalItemCount) {
-
 		if (DEBUG) {
 			Log.d(LOG_TAG, "First Visible: " + firstVisibleItem + ". Visible Count: " + visibleItemCount
 					+ ". Total Items:" + totalItemCount);
@@ -125,7 +128,8 @@ public abstract class PullToRefreshAdapterViewBase<T extends AbsListView> extend
 		}
 	}
 
-	public final void onScrollStateChanged(final AbsListView view, final int state) {
+	@Override
+	public void onScrollStateChanged(final AbsListView view, final int state) {
 		/**
 		 * Check that the scrolling has stopped, and that the last item is
 		 * visible.
@@ -179,6 +183,9 @@ public abstract class PullToRefreshAdapterViewBase<T extends AbsListView> extend
 
 			// We need to convert any LayoutParams so that it works in our
 			// FrameLayout
+			if(mEmptyView != null) {
+				refreshableViewWrapper.removeView(mEmptyView);
+			}
 			FrameLayout.LayoutParams lp = convertEmptyViewLayoutParams(newEmptyView.getLayoutParams());
 			if (null != lp) {
 				refreshableViewWrapper.addView(newEmptyView, lp);
@@ -223,7 +230,7 @@ public abstract class PullToRefreshAdapterViewBase<T extends AbsListView> extend
 	 * Sets whether an indicator graphic should be displayed when the View is in
 	 * a state where a Pull-to-Refresh can happen. An example of this state is
 	 * when the Adapter View is scrolled to the top and the mode is set to
-	 * {@link Mode#PULL_FROM_START}
+	 * {@link PtrMode#PULL_FROM_START}
 	 * 
 	 * @param showIndicator - true if the indicators should be shown.
 	 */
@@ -260,6 +267,7 @@ public abstract class PullToRefreshAdapterViewBase<T extends AbsListView> extend
 		}
 	}
 
+	@Override
 	protected void onRefreshing(boolean doScroll) {
 		super.onRefreshing(doScroll);
 
@@ -299,13 +307,16 @@ public abstract class PullToRefreshAdapterViewBase<T extends AbsListView> extend
 	@Override
 	protected void handleStyledAttributes(TypedArray a) {
 		// Set Show Indicator to the XML value, or default value
-		mShowIndicator = a.getBoolean(R.styleable.PullToRefresh_ptrShowIndicator, !isPullToRefreshOverScrollEnabled());
+//		mShowIndicator = a.getBoolean(R.styleable.PullToRefresh_ptrShowIndicator, !isPullToRefreshOverScrollEnabled());
+		//modify hyh 20140109 设置是否有触底反弹效�?		mShowIndicator = false;
 	}
 
+	@Override
 	protected boolean isReadyForPullStart() {
 		return isFirstItemVisible();
 	}
 
+	@Override
 	protected boolean isReadyForPullEnd() {
 		return isLastItemVisible();
 	}
@@ -331,12 +342,12 @@ public abstract class PullToRefreshAdapterViewBase<T extends AbsListView> extend
 	}
 
 	private void addIndicatorViews() {
-		Mode mode = getMode();
+		PtrMode mode = getMode();
 		FrameLayout refreshableViewWrapper = getRefreshableViewWrapper();
 
 		if (mode.showHeaderLoadingLayout() && null == mIndicatorIvTop) {
 			// If the mode can pull down, and we don't have one set already
-			mIndicatorIvTop = new IndicatorLayout(getContext(), Mode.PULL_FROM_START);
+			mIndicatorIvTop = new IndicatorLayout(getContext(), PtrMode.PULL_FROM_START);
 			FrameLayout.LayoutParams params = new FrameLayout.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT,
 					ViewGroup.LayoutParams.WRAP_CONTENT);
 			params.rightMargin = getResources().getDimensionPixelSize(R.dimen.indicator_right_padding);
@@ -351,7 +362,7 @@ public abstract class PullToRefreshAdapterViewBase<T extends AbsListView> extend
 
 		if (mode.showFooterLoadingLayout() && null == mIndicatorIvBottom) {
 			// If the mode can pull down, and we don't have one set already
-			mIndicatorIvBottom = new IndicatorLayout(getContext(), Mode.PULL_FROM_END);
+			mIndicatorIvBottom = new IndicatorLayout(getContext(), PtrMode.PULL_FROM_END);
 			FrameLayout.LayoutParams params = new FrameLayout.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT,
 					ViewGroup.LayoutParams.WRAP_CONTENT);
 			params.rightMargin = getResources().getDimensionPixelSize(R.dimen.indicator_right_padding);
@@ -397,7 +408,15 @@ public abstract class PullToRefreshAdapterViewBase<T extends AbsListView> extend
 
 		return false;
 	}
-
+	
+	public boolean isScrollTop() {
+		return isFirstItemVisible();
+	}
+	
+	public boolean isScrollBottom() {
+		return isLastItemVisible();
+	}
+	
 	private boolean isLastItemVisible() {
 		final Adapter adapter = mRefreshableView.getAdapter();
 
@@ -471,6 +490,4 @@ public abstract class PullToRefreshAdapterViewBase<T extends AbsListView> extend
 			}
 		}
 	}
-	
-	
 }

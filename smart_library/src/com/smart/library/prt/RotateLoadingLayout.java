@@ -15,6 +15,10 @@
  *******************************************************************************/
 package com.smart.library.prt;
 
+import com.smart.library.R;
+import com.smart.library.prt.PullToRefreshBase.Orientation;
+import com.smart.library.prt.PullToRefreshBase.PtrMode;
+
 import android.content.Context;
 import android.content.res.TypedArray;
 import android.graphics.Matrix;
@@ -22,10 +26,6 @@ import android.graphics.drawable.Drawable;
 import android.view.animation.Animation;
 import android.view.animation.RotateAnimation;
 import android.widget.ImageView.ScaleType;
-
-import com.smart.library.R;
-import com.smart.library.prt.PullToRefreshBase.Mode;
-import com.smart.library.prt.PullToRefreshBase.Orientation;
 
 public class RotateLoadingLayout extends LoadingLayout {
 
@@ -38,7 +38,7 @@ public class RotateLoadingLayout extends LoadingLayout {
 
 	private final boolean mRotateDrawableWhilePulling;
 
-	public RotateLoadingLayout(Context context, Mode mode, Orientation scrollDirection, TypedArray attrs) {
+	public RotateLoadingLayout(Context context, PtrMode mode, Orientation scrollDirection, TypedArray attrs) {
 		super(context, mode, scrollDirection, attrs);
 
 		mRotateDrawableWhilePulling = attrs.getBoolean(R.styleable.PullToRefresh_ptrRotateDrawableWhilePulling, true);
@@ -104,7 +104,7 @@ public class RotateLoadingLayout extends LoadingLayout {
 
 	@Override
 	protected int getDefaultDrawableResId() {
-		return R.drawable.default_ptr_rotate;
+		return R.drawable.ptr_default_ptr_rotate;
 	}
 
 }

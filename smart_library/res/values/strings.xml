@@ -4,5 +4,5 @@
     <string name="app_name">smart_library</string>
     <string name="action_settings">Settings</string>
     <string name="hello_world">Hello world!</string>
-
+ <string name="warm_prompt">温馨提示</string>
 </resources>

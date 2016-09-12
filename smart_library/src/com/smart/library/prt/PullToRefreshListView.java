@@ -15,6 +15,8 @@
  *******************************************************************************/
 package com.smart.library.prt;
 
+import com.smart.library.R;
+
 import android.annotation.TargetApi;
 import android.content.Context;
 import android.content.res.TypedArray;
@@ -28,8 +30,6 @@ import android.view.View;
 import android.widget.FrameLayout;
 import android.widget.ListAdapter;
 import android.widget.ListView;
-
-import com.smart.library.R;
 
 public class PullToRefreshListView extends PullToRefreshAdapterViewBase<ListView> {
 
@@ -48,11 +48,11 @@ public class PullToRefreshListView extends PullToRefreshAdapterViewBase<ListView
 		super(context, attrs);
 	}
 
-	public PullToRefreshListView(Context context, Mode mode) {
+	public PullToRefreshListView(Context context, PtrMode mode) {
 		super(context, mode);
 	}
 
-	public PullToRefreshListView(Context context, Mode mode, AnimationStyle style) {
+	public PullToRefreshListView(Context context, PtrMode mode, AnimationStyle style) {
 		super(context, mode, style);
 	}
 
@@ -188,7 +188,7 @@ public class PullToRefreshListView extends PullToRefreshAdapterViewBase<ListView
 		LoadingLayoutProxy proxy = super.createLoadingLayoutProxy(includeStart, includeEnd);
 
 		if (mListViewExtrasEnabled) {
-			final Mode mode = getMode();
+			final PtrMode mode = getMode();
 
 			if (includeStart && mode.showHeaderLoadingLayout()) {
 				proxy.addLayout(mHeaderLoadingView);
@@ -214,7 +214,6 @@ public class PullToRefreshListView extends PullToRefreshAdapterViewBase<ListView
 	@Override
 	protected ListView createRefreshableView(Context context, AttributeSet attrs) {
 		ListView lv = createListView(context, attrs);
-
 		// Set it to this so it can be used in ListActivity/ListFragment
 		lv.setId(android.R.id.list);
 		return lv;
@@ -225,6 +224,8 @@ public class PullToRefreshListView extends PullToRefreshAdapterViewBase<ListView
 		super.handleStyledAttributes(a);
 
 		mListViewExtrasEnabled = a.getBoolean(R.styleable.PullToRefresh_ptrListViewExtrasEnabled, true);
+		boolean b = a.getBoolean(R.styleable.PullToRefresh_ptrHorizontalScroll, false);
+		setSupportHorizantalScroll(b);
 
 		if (mListViewExtrasEnabled) {
 			final FrameLayout.LayoutParams lp = new FrameLayout.LayoutParams(FrameLayout.LayoutParams.MATCH_PARENT,
@@ -232,13 +233,13 @@ public class PullToRefreshListView extends PullToRefreshAdapterViewBase<ListView
 
 			// Create Loading Views ready for use later
 			FrameLayout frame = new FrameLayout(getContext());
-			mHeaderLoadingView = createLoadingLayout(getContext(), Mode.PULL_FROM_START, a);
+			mHeaderLoadingView = createLoadingLayout(getContext(), PtrMode.PULL_FROM_START, a);
 			mHeaderLoadingView.setVisibility(View.GONE);
 			frame.addView(mHeaderLoadingView, lp);
 			mRefreshableView.addHeaderView(frame, null, false);
 
 			mLvFooterLoadingFrame = new FrameLayout(getContext());
-			mFooterLoadingView = createLoadingLayout(getContext(), Mode.PULL_FROM_END, a);
+			mFooterLoadingView = createLoadingLayout(getContext(), PtrMode.PULL_FROM_END, a);
 			mFooterLoadingView.setVisibility(View.GONE);
 			mLvFooterLoadingFrame.addView(mFooterLoadingView, lp);
 
@@ -273,14 +274,20 @@ public class PullToRefreshListView extends PullToRefreshAdapterViewBase<ListView
 		}
 	}
 
+	public final void setSupportHorizantalScroll(boolean support) {
+		((InternalListView)getRefreshableView()).mIsSupportHorizantalScroll = support;
+	}
+	
 	protected class InternalListView extends ListView implements EmptyViewMethodAccessor {
 
 		private boolean mAddedLvFooter = false;
+		private boolean mIsSupportHorizantalScroll = false;
+		private float lastX,lastY;
 
 		public InternalListView(Context context, AttributeSet attrs) {
 			super(context, attrs);
 		}
-
+		
 		@Override
 		protected void dispatchDraw(Canvas canvas) {
 			/**
@@ -311,6 +318,27 @@ public class PullToRefreshListView extends PullToRefreshAdapterViewBase<ListView
 		}
 
 		@Override
+		public boolean onInterceptTouchEvent(MotionEvent ev) {
+			if(mIsSupportHorizantalScroll) {
+				switch(ev.getAction()) {
+				case MotionEvent.ACTION_DOWN :
+					lastX = ev.getX();
+					lastY = ev.getY();
+					break;
+				case MotionEvent.ACTION_MOVE : {
+					float x = ev.getX();
+					float y = ev.getY();
+					if(Math.abs(x - lastX) > Math.abs(y - lastY)) {
+						return false;
+					}
+				}
+					break;
+				}
+			}
+			return super.onInterceptTouchEvent(ev);
+		}
+
+		@Override
 		public void setAdapter(ListAdapter adapter) {
 			// Add the Footer View at the last possible moment
 			if (null != mLvFooterLoadingFrame && !mAddedLvFooter) {
@@ -333,4 +361,5 @@ public class PullToRefreshListView extends PullToRefreshAdapterViewBase<ListView
 
 	}
 
+	
 }

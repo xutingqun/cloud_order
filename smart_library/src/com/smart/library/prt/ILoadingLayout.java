@@ -13,6 +13,9 @@ public interface ILoadingLayout {
 	 */
 	public void setLastUpdatedLabel(CharSequence label);
 
+	//modify hyh 20130823
+	public void setLastUpdatedVisible(int visible);
+	
 	/**
 	 * Set the drawable used in the loading layout. This is the same as calling
 	 * <code>setLoadingDrawable(drawable, Mode.BOTH)</code>

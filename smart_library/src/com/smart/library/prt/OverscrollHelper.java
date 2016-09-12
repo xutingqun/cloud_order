@@ -15,12 +15,12 @@
  *******************************************************************************/
 package com.smart.library.prt;
 
+import com.smart.library.prt.PullToRefreshBase.PtrMode;
+import com.smart.library.prt.PullToRefreshBase.State;
+
 import android.annotation.TargetApi;
 import android.util.Log;
 import android.view.View;
-
-import com.smart.library.prt.PullToRefreshBase.Mode;
-import com.smart.library.prt.PullToRefreshBase.State;
 
 @TargetApi(9)
 public final class OverscrollHelper {
@@ -121,7 +121,7 @@ public final class OverscrollHelper {
 		// Check that OverScroll is enabled and that we're not currently
 		// refreshing.
 		if (view.isPullToRefreshOverScrollEnabled() && !view.isRefreshing()) {
-			final Mode mode = view.getMode();
+			final PtrMode mode = view.getMode();
 
 			// Check that Pull-to-Refresh is enabled, and the event isn't from
 			// touch

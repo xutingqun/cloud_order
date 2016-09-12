@@ -1,6 +1,7 @@
 package com.smart.library.util;
 
 import android.app.Activity;
+import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 
@@ -23,7 +24,17 @@ public final class IntentUtil {
 		ac.startActivity(new Intent(ac, mClass));
 		// }
 	}
-
+	/**
+	 * 不重复界面跳转，不足之处要配合不让按钮快速点击
+	 * 
+	 * @param context
+	 * @param mClass
+	 */
+	public static void mStartActivity(Context ac, Class<?> mClass) {
+		// if (AppManager.isOnlyOneActivity(ac, mClass)) {
+		ac.startActivity(new Intent(ac, mClass));
+		// }
+	}
 	/**
 	 * 带Bundle数据跳转
 	 * 

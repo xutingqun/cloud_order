@@ -68,4 +68,12 @@ public class LoadingLayoutProxy implements ILoadingLayout {
 			layout.setTextTypeface(tf);
 		}
 	}
+
+	@Override
+	public void setLastUpdatedVisible(int visible) {
+		//modify hyh 
+		for (LoadingLayout layout : mLoadingLayouts) {
+			layout.setLastUpdatedVisible(visible);
+		}
+	}
 }

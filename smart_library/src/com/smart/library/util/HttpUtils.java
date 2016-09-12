@@ -56,11 +56,6 @@ public class HttpUtils {
 		return client;
 	}
 	
-	public static void post(String urlString,RequestParams params, AsyncHttpResponseHandler res) // 用一个完整url获取一个string对象
-	{
-		client.post(urlString,params,res);
-	}
-	
 	/**
 	 * 获取网络图片
 	 * @param url 图片路径

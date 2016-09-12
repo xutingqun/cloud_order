@@ -15,6 +15,8 @@
  *******************************************************************************/
 package com.smart.library.prt;
 
+import com.smart.library.R;
+
 import android.annotation.SuppressLint;
 import android.content.Context;
 import android.graphics.Matrix;
@@ -30,8 +32,6 @@ import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.ImageView.ScaleType;
 
-import com.smart.library.R;
-
 @SuppressLint("ViewConstructor")
 public class IndicatorLayout extends FrameLayout implements AnimationListener {
 
@@ -42,11 +42,11 @@ public class IndicatorLayout extends FrameLayout implements AnimationListener {
 
 	private final Animation mRotateAnimation, mResetRotateAnimation;
 
-	public IndicatorLayout(Context context, PullToRefreshBase.Mode mode) {
+	public IndicatorLayout(Context context, PullToRefreshBase.PtrMode mode) {
 		super(context);
 		mArrowImageView = new ImageView(context);
 
-		Drawable arrowD = getResources().getDrawable(R.drawable.indicator_arrow);
+		Drawable arrowD = getResources().getDrawable(R.drawable.ptr_default_ptr_flip);
 		mArrowImageView.setImageDrawable(arrowD);
 
 		final int padding = getResources().getDimensionPixelSize(R.dimen.indicator_internal_padding);
@@ -56,9 +56,9 @@ public class IndicatorLayout extends FrameLayout implements AnimationListener {
 		int inAnimResId, outAnimResId;
 		switch (mode) {
 			case PULL_FROM_END:
-				inAnimResId = R.anim.slide_in_from_bottom;
-				outAnimResId = R.anim.slide_out_to_bottom;
-				setBackgroundResource(R.drawable.indicator_bg_bottom);
+				inAnimResId = R.anim.ptr_slide_in_from_bottom;
+				outAnimResId = R.anim.ptr_slide_out_to_bottom;
+				setBackgroundResource(R.drawable.ptr_indicator_bg_bottom);
 
 				// Rotate Arrow so it's pointing the correct way
 				mArrowImageView.setScaleType(ScaleType.MATRIX);
@@ -68,9 +68,9 @@ public class IndicatorLayout extends FrameLayout implements AnimationListener {
 				break;
 			default:
 			case PULL_FROM_START:
-				inAnimResId = R.anim.slide_in_from_top;
-				outAnimResId = R.anim.slide_out_to_top;
-				setBackgroundResource(R.drawable.indicator_bg_top);
+				inAnimResId = R.anim.ptr_slide_in_from_top;
+				outAnimResId = R.anim.ptr_slide_out_to_top;
+				setBackgroundResource(R.drawable.ptr_indicator_bg_top);
 				break;
 		}
 

@@ -15,6 +15,10 @@
  *******************************************************************************/
 package com.smart.library.prt;
 
+import com.smart.library.R;
+import com.smart.library.prt.PullToRefreshBase.Orientation;
+import com.smart.library.prt.PullToRefreshBase.PtrMode;
+
 import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.res.TypedArray;
@@ -26,9 +30,6 @@ import android.view.animation.Animation;
 import android.view.animation.RotateAnimation;
 import android.widget.ImageView.ScaleType;
 
-import com.smart.library.R;
-import com.smart.library.prt.PullToRefreshBase.Mode;
-import com.smart.library.prt.PullToRefreshBase.Orientation;
 
 @SuppressLint("ViewConstructor")
 public class FlipLoadingLayout extends LoadingLayout {
@@ -37,10 +38,10 @@ public class FlipLoadingLayout extends LoadingLayout {
 
 	private final Animation mRotateAnimation, mResetRotateAnimation;
 
-	public FlipLoadingLayout(Context context, final Mode mode, final Orientation scrollDirection, TypedArray attrs) {
+	public FlipLoadingLayout(Context context, final PtrMode mode, final Orientation scrollDirection, TypedArray attrs) {
 		super(context, mode, scrollDirection, attrs);
 
-		final int rotateAngle = mode == Mode.PULL_FROM_START ? -180 : 180;
+		final int rotateAngle = mode == PtrMode.PULL_FROM_START ? -180 : 180;
 
 		mRotateAnimation = new RotateAnimation(0, rotateAngle, Animation.RELATIVE_TO_SELF, 0.5f,
 				Animation.RELATIVE_TO_SELF, 0.5f);
@@ -116,7 +117,7 @@ public class FlipLoadingLayout extends LoadingLayout {
 
 	@Override
 	protected int getDefaultDrawableResId() {
-		return R.drawable.default_ptr_flip;
+		return R.drawable.ptr_default_ptr_flip;
 	}
 
 	private float getDrawableRotationAngle() {
