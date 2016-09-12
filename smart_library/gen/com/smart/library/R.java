@@ -643,52 +643,52 @@ containing a value of this type.
         public static int textSize=0x7f01000f;
     }
     public static final class color {
-        public static int aqi_dangerous_color=0x7f07000f;
-        public static int aqi_good_color=0x7f07000c;
-        public static int aqi_hazardous_color=0x7f070010;
-        public static int aqi_light_pollution_color=0x7f07000d;
-        public static int aqi_text_color=0x7f070011;
-        public static int aqi_unhealthy_color=0x7f07000e;
-        public static int bar=0x7f070009;
-        public static int black=0x7f070006;
-        public static int circle=0x7f070019;
-        public static int dialog_bg=0x7f07001d;
-        public static int error_text=0x7f07001e;
-        public static int green_dark_normal=0x7f070002;
-        public static int green_dark_pressed=0x7f070003;
-        public static int green_disable_dark=0x7f070004;
-        public static int grey=0x7f07000a;
-        public static int information_warning=0x7f07000b;
+        public static int aqi_dangerous_color=0x7f06000f;
+        public static int aqi_good_color=0x7f06000c;
+        public static int aqi_hazardous_color=0x7f060010;
+        public static int aqi_light_pollution_color=0x7f06000d;
+        public static int aqi_text_color=0x7f060011;
+        public static int aqi_unhealthy_color=0x7f06000e;
+        public static int bar=0x7f060009;
+        public static int black=0x7f060006;
+        public static int circle=0x7f060019;
+        public static int dialog_bg=0x7f06001d;
+        public static int error_text=0x7f06001e;
+        public static int green_dark_normal=0x7f060002;
+        public static int green_dark_pressed=0x7f060003;
+        public static int green_disable_dark=0x7f060004;
+        public static int grey=0x7f06000a;
+        public static int information_warning=0x7f06000b;
         /**  Loading 
          */
-        public static int orange_normal=0x7f070000;
-        public static int orange_pressed=0x7f070001;
-        public static int rect=0x7f07001a;
-        public static int shadow=0x7f07001c;
-        public static int text=0x7f07001f;
-        public static int transparent=0x7f070007;
-        public static int trend_view_blue_color=0x7f070016;
-        public static int trend_view_default_color=0x7f070017;
-        public static int trend_view_text_color=0x7f070013;
-        public static int trend_view_text_color_backup=0x7f070012;
-        public static int trend_view_weather_text_color=0x7f070014;
-        public static int trend_view_yellow_color=0x7f070015;
-        public static int triangle=0x7f070018;
-        public static int view_bg=0x7f07001b;
-        public static int white=0x7f070005;
-        public static int window_bg=0x7f070008;
+        public static int orange_normal=0x7f060000;
+        public static int orange_pressed=0x7f060001;
+        public static int rect=0x7f06001a;
+        public static int shadow=0x7f06001c;
+        public static int text=0x7f06001f;
+        public static int transparent=0x7f060007;
+        public static int trend_view_blue_color=0x7f060016;
+        public static int trend_view_default_color=0x7f060017;
+        public static int trend_view_text_color=0x7f060013;
+        public static int trend_view_text_color_backup=0x7f060012;
+        public static int trend_view_weather_text_color=0x7f060014;
+        public static int trend_view_yellow_color=0x7f060015;
+        public static int triangle=0x7f060018;
+        public static int view_bg=0x7f06001b;
+        public static int white=0x7f060005;
+        public static int window_bg=0x7f060008;
     }
     public static final class dimen {
         /**  Default screen margins, per the Android Design guidelines. 
          */
-        public static int activity_horizontal_margin=0x7f080000;
-        public static int activity_vertical_margin=0x7f080001;
-        public static int header_footer_left_right_padding=0x7f080005;
-        public static int header_footer_top_bottom_padding=0x7f080006;
-        public static int indicator_corner_radius=0x7f080003;
-        public static int indicator_internal_padding=0x7f080004;
-        public static int indicator_right_padding=0x7f080002;
-        public static int pull_to_refresh_header_view_default_height=0x7f080007;
+        public static int activity_horizontal_margin=0x7f070000;
+        public static int activity_vertical_margin=0x7f070001;
+        public static int header_footer_left_right_padding=0x7f070005;
+        public static int header_footer_top_bottom_padding=0x7f070006;
+        public static int indicator_corner_radius=0x7f070003;
+        public static int indicator_internal_padding=0x7f070004;
+        public static int indicator_right_padding=0x7f070002;
+        public static int pull_to_refresh_header_view_default_height=0x7f070007;
     }
     public static final class drawable {
         public static int actionsheet_bottom_normal=0x7f020000;
@@ -734,60 +734,60 @@ containing a value of this type.
         public static int xiuba_logo=0x7f020028;
     }
     public static final class id {
-        public static int action_settings=0x7f060035;
-        public static int all=0x7f060008;
-        public static int animProgress=0x7f060033;
-        public static int arrow=0x7f060003;
-        public static int both=0x7f060012;
-        public static int bottom=0x7f060007;
-        public static int check=0x7f060001;
-        public static int disabled=0x7f06000f;
-        public static int fl_inner=0x7f06002c;
-        public static int flip=0x7f060017;
-        public static int graybtn=0x7f060025;
-        public static int greenbtn=0x7f060027;
-        public static int gridview=0x7f06000c;
-        public static int img_error_layout=0x7f060032;
-        public static int inCall=0x7f06000b;
-        public static int incoming=0x7f060009;
-        public static int indication=0x7f060029;
-        public static int iv_titlev_back=0x7f06001b;
-        public static int iv_titlev_center=0x7f06001d;
-        public static int iv_titlev_more=0x7f060020;
-        public static int layout_title=0x7f060018;
-        public static int left=0x7f060005;
-        public static int list_items=0x7f060024;
-        public static int ll_titlev_back=0x7f06001a;
-        public static int ll_titlev_more=0x7f06001f;
-        public static int ll_top_title=0x7f060019;
-        public static int manualOnly=0x7f060013;
-        public static int message=0x7f060023;
-        public static int none=0x7f060002;
-        public static int outgoing=0x7f06000a;
-        public static int pageerrLayout=0x7f060031;
-        public static int promptTV=0x7f06002a;
-        public static int pullDownFromTop=0x7f060014;
-        public static int pullFromEnd=0x7f060011;
-        public static int pullFromStart=0x7f060010;
-        public static int pullUpFromBottom=0x7f060015;
-        public static int pull_to_refresh_image=0x7f06002d;
-        public static int pull_to_refresh_progress=0x7f06002e;
-        public static int pull_to_refresh_sub_text=0x7f060030;
-        public static int pull_to_refresh_text=0x7f06002f;
-        public static int radio=0x7f060000;
-        public static int right=0x7f060006;
-        public static int rotate=0x7f060016;
-        public static int scrollview=0x7f06000e;
-        public static int shapeLoadingView=0x7f06002b;
-        public static int space=0x7f060026;
-        public static int switchbutton=0x7f060004;
-        public static int title=0x7f060022;
-        public static int toast_text=0x7f060028;
-        public static int tv_error_layout=0x7f060034;
-        public static int tv_titlev_back=0x7f06001c;
-        public static int tv_titlev_center=0x7f06001e;
-        public static int tv_titlev_more=0x7f060021;
-        public static int webview=0x7f06000d;
+        public static int action_settings=0x7f080035;
+        public static int all=0x7f080008;
+        public static int animProgress=0x7f080033;
+        public static int arrow=0x7f080005;
+        public static int both=0x7f08000f;
+        public static int bottom=0x7f080009;
+        public static int check=0x7f080003;
+        public static int disabled=0x7f080010;
+        public static int fl_inner=0x7f08002c;
+        public static int flip=0x7f080016;
+        public static int graybtn=0x7f080025;
+        public static int greenbtn=0x7f080027;
+        public static int gridview=0x7f080000;
+        public static int img_error_layout=0x7f080032;
+        public static int inCall=0x7f08000c;
+        public static int incoming=0x7f08000d;
+        public static int indication=0x7f080029;
+        public static int iv_titlev_back=0x7f08001b;
+        public static int iv_titlev_center=0x7f08001d;
+        public static int iv_titlev_more=0x7f080020;
+        public static int layout_title=0x7f080018;
+        public static int left=0x7f08000a;
+        public static int list_items=0x7f080024;
+        public static int ll_titlev_back=0x7f08001a;
+        public static int ll_titlev_more=0x7f08001f;
+        public static int ll_top_title=0x7f080019;
+        public static int manualOnly=0x7f080011;
+        public static int message=0x7f080023;
+        public static int none=0x7f080006;
+        public static int outgoing=0x7f08000e;
+        public static int pageerrLayout=0x7f080031;
+        public static int promptTV=0x7f08002a;
+        public static int pullDownFromTop=0x7f080012;
+        public static int pullFromEnd=0x7f080013;
+        public static int pullFromStart=0x7f080014;
+        public static int pullUpFromBottom=0x7f080015;
+        public static int pull_to_refresh_image=0x7f08002d;
+        public static int pull_to_refresh_progress=0x7f08002e;
+        public static int pull_to_refresh_sub_text=0x7f080030;
+        public static int pull_to_refresh_text=0x7f08002f;
+        public static int radio=0x7f080004;
+        public static int right=0x7f08000b;
+        public static int rotate=0x7f080017;
+        public static int scrollview=0x7f080002;
+        public static int shapeLoadingView=0x7f08002b;
+        public static int space=0x7f080026;
+        public static int switchbutton=0x7f080007;
+        public static int title=0x7f080022;
+        public static int toast_text=0x7f080028;
+        public static int tv_error_layout=0x7f080034;
+        public static int tv_titlev_back=0x7f08001c;
+        public static int tv_titlev_center=0x7f08001e;
+        public static int tv_titlev_more=0x7f080021;
+        public static int webview=0x7f080001;
     }
     public static final class layout {
         public static int ac_titleview=0x7f030000;
@@ -892,7 +892,7 @@ or to a theme attribute in the form "<code>?[<i>package</i>:][<i>type</i>:]<i>na
 "<code>#<i>rrggbb</i></code>", or "<code>#<i>aarrggbb</i></code>".
           @attr name com.smart.library:actionSheetBackground
         */
-        public static final int ActionSheet_actionSheetBackground = 0;
+        public static int ActionSheet_actionSheetBackground = 0;
         /**
           <p>This symbol is the offset where the {@link com.smart.library.R.attr#actionSheetPadding}
           attribute's value can be found in the {@link #ActionSheet} array.
@@ -905,7 +905,7 @@ Available units are: px (pixels), dp (density-independent pixels), sp (scaled pi
 in (inches), mm (millimeters).
           @attr name com.smart.library:actionSheetPadding
         */
-        public static final int ActionSheet_actionSheetPadding = 8;
+        public static int ActionSheet_actionSheetPadding = 8;
         /**
           <p>This symbol is the offset where the {@link com.smart.library.R.attr#actionSheetTextSize}
           attribute's value can be found in the {@link #ActionSheet} array.
@@ -918,7 +918,7 @@ Available units are: px (pixels), dp (density-independent pixels), sp (scaled pi
 in (inches), mm (millimeters).
           @attr name com.smart.library:actionSheetTextSize
         */
-        public static final int ActionSheet_actionSheetTextSize = 11;
+        public static int ActionSheet_actionSheetTextSize = 11;
         /**
           <p>This symbol is the offset where the {@link com.smart.library.R.attr#cancelButtonBackground}
           attribute's value can be found in the {@link #ActionSheet} array.
@@ -930,7 +930,7 @@ or to a theme attribute in the form "<code>?[<i>package</i>:][<i>type</i>:]<i>na
 "<code>#<i>rrggbb</i></code>", or "<code>#<i>aarrggbb</i></code>".
           @attr name com.smart.library:cancelButtonBackground
         */
-        public static final int ActionSheet_cancelButtonBackground = 1;
+        public static int ActionSheet_cancelButtonBackground = 1;
         /**
           <p>This symbol is the offset where the {@link com.smart.library.R.attr#cancelButtonMarginTop}
           attribute's value can be found in the {@link #ActionSheet} array.
@@ -943,7 +943,7 @@ Available units are: px (pixels), dp (density-independent pixels), sp (scaled pi
 in (inches), mm (millimeters).
           @attr name com.smart.library:cancelButtonMarginTop
         */
-        public static final int ActionSheet_cancelButtonMarginTop = 10;
+        public static int ActionSheet_cancelButtonMarginTop = 10;
         /**
           <p>This symbol is the offset where the {@link com.smart.library.R.attr#cancelButtonTextColor}
           attribute's value can be found in the {@link #ActionSheet} array.
@@ -955,7 +955,7 @@ or to a theme attribute in the form "<code>?[<i>package</i>:][<i>type</i>:]<i>na
 "<code>#<i>rrggbb</i></code>", or "<code>#<i>aarrggbb</i></code>".
           @attr name com.smart.library:cancelButtonTextColor
         */
-        public static final int ActionSheet_cancelButtonTextColor = 6;
+        public static int ActionSheet_cancelButtonTextColor = 6;
         /**
           <p>This symbol is the offset where the {@link com.smart.library.R.attr#otherButtonBottomBackground}
           attribute's value can be found in the {@link #ActionSheet} array.
@@ -967,7 +967,7 @@ or to a theme attribute in the form "<code>?[<i>package</i>:][<i>type</i>:]<i>na
 "<code>#<i>rrggbb</i></code>", or "<code>#<i>aarrggbb</i></code>".
           @attr name com.smart.library:otherButtonBottomBackground
         */
-        public static final int ActionSheet_otherButtonBottomBackground = 4;
+        public static int ActionSheet_otherButtonBottomBackground = 4;
         /**
           <p>This symbol is the offset where the {@link com.smart.library.R.attr#otherButtonMiddleBackground}
           attribute's value can be found in the {@link #ActionSheet} array.
@@ -979,7 +979,7 @@ or to a theme attribute in the form "<code>?[<i>package</i>:][<i>type</i>:]<i>na
 "<code>#<i>rrggbb</i></code>", or "<code>#<i>aarrggbb</i></code>".
           @attr name com.smart.library:otherButtonMiddleBackground
         */
-        public static final int ActionSheet_otherButtonMiddleBackground = 3;
+        public static int ActionSheet_otherButtonMiddleBackground = 3;
         /**
           <p>This symbol is the offset where the {@link com.smart.library.R.attr#otherButtonSingleBackground}
           attribute's value can be found in the {@link #ActionSheet} array.
@@ -991,7 +991,7 @@ or to a theme attribute in the form "<code>?[<i>package</i>:][<i>type</i>:]<i>na
 "<code>#<i>rrggbb</i></code>", or "<code>#<i>aarrggbb</i></code>".
           @attr name com.smart.library:otherButtonSingleBackground
         */
-        public static final int ActionSheet_otherButtonSingleBackground = 5;
+        public static int ActionSheet_otherButtonSingleBackground = 5;
         /**
           <p>This symbol is the offset where the {@link com.smart.library.R.attr#otherButtonSpacing}
           attribute's value can be found in the {@link #ActionSheet} array.
@@ -1004,7 +1004,7 @@ Available units are: px (pixels), dp (density-independent pixels), sp (scaled pi
 in (inches), mm (millimeters).
           @attr name com.smart.library:otherButtonSpacing
         */
-        public static final int ActionSheet_otherButtonSpacing = 9;
+        public static int ActionSheet_otherButtonSpacing = 9;
         /**
           <p>This symbol is the offset where the {@link com.smart.library.R.attr#otherButtonTextColor}
           attribute's value can be found in the {@link #ActionSheet} array.
@@ -1016,7 +1016,7 @@ or to a theme attribute in the form "<code>?[<i>package</i>:][<i>type</i>:]<i>na
 "<code>#<i>rrggbb</i></code>", or "<code>#<i>aarrggbb</i></code>".
           @attr name com.smart.library:otherButtonTextColor
         */
-        public static final int ActionSheet_otherButtonTextColor = 7;
+        public static int ActionSheet_otherButtonTextColor = 7;
         /**
           <p>This symbol is the offset where the {@link com.smart.library.R.attr#otherButtonTopBackground}
           attribute's value can be found in the {@link #ActionSheet} array.
@@ -1028,7 +1028,7 @@ or to a theme attribute in the form "<code>?[<i>package</i>:][<i>type</i>:]<i>na
 "<code>#<i>rrggbb</i></code>", or "<code>#<i>aarrggbb</i></code>".
           @attr name com.smart.library:otherButtonTopBackground
         */
-        public static final int ActionSheet_otherButtonTopBackground = 2;
+        public static int ActionSheet_otherButtonTopBackground = 2;
         /** Attributes that can be used with a ActionSheets.
            <p>Includes the following attributes:</p>
            <table>
@@ -1051,7 +1051,7 @@ or to a theme attribute in the form "<code>?[<i>package</i>:][<i>type</i>:]<i>na
 or to a theme attribute in the form "<code>?[<i>package</i>:][<i>type</i>:]<i>name</i></code>".
           @attr name com.smart.library:actionSheetStyle
         */
-        public static final int ActionSheets_actionSheetStyle = 0;
+        public static int ActionSheets_actionSheetStyle = 0;
         /** Attributes that can be used with a AppPanel.
            <p>Includes the following attributes:</p>
            <table>
@@ -1082,7 +1082,7 @@ theme attribute (in the form
 containing a value of this type.
           @attr name com.smart.library:dot_count
         */
-        public static final int AppPanel_dot_count = 0;
+        public static int AppPanel_dot_count = 0;
         /**
           <p>This symbol is the offset where the {@link com.smart.library.R.attr#dot_selected}
           attribute's value can be found in the {@link #AppPanel} array.
@@ -1098,7 +1098,7 @@ theme attribute (in the form
 containing a value of this type.
           @attr name com.smart.library:dot_selected
         */
-        public static final int AppPanel_dot_selected = 1;
+        public static int AppPanel_dot_selected = 1;
         /** Attributes that can be used with a CheckedRelativeLayout.
            <p>Includes the following attributes:</p>
            <table>
@@ -1127,7 +1127,7 @@ theme attribute (in the form
 containing a value of this type.
           @attr name com.smart.library:checked
         */
-        public static final int CheckedRelativeLayout_checked = 0;
+        public static int CheckedRelativeLayout_checked = 0;
         /**
           <p>This symbol is the offset where the {@link com.smart.library.R.attr#checkmode}
           attribute's value can be found in the {@link #CheckedRelativeLayout} array.
@@ -1144,7 +1144,7 @@ containing a value of this type.
 </table>
           @attr name com.smart.library:checkmode
         */
-        public static final int CheckedRelativeLayout_checkmode = 1;
+        public static int CheckedRelativeLayout_checkmode = 1;
         /** Attributes that can be used with a CircleImageView.
            <p>Includes the following attributes:</p>
            <table>
@@ -1174,7 +1174,7 @@ theme attribute (in the form
 containing a value of this type.
           @attr name com.smart.library:border_color
         */
-        public static final int CircleImageView_border_color = 1;
+        public static int CircleImageView_border_color = 1;
         /**
           <p>This symbol is the offset where the {@link com.smart.library.R.attr#border_width}
           attribute's value can be found in the {@link #CircleImageView} array.
@@ -1190,7 +1190,7 @@ theme attribute (in the form
 containing a value of this type.
           @attr name com.smart.library:border_width
         */
-        public static final int CircleImageView_border_width = 0;
+        public static int CircleImageView_border_width = 0;
         /** Attributes that can be used with a Emojicon.
            <p>Includes the following attributes:</p>
            <table>
@@ -1225,7 +1225,7 @@ theme attribute (in the form
 containing a value of this type.
           @attr name com.smart.library:emojiconSize
         */
-        public static final int Emojicon_emojiconSize = 0;
+        public static int Emojicon_emojiconSize = 0;
         /**
           <p>This symbol is the offset where the {@link com.smart.library.R.attr#emojiconTextLength}
           attribute's value can be found in the {@link #Emojicon} array.
@@ -1239,7 +1239,7 @@ theme attribute (in the form
 containing a value of this type.
           @attr name com.smart.library:emojiconTextLength
         */
-        public static final int Emojicon_emojiconTextLength = 2;
+        public static int Emojicon_emojiconTextLength = 2;
         /**
           <p>This symbol is the offset where the {@link com.smart.library.R.attr#emojiconTextStart}
           attribute's value can be found in the {@link #Emojicon} array.
@@ -1253,7 +1253,7 @@ theme attribute (in the form
 containing a value of this type.
           @attr name com.smart.library:emojiconTextStart
         */
-        public static final int Emojicon_emojiconTextStart = 1;
+        public static int Emojicon_emojiconTextStart = 1;
         /**
           <p>This symbol is the offset where the {@link com.smart.library.R.attr#emojiconUseSystemDefault}
           attribute's value can be found in the {@link #Emojicon} array.
@@ -1267,7 +1267,7 @@ theme attribute (in the form
 containing a value of this type.
           @attr name com.smart.library:emojiconUseSystemDefault
         */
-        public static final int Emojicon_emojiconUseSystemDefault = 3;
+        public static int Emojicon_emojiconUseSystemDefault = 3;
         /** Attributes that can be used with a FlowLayout.
            <p>Includes the following attributes:</p>
            <table>
@@ -1286,7 +1286,7 @@ containing a value of this type.
           attribute's value can be found in the {@link #FlowLayout} array.
           @attr name android:gravity
         */
-        public static final int FlowLayout_android_gravity = 0;
+        public static int FlowLayout_android_gravity = 0;
         /** Attributes that can be used with a FlowLayout_Layout.
            <p>Includes the following attributes:</p>
            <table>
@@ -1305,7 +1305,7 @@ containing a value of this type.
           attribute's value can be found in the {@link #FlowLayout_Layout} array.
           @attr name android:layout_gravity
         */
-        public static final int FlowLayout_Layout_android_layout_gravity = 0;
+        public static int FlowLayout_Layout_android_layout_gravity = 0;
         /**  Loading动画 
            <p>Includes the following attributes:</p>
            <table>
@@ -1334,7 +1334,7 @@ theme attribute (in the form
 containing a value of this type.
           @attr name com.smart.library:loadingText
         */
-        public static final int LoadingView_loadingText = 0;
+        public static int LoadingView_loadingText = 0;
         /**
           <p>This symbol is the offset where the {@link com.smart.library.R.attr#loadingTextAppearance}
           attribute's value can be found in the {@link #LoadingView} array.
@@ -1344,7 +1344,7 @@ containing a value of this type.
 or to a theme attribute in the form "<code>?[<i>package</i>:][<i>type</i>:]<i>name</i></code>".
           @attr name com.smart.library:loadingTextAppearance
         */
-        public static final int LoadingView_loadingTextAppearance = 1;
+        public static int LoadingView_loadingTextAppearance = 1;
         /** Attributes that can be used with a MaskLayout.
            <p>Includes the following attributes:</p>
            <table>
@@ -1384,7 +1384,7 @@ theme attribute (in the form
 containing a value of this type.
           @attr name com.smart.library:content_margin
         */
-        public static final int MaskLayout_content_margin = 1;
+        public static int MaskLayout_content_margin = 1;
         /**
           <p>This symbol is the offset where the {@link com.smart.library.R.attr#content_marginBottom}
           attribute's value can be found in the {@link #MaskLayout} array.
@@ -1400,7 +1400,7 @@ theme attribute (in the form
 containing a value of this type.
           @attr name com.smart.library:content_marginBottom
         */
-        public static final int MaskLayout_content_marginBottom = 5;
+        public static int MaskLayout_content_marginBottom = 5;
         /**
           <p>This symbol is the offset where the {@link com.smart.library.R.attr#content_marginLeft}
           attribute's value can be found in the {@link #MaskLayout} array.
@@ -1416,7 +1416,7 @@ theme attribute (in the form
 containing a value of this type.
           @attr name com.smart.library:content_marginLeft
         */
-        public static final int MaskLayout_content_marginLeft = 2;
+        public static int MaskLayout_content_marginLeft = 2;
         /**
           <p>This symbol is the offset where the {@link com.smart.library.R.attr#content_marginRight}
           attribute's value can be found in the {@link #MaskLayout} array.
@@ -1432,7 +1432,7 @@ theme attribute (in the form
 containing a value of this type.
           @attr name com.smart.library:content_marginRight
         */
-        public static final int MaskLayout_content_marginRight = 3;
+        public static int MaskLayout_content_marginRight = 3;
         /**
           <p>This symbol is the offset where the {@link com.smart.library.R.attr#content_marginTop}
           attribute's value can be found in the {@link #MaskLayout} array.
@@ -1448,7 +1448,7 @@ theme attribute (in the form
 containing a value of this type.
           @attr name com.smart.library:content_marginTop
         */
-        public static final int MaskLayout_content_marginTop = 4;
+        public static int MaskLayout_content_marginTop = 4;
         /**
           <p>This symbol is the offset where the {@link com.smart.library.R.attr#foreground}
           attribute's value can be found in the {@link #MaskLayout} array.
@@ -1458,7 +1458,7 @@ containing a value of this type.
 or to a theme attribute in the form "<code>?[<i>package</i>:][<i>type</i>:]<i>name</i></code>".
           @attr name com.smart.library:foreground
         */
-        public static final int MaskLayout_foreground = 0;
+        public static int MaskLayout_foreground = 0;
         /** Attributes that can be used with a PullToRefresh.
            <p>Includes the following attributes:</p>
            <table>
@@ -1529,7 +1529,7 @@ or to a theme attribute in the form "<code>?[<i>package</i>:][<i>type</i>:]<i>na
           <p>This is a private symbol.
           @attr name com.smart.library:ptrAdapterViewBackground
         */
-        public static final int PullToRefresh_ptrAdapterViewBackground = 16;
+        public static int PullToRefresh_ptrAdapterViewBackground = 16;
         /**
           <p>
           @attr description
@@ -1548,7 +1548,7 @@ or to a theme attribute in the form "<code>?[<i>package</i>:][<i>type</i>:]<i>na
           <p>This is a private symbol.
           @attr name com.smart.library:ptrAnimationStyle
         */
-        public static final int PullToRefresh_ptrAnimationStyle = 12;
+        public static int PullToRefresh_ptrAnimationStyle = 12;
         /**
           <p>
           @attr description
@@ -1560,7 +1560,7 @@ or to a theme attribute in the form "<code>?[<i>package</i>:][<i>type</i>:]<i>na
           <p>This is a private symbol.
           @attr name com.smart.library:ptrDrawable
         */
-        public static final int PullToRefresh_ptrDrawable = 6;
+        public static int PullToRefresh_ptrDrawable = 6;
         /**
           <p>This symbol is the offset where the {@link com.smart.library.R.attr#ptrDrawableBottom}
           attribute's value can be found in the {@link #PullToRefresh} array.
@@ -1570,7 +1570,7 @@ or to a theme attribute in the form "<code>?[<i>package</i>:][<i>type</i>:]<i>na
 or to a theme attribute in the form "<code>?[<i>package</i>:][<i>type</i>:]<i>name</i></code>".
           @attr name com.smart.library:ptrDrawableBottom
         */
-        public static final int PullToRefresh_ptrDrawableBottom = 18;
+        public static int PullToRefresh_ptrDrawableBottom = 18;
         /**
           <p>
           @attr description
@@ -1582,7 +1582,7 @@ or to a theme attribute in the form "<code>?[<i>package</i>:][<i>type</i>:]<i>na
           <p>This is a private symbol.
           @attr name com.smart.library:ptrDrawableEnd
         */
-        public static final int PullToRefresh_ptrDrawableEnd = 8;
+        public static int PullToRefresh_ptrDrawableEnd = 8;
         /**
           <p>
           @attr description
@@ -1594,7 +1594,7 @@ or to a theme attribute in the form "<code>?[<i>package</i>:][<i>type</i>:]<i>na
           <p>This is a private symbol.
           @attr name com.smart.library:ptrDrawableStart
         */
-        public static final int PullToRefresh_ptrDrawableStart = 7;
+        public static int PullToRefresh_ptrDrawableStart = 7;
         /**
           <p>This symbol is the offset where the {@link com.smart.library.R.attr#ptrDrawableTop}
           attribute's value can be found in the {@link #PullToRefresh} array.
@@ -1604,7 +1604,7 @@ or to a theme attribute in the form "<code>?[<i>package</i>:][<i>type</i>:]<i>na
 or to a theme attribute in the form "<code>?[<i>package</i>:][<i>type</i>:]<i>name</i></code>".
           @attr name com.smart.library:ptrDrawableTop
         */
-        public static final int PullToRefresh_ptrDrawableTop = 17;
+        public static int PullToRefresh_ptrDrawableTop = 17;
         /**
           <p>
           @attr description
@@ -1618,7 +1618,7 @@ or to a theme attribute in the form "<code>?[<i>package</i>:][<i>type</i>:]<i>na
           <p>This is a private symbol.
           @attr name com.smart.library:ptrHeaderBackground
         */
-        public static final int PullToRefresh_ptrHeaderBackground = 1;
+        public static int PullToRefresh_ptrHeaderBackground = 1;
         /**
           <p>
           @attr description
@@ -1632,7 +1632,7 @@ or to a theme attribute in the form "<code>?[<i>package</i>:][<i>type</i>:]<i>na
           <p>This is a private symbol.
           @attr name com.smart.library:ptrHeaderSubTextColor
         */
-        public static final int PullToRefresh_ptrHeaderSubTextColor = 3;
+        public static int PullToRefresh_ptrHeaderSubTextColor = 3;
         /**
           <p>
           @attr description
@@ -1644,7 +1644,7 @@ or to a theme attribute in the form "<code>?[<i>package</i>:][<i>type</i>:]<i>na
           <p>This is a private symbol.
           @attr name com.smart.library:ptrHeaderTextAppearance
         */
-        public static final int PullToRefresh_ptrHeaderTextAppearance = 10;
+        public static int PullToRefresh_ptrHeaderTextAppearance = 10;
         /**
           <p>
           @attr description
@@ -1658,7 +1658,7 @@ or to a theme attribute in the form "<code>?[<i>package</i>:][<i>type</i>:]<i>na
           <p>This is a private symbol.
           @attr name com.smart.library:ptrHeaderTextColor
         */
-        public static final int PullToRefresh_ptrHeaderTextColor = 2;
+        public static int PullToRefresh_ptrHeaderTextColor = 2;
         /**
           <p>This symbol is the offset where the {@link com.smart.library.R.attr#ptrHorizontalScroll}
           attribute's value can be found in the {@link #PullToRefresh} array.
@@ -1672,7 +1672,7 @@ theme attribute (in the form
 containing a value of this type.
           @attr name com.smart.library:ptrHorizontalScroll
         */
-        public static final int PullToRefresh_ptrHorizontalScroll = 19;
+        public static int PullToRefresh_ptrHorizontalScroll = 19;
         /**
           <p>
           @attr description
@@ -1689,7 +1689,7 @@ or to a theme attribute in the form "<code>?[<i>package</i>:][<i>type</i>:]<i>na
           <p>This is a private symbol.
           @attr name com.smart.library:ptrListViewExtrasEnabled
         */
-        public static final int PullToRefresh_ptrListViewExtrasEnabled = 14;
+        public static int PullToRefresh_ptrListViewExtrasEnabled = 14;
         /**
           <p>
           @attr description
@@ -1713,7 +1713,7 @@ or to a theme attribute in the form "<code>?[<i>package</i>:][<i>type</i>:]<i>na
           <p>This is a private symbol.
           @attr name com.smart.library:ptrMode
         */
-        public static final int PullToRefresh_ptrMode = 4;
+        public static int PullToRefresh_ptrMode = 4;
         /**
           <p>
           @attr description
@@ -1726,7 +1726,7 @@ or to a theme attribute in the form "<code>?[<i>package</i>:][<i>type</i>:]<i>na
           <p>This is a private symbol.
           @attr name com.smart.library:ptrOverScroll
         */
-        public static final int PullToRefresh_ptrOverScroll = 9;
+        public static int PullToRefresh_ptrOverScroll = 9;
         /**
           <p>
           @attr description
@@ -1740,7 +1740,7 @@ or to a theme attribute in the form "<code>?[<i>package</i>:][<i>type</i>:]<i>na
           <p>This is a private symbol.
           @attr name com.smart.library:ptrRefreshableViewBackground
         */
-        public static final int PullToRefresh_ptrRefreshableViewBackground = 0;
+        public static int PullToRefresh_ptrRefreshableViewBackground = 0;
         /**
           <p>
           @attr description
@@ -1756,7 +1756,7 @@ or to a theme attribute in the form "<code>?[<i>package</i>:][<i>type</i>:]<i>na
           <p>This is a private symbol.
           @attr name com.smart.library:ptrRotateDrawableWhilePulling
         */
-        public static final int PullToRefresh_ptrRotateDrawableWhilePulling = 15;
+        public static int PullToRefresh_ptrRotateDrawableWhilePulling = 15;
         /**
           <p>
           @attr description
@@ -1769,7 +1769,7 @@ or to a theme attribute in the form "<code>?[<i>package</i>:][<i>type</i>:]<i>na
           <p>This is a private symbol.
           @attr name com.smart.library:ptrScrollingWhileRefreshingEnabled
         */
-        public static final int PullToRefresh_ptrScrollingWhileRefreshingEnabled = 13;
+        public static int PullToRefresh_ptrScrollingWhileRefreshingEnabled = 13;
         /**
           <p>
           @attr description
@@ -1782,7 +1782,7 @@ or to a theme attribute in the form "<code>?[<i>package</i>:][<i>type</i>:]<i>na
           <p>This is a private symbol.
           @attr name com.smart.library:ptrShowIndicator
         */
-        public static final int PullToRefresh_ptrShowIndicator = 5;
+        public static int PullToRefresh_ptrShowIndicator = 5;
         /**
           <p>
           @attr description
@@ -1794,7 +1794,7 @@ or to a theme attribute in the form "<code>?[<i>package</i>:][<i>type</i>:]<i>na
           <p>This is a private symbol.
           @attr name com.smart.library:ptrSubHeaderTextAppearance
         */
-        public static final int PullToRefresh_ptrSubHeaderTextAppearance = 11;
+        public static int PullToRefresh_ptrSubHeaderTextAppearance = 11;
         /** Attributes that can be used with a SegmentView.
            <p>Includes the following attributes:</p>
            <table>
@@ -1832,7 +1832,7 @@ or to a theme attribute in the form "<code>?[<i>package</i>:][<i>type</i>:]<i>na
 or to a theme attribute in the form "<code>?[<i>package</i>:][<i>type</i>:]<i>name</i></code>".
           @attr name com.smart.library:centerBg
         */
-        public static final int SegmentView_centerBg = 6;
+        public static int SegmentView_centerBg = 6;
         /**
           <p>This symbol is the offset where the {@link com.smart.library.R.attr#content}
           attribute's value can be found in the {@link #SegmentView} array.
@@ -1846,7 +1846,7 @@ theme attribute (in the form
 containing a value of this type.
           @attr name com.smart.library:content
         */
-        public static final int SegmentView_content = 0;
+        public static int SegmentView_content = 0;
         /**
           <p>This symbol is the offset where the {@link com.smart.library.R.attr#index}
           attribute's value can be found in the {@link #SegmentView} array.
@@ -1860,7 +1860,7 @@ theme attribute (in the form
 containing a value of this type.
           @attr name com.smart.library:index
         */
-        public static final int SegmentView_index = 1;
+        public static int SegmentView_index = 1;
         /**
           <p>This symbol is the offset where the {@link com.smart.library.R.attr#leftBg}
           attribute's value can be found in the {@link #SegmentView} array.
@@ -1870,7 +1870,7 @@ containing a value of this type.
 or to a theme attribute in the form "<code>?[<i>package</i>:][<i>type</i>:]<i>name</i></code>".
           @attr name com.smart.library:leftBg
         */
-        public static final int SegmentView_leftBg = 5;
+        public static int SegmentView_leftBg = 5;
         /**
           <p>This symbol is the offset where the {@link com.smart.library.R.attr#rightBg}
           attribute's value can be found in the {@link #SegmentView} array.
@@ -1880,7 +1880,7 @@ or to a theme attribute in the form "<code>?[<i>package</i>:][<i>type</i>:]<i>na
 or to a theme attribute in the form "<code>?[<i>package</i>:][<i>type</i>:]<i>name</i></code>".
           @attr name com.smart.library:rightBg
         */
-        public static final int SegmentView_rightBg = 7;
+        public static int SegmentView_rightBg = 7;
         /**
           <p>This symbol is the offset where the {@link com.smart.library.R.attr#textColorN}
           attribute's value can be found in the {@link #SegmentView} array.
@@ -1895,7 +1895,7 @@ theme attribute (in the form
 containing a value of this type.
           @attr name com.smart.library:textColorN
         */
-        public static final int SegmentView_textColorN = 3;
+        public static int SegmentView_textColorN = 3;
         /**
           <p>This symbol is the offset where the {@link com.smart.library.R.attr#textColorP}
           attribute's value can be found in the {@link #SegmentView} array.
@@ -1910,7 +1910,7 @@ theme attribute (in the form
 containing a value of this type.
           @attr name com.smart.library:textColorP
         */
-        public static final int SegmentView_textColorP = 4;
+        public static int SegmentView_textColorP = 4;
         /**
           <p>This symbol is the offset where the {@link com.smart.library.R.attr#textSize}
           attribute's value can be found in the {@link #SegmentView} array.
@@ -1926,7 +1926,7 @@ theme attribute (in the form
 containing a value of this type.
           @attr name com.smart.library:textSize
         */
-        public static final int SegmentView_textSize = 2;
+        public static int SegmentView_textSize = 2;
         /** Attributes that can be used with a SpinnerView.
            <p>Includes the following attributes:</p>
            <table>
@@ -1951,7 +1951,7 @@ containing a value of this type.
 or to a theme attribute in the form "<code>?[<i>package</i>:][<i>type</i>:]<i>name</i></code>".
           @attr name com.smart.library:Spinner_DropDownTitle
         */
-        public static final int SpinnerView_Spinner_DropDownTitle = 1;
+        public static int SpinnerView_Spinner_DropDownTitle = 1;
         /**
           <p>This symbol is the offset where the {@link com.smart.library.R.attr#Spinner_item}
           attribute's value can be found in the {@link #SpinnerView} array.
@@ -1961,7 +1961,7 @@ or to a theme attribute in the form "<code>?[<i>package</i>:][<i>type</i>:]<i>na
 or to a theme attribute in the form "<code>?[<i>package</i>:][<i>type</i>:]<i>name</i></code>".
           @attr name com.smart.library:Spinner_item
         */
-        public static final int SpinnerView_Spinner_item = 0;
+        public static int SpinnerView_Spinner_item = 0;
         /** Attributes that can be used with a SwipeBackLayout.
            <p>Includes the following attributes:</p>
            <table>
@@ -2002,7 +2002,7 @@ or to a theme attribute in the form "<code>?[<i>package</i>:][<i>type</i>:]<i>na
 </table>
           @attr name com.smart.library:edge_flag
         */
-        public static final int SwipeBackLayout_edge_flag = 1;
+        public static int SwipeBackLayout_edge_flag = 1;
         /**
           <p>This symbol is the offset where the {@link com.smart.library.R.attr#edge_size}
           attribute's value can be found in the {@link #SwipeBackLayout} array.
@@ -2018,7 +2018,7 @@ theme attribute (in the form
 containing a value of this type.
           @attr name com.smart.library:edge_size
         */
-        public static final int SwipeBackLayout_edge_size = 0;
+        public static int SwipeBackLayout_edge_size = 0;
         /**
           <p>This symbol is the offset where the {@link com.smart.library.R.attr#shadow_bottom}
           attribute's value can be found in the {@link #SwipeBackLayout} array.
@@ -2028,7 +2028,7 @@ containing a value of this type.
 or to a theme attribute in the form "<code>?[<i>package</i>:][<i>type</i>:]<i>name</i></code>".
           @attr name com.smart.library:shadow_bottom
         */
-        public static final int SwipeBackLayout_shadow_bottom = 4;
+        public static int SwipeBackLayout_shadow_bottom = 4;
         /**
           <p>This symbol is the offset where the {@link com.smart.library.R.attr#shadow_left}
           attribute's value can be found in the {@link #SwipeBackLayout} array.
@@ -2038,7 +2038,7 @@ or to a theme attribute in the form "<code>?[<i>package</i>:][<i>type</i>:]<i>na
 or to a theme attribute in the form "<code>?[<i>package</i>:][<i>type</i>:]<i>name</i></code>".
           @attr name com.smart.library:shadow_left
         */
-        public static final int SwipeBackLayout_shadow_left = 2;
+        public static int SwipeBackLayout_shadow_left = 2;
         /**
           <p>This symbol is the offset where the {@link com.smart.library.R.attr#shadow_right}
           attribute's value can be found in the {@link #SwipeBackLayout} array.
@@ -2048,7 +2048,7 @@ or to a theme attribute in the form "<code>?[<i>package</i>:][<i>type</i>:]<i>na
 or to a theme attribute in the form "<code>?[<i>package</i>:][<i>type</i>:]<i>name</i></code>".
           @attr name com.smart.library:shadow_right
         */
-        public static final int SwipeBackLayout_shadow_right = 3;
+        public static int SwipeBackLayout_shadow_right = 3;
         /** Attributes that can be used with a TabHost.
            <p>Includes the following attributes:</p>
            <table>
@@ -2077,7 +2077,7 @@ or to a theme attribute in the form "<code>?[<i>package</i>:][<i>type</i>:]<i>na
 "<code>#<i>rrggbb</i></code>", or "<code>#<i>aarrggbb</i></code>".
           @attr name com.smart.library:bottomColor
         */
-        public static final int TabHost_bottomColor = 1;
+        public static int TabHost_bottomColor = 1;
         /**
           <p>This symbol is the offset where the {@link com.smart.library.R.attr#focusColor}
           attribute's value can be found in the {@link #TabHost} array.
@@ -2089,7 +2089,7 @@ or to a theme attribute in the form "<code>?[<i>package</i>:][<i>type</i>:]<i>na
 "<code>#<i>rrggbb</i></code>", or "<code>#<i>aarrggbb</i></code>".
           @attr name com.smart.library:focusColor
         */
-        public static final int TabHost_focusColor = 0;
+        public static int TabHost_focusColor = 0;
         /**
           <p>This symbol is the offset where the {@link com.smart.library.R.attr#focusHeight}
           attribute's value can be found in the {@link #TabHost} array.
@@ -2102,7 +2102,7 @@ Available units are: px (pixels), dp (density-independent pixels), sp (scaled pi
 in (inches), mm (millimeters).
           @attr name com.smart.library:focusHeight
         */
-        public static final int TabHost_focusHeight = 2;
+        public static int TabHost_focusHeight = 2;
         /** Attributes that can be used with a call_control.
            <p>Includes the following attributes:</p>
            <table>
@@ -2133,7 +2133,7 @@ in (inches), mm (millimeters).
 </table>
           @attr name com.smart.library:call_direct
         */
-        public static final int call_control_call_direct = 0;
+        public static int call_control_call_direct = 0;
         /** Attributes that can be used with a form_input.
            <p>Includes the following attributes:</p>
            <table>
@@ -2164,7 +2164,7 @@ theme attribute (in the form
 containing a value of this type.
           @attr name com.smart.library:form_hint
         */
-        public static final int form_input_form_hint = 2;
+        public static int form_input_form_hint = 2;
         /**
           <p>This symbol is the offset where the {@link com.smart.library.R.attr#form_layout}
           attribute's value can be found in the {@link #form_input} array.
@@ -2174,7 +2174,7 @@ containing a value of this type.
 or to a theme attribute in the form "<code>?[<i>package</i>:][<i>type</i>:]<i>name</i></code>".
           @attr name com.smart.library:form_layout
         */
-        public static final int form_input_form_layout = 0;
+        public static int form_input_form_layout = 0;
         /**
           <p>This symbol is the offset where the {@link com.smart.library.R.attr#form_title}
           attribute's value can be found in the {@link #form_input} array.
@@ -2188,7 +2188,7 @@ theme attribute (in the form
 containing a value of this type.
           @attr name com.smart.library:form_title
         */
-        public static final int form_input_form_title = 1;
+        public static int form_input_form_title = 1;
         /**  Loading圆形小球 
            <p>Includes the following attributes:</p>
            <table>
@@ -2221,7 +2221,7 @@ theme attribute (in the form
 containing a value of this type.
           @attr name com.smart.library:circleRadius
         */
-        public static final int monindicator_circleRadius = 0;
+        public static int monindicator_circleRadius = 0;
         /**
           <p>This symbol is the offset where the {@link com.smart.library.R.attr#circleSpacing}
           attribute's value can be found in the {@link #monindicator} array.
@@ -2237,7 +2237,7 @@ theme attribute (in the form
 containing a value of this type.
           @attr name com.smart.library:circleSpacing
         */
-        public static final int monindicator_circleSpacing = 1;
+        public static int monindicator_circleSpacing = 1;
         /**
           <p>This symbol is the offset where the {@link com.smart.library.R.attr#cycle}
           attribute's value can be found in the {@link #monindicator} array.
@@ -2251,7 +2251,7 @@ theme attribute (in the form
 containing a value of this type.
           @attr name com.smart.library:cycle
         */
-        public static final int monindicator_cycle = 2;
+        public static int monindicator_cycle = 2;
         /** Attributes that can be used with a setting_info.
            <p>Includes the following attributes:</p>
            <table>
@@ -2289,7 +2289,7 @@ containing a value of this type.
 </table>
           @attr name com.smart.library:item_accessoryType
         */
-        public static final int setting_info_item_accessoryType = 2;
+        public static int setting_info_item_accessoryType = 2;
         /**
           <p>This symbol is the offset where the {@link com.smart.library.R.attr#item_detailText}
           attribute's value can be found in the {@link #setting_info} array.
@@ -2303,7 +2303,7 @@ theme attribute (in the form
 containing a value of this type.
           @attr name com.smart.library:item_detailText
         */
-        public static final int setting_info_item_detailText = 1;
+        public static int setting_info_item_detailText = 1;
         /**
           <p>This symbol is the offset where the {@link com.smart.library.R.attr#item_showDivider}
           attribute's value can be found in the {@link #setting_info} array.
@@ -2317,7 +2317,7 @@ theme attribute (in the form
 containing a value of this type.
           @attr name com.smart.library:item_showDivider
         */
-        public static final int setting_info_item_showDivider = 3;
+        public static int setting_info_item_showDivider = 3;
         /**
           <p>This symbol is the offset where the {@link com.smart.library.R.attr#item_titleText}
           attribute's value can be found in the {@link #setting_info} array.
@@ -2331,6 +2331,6 @@ theme attribute (in the form
 containing a value of this type.
           @attr name com.smart.library:item_titleText
         */
-        public static final int setting_info_item_titleText = 0;
+        public static int setting_info_item_titleText = 0;
     };
 }
