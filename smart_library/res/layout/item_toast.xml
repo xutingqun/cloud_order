@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:background="@drawable/tips_bg"
+    android:gravity="center"
+    android:orientation="vertical"
+    android:padding="20dp" >
+
+    <!--
+         <ProgressBar
+        android:id="@+id/toast_progressBar"
+        android:layout_width="32dp"
+        android:layout_height="34dp"
+         android:layout_marginBottom="20dp"
+        android:indeterminate="false"
+        android:indeterminateDrawable="@anim/loading" />  -->
+
+    <ImageView
+        android:layout_width="50dp"
+        android:layout_height="50dp"
+        android:layout_marginBottom="10dp"
+        android:background="@drawable/xiuba_logo" />
+
+    <TextView
+        android:id="@+id/toast_text"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="正在提交数据"
+        android:textSize="12sp"
+        android:textColor="#ffffff" />
+
+</LinearLayout>
