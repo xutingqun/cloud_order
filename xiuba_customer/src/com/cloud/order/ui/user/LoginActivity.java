@@ -38,6 +38,7 @@ import com.loopj.android.http.TextHttpResponseHandler;
 import com.slidingmenu.lib.SlidingMenu;
 import com.smart.library.util.DeviceUtils;
 import com.smart.library.util.HttpUtils;
+import com.smart.library.util.ImageUtils;
 import com.smart.library.util.IntentUtil;
 import com.smart.library.util.JsonUtils;
 import com.smart.library.util.SharedPreferencesUtils;
@@ -194,7 +195,7 @@ public class LoginActivity extends BaseActivity implements OnItemClickListener {
 						if (result.getSuccess().equals("1")) {
 							if (result.getResult() == null) {
 								isNoData = true;
-								
+
 								llSubmit.setBackgroundResource(R.drawable.shape_line_grey_bg);
 								tvForget.setTextColor(getResources().getColor(
 										R.color.default_shape_line_color));
@@ -218,7 +219,7 @@ public class LoginActivity extends BaseActivity implements OnItemClickListener {
 									imageList.add(result.getResult().get(i)
 											.getFImageUrl());
 								}
-								banner.setImgUrlData(imageList);
+									banner.setImgUrlData(imageList);	
 								DataStorage.setData(LoginActivity.this,
 										"serviceAddress", result.getResult()
 												.get(0).getFServerAddress());
@@ -287,7 +288,8 @@ public class LoginActivity extends BaseActivity implements OnItemClickListener {
 		case R.id.ll_titlev_more:
 			Bundle bundle = new Bundle();
 			bundle.putBoolean("isNoData", isNoData);
-			IntentUtil.mStartActivityWithBundle(LoginActivity.this, MySupplierActivity.class, bundle);
+			IntentUtil.mStartActivityWithBundle(LoginActivity.this,
+					MySupplierActivity.class, bundle);
 			break;
 		case R.id.iv_login_see_pass:
 			if (isLook) {

@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#FFFFFF"
+    android:orientation="vertical" >
+
+    <include
+        android:id="@+id/layout"
+        layout="@layout/it_top" />
+
+    <android.support.v7.widget.RecyclerView
+        android:id="@+id/recyclerView"
+        android:background="@color/default_shape_line_color"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_below="@+id/layout" />
+
+    <com.smart.library.view.EmptyLayout
+        android:id="@+id/empty_my_supplier"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_below="@+id/layout" />
+
+    <TextView
+        android:id="@+id/tv_add_my_supplier"
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:layout_alignParentBottom="true"
+        android:layout_margin="10dp"
+        android:background="@drawable/shape_line_blue_bg"
+        android:gravity="center"
+        android:text="@string/add_my_supplier"
+        android:textColor="@color/white" />
+
+</RelativeLayout>

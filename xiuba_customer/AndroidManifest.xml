@@ -61,14 +61,20 @@
         </activity>
 
         <!-- 我的供应商界面 -->
-    
-             <activity
+
+        <activity
             android:name="com.cloud.order.ui.user.MySupplierActivity"
             android:screenOrientation="portrait"
             android:theme="@android:style/Theme.Light.NoTitleBar"
             android:windowSoftInputMode="adjustResize" />
 
+        <!-- 添加供应商界面 -->
 
+        <activity
+            android:name="com.cloud.order.ui.user.AddSupplierActivity"
+            android:screenOrientation="portrait"
+            android:theme="@android:style/Theme.Light.NoTitleBar"
+            android:windowSoftInputMode="adjustResize" />
         <!-- 极光推送配置由此开始 -->
 
 
@@ -86,96 +92,94 @@
                 <category android:name="com.xmsmart.xiuba" />
             </intent-filter>
         </activity>
- 
 -
 
-            <!-- Required SDK核心功能 -->
-            <service
-                android:name="cn.jpush.android.service.DownloadService"
-                android:enabled="true"
-                android:exported="false" >
-            </service>
-            <!-- Required SDK 核心功能 -->
-            <!-- 可配置android:process参数将PushService放在其他进程中 -->
-            <service
-                android:name="cn.jpush.android.service.PushService"
-                android:enabled="true"
-                android:exported="false" >
+        <!-- Required SDK核心功能 -->
+        <service
+            android:name="cn.jpush.android.service.DownloadService"
+            android:enabled="true"
+            android:exported="false" >
+        </service>
+        <!-- Required SDK 核心功能 -->
+        <!-- 可配置android:process参数将PushService放在其他进程中 -->
+        <service
+            android:name="cn.jpush.android.service.PushService"
+            android:enabled="true"
+            android:exported="false" >
 -
-                <intent-filter>
-                    <action android:name="cn.jpush.android.intent.REGISTER" />
-                    <action android:name="cn.jpush.android.intent.REPORT" />
-                    <action android:name="cn.jpush.android.intent.PushService" />
-                    <action android:name="cn.jpush.android.intent.PUSH_TIME" />
-                </intent-filter>
-            </service>
+            <intent-filter>
+                <action android:name="cn.jpush.android.intent.REGISTER" />
+                <action android:name="cn.jpush.android.intent.REPORT" />
+                <action android:name="cn.jpush.android.intent.PushService" />
+                <action android:name="cn.jpush.android.intent.PUSH_TIME" />
+            </intent-filter>
+        </service>
 
-            <!-- Required SDK核心功能 -->
-            <receiver
-                android:name="cn.jpush.android.service.PushReceiver"
-                android:enabled="true"
-                android:exported="false" >
-                <intent-filter android:priority="1000" >
-                    <action android:name="cn.jpush.android.intent.NOTIFICATION_RECEIVED_PROXY" />
-                    <!-- Required 显示通知栏 -->
+        <!-- Required SDK核心功能 -->
+        <receiver
+            android:name="cn.jpush.android.service.PushReceiver"
+            android:enabled="true"
+            android:exported="false" >
+            <intent-filter android:priority="1000" >
+                <action android:name="cn.jpush.android.intent.NOTIFICATION_RECEIVED_PROXY" />
+                <!-- Required 显示通知栏 -->
 
-                    <category android:name="com.xmsmart.xiuba" />
-                </intent-filter>
-                <intent-filter>
-                    <action android:name="android.intent.action.USER_PRESENT" />
-                    <action android:name="android.net.conn.CONNECTIVITY_CHANGE" />
-                </intent-filter>
-                <!-- Optional -->
-                <intent-filter>
-                    <action android:name="android.intent.action.PACKAGE_ADDED" />
-                    <action android:name="android.intent.action.PACKAGE_REMOVED" />
+                <category android:name="com.xmsmart.xiuba" />
+            </intent-filter>
+            <intent-filter>
+                <action android:name="android.intent.action.USER_PRESENT" />
+                <action android:name="android.net.conn.CONNECTIVITY_CHANGE" />
+            </intent-filter>
+            <!-- Optional -->
+            <intent-filter>
+                <action android:name="android.intent.action.PACKAGE_ADDED" />
+                <action android:name="android.intent.action.PACKAGE_REMOVED" />
 
-                    <data android:scheme="package" />
-                </intent-filter>
-            </receiver>
+                <data android:scheme="package" />
+            </intent-filter>
+        </receiver>
 
-            <!-- Required SDK核心功能 -->
+        <!-- Required SDK核心功能 -->
 
-            <receiver
-                android:name="cn.jpush.android.service.AlarmReceiver"
-                android:exported="false" />
+        <receiver
+            android:name="cn.jpush.android.service.AlarmReceiver"
+            android:exported="false" />
 
-            <!-- User defined. For test only 用户自定义的广播接收器 -->
+        <!-- User defined. For test only 用户自定义的广播接收器 -->
 
-            <receiver
-                android:name="com.xmsmart.xiuba.jpush.MyReceiver"
-                android:enabled="true"
-                android:exported="false" >
-                <intent-filter>
-                    <action android:name="cn.jpush.android.intent.REGISTRATION" />
-                    <action android:name="cn.jpush.android.intent.UNREGISTRATION" />
-                    <action android:name="cn.jpush.android.intent.MESSAGE_RECEIVED" />
-                    <action android:name="cn.jpush.android.intent.NOTIFICATION_RECEIVED" />
-                    <action android:name="cn.jpush.android.intent.NOTIFICATION_OPENED" />
-                    <action android:name="cn.jpush.android.intent.ACTION_RICHPUSH_CALLBACK" />
-                    <action android:name="cn.jpush.android.intent.CONNECTION" />
+        <receiver
+            android:name="com.xmsmart.xiuba.jpush.MyReceiver"
+            android:enabled="true"
+            android:exported="false" >
+            <intent-filter>
+                <action android:name="cn.jpush.android.intent.REGISTRATION" />
+                <action android:name="cn.jpush.android.intent.UNREGISTRATION" />
+                <action android:name="cn.jpush.android.intent.MESSAGE_RECEIVED" />
+                <action android:name="cn.jpush.android.intent.NOTIFICATION_RECEIVED" />
+                <action android:name="cn.jpush.android.intent.NOTIFICATION_OPENED" />
+                <action android:name="cn.jpush.android.intent.ACTION_RICHPUSH_CALLBACK" />
+                <action android:name="cn.jpush.android.intent.CONNECTION" />
 
-                    <category android:name="com.xmsmart.xiuba" />
-                </intent-filter>
-            </receiver>
+                <category android:name="com.xmsmart.xiuba" />
+            </intent-filter>
+        </receiver>
 
-            <!-- Required . Enable it you can get statistics data with channel -->
-            <meta-data
-                android:name="JPUSH_CHANNEL"
-                android:value="developer-default" />
-            <meta-data
-                android:name="JPUSH_APPKEY"
-                android:value="1456145ab0189c72f67973f5" />
-            <!-- 极光推送配置到此结束 -->
-            <!-- =================高德地圖====================== -->
-            <meta-data
-                android:name="com.amap.api.v2.apikey"
-                android:value="45d1b3da12a8bd803f870aeeeb4108c1" />
+        <!-- Required . Enable it you can get statistics data with channel -->
+        <meta-data
+            android:name="JPUSH_CHANNEL"
+            android:value="developer-default" />
+        <meta-data
+            android:name="JPUSH_APPKEY"
+            android:value="1456145ab0189c72f67973f5" />
+        <!-- 极光推送配置到此结束 -->
+        <!-- =================高德地圖====================== -->
+        <meta-data
+            android:name="com.amap.api.v2.apikey"
+            android:value="45d1b3da12a8bd803f870aeeeb4108c1" />
 
-            <!-- 定位需要的服务 使用2.0的定位需要加上这个 -->
-            <service android:name="com.amap.api.location.APSService" >
-            </service>
-
+        <!-- 定位需要的服务 使用2.0的定位需要加上这个 -->
+        <service android:name="com.amap.api.location.APSService" >
+        </service>
     </application>
 
 </manifest>

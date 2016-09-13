@@ -96,6 +96,7 @@ public class RollHeaderView extends FrameLayout implements OnPageChangeListener 
 			ImageView dotIv;
 			LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(
 					LayoutParams.WRAP_CONTENT, LayoutParams.WRAP_CONTENT);
+		
 			for (int i = 0; i < mUrlList.size(); i++) {
 				dotIv = new ImageView(mContext);
 				if (i == 0) {
@@ -112,6 +113,7 @@ public class RollHeaderView extends FrameLayout implements OnPageChangeListener 
 				// 娣诲姞鍒伴泦鍚堜腑, 浠ヤ究鎺у埗鍏跺垏锟�?
 				dotList.add(dotIv);
 			}
+		
 		}
 
 		mAdapter = new MyAdapter();

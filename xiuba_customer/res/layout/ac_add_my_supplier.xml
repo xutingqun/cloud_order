@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#FFFFFF"
+    android:orientation="vertical" >
+
+    <include
+        android:id="@+id/layout"
+        layout="@layout/it_top" />
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:background="@color/default_shape_line_color" />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:layout_marginLeft="10dp"
+        android:layout_marginRight="10dp"
+        android:layout_marginTop="25dp"
+        android:background="@drawable/shape_white_line_bg"
+        android:orientation="horizontal" >
+
+        <TextView
+            android:layout_width="55dp"
+            android:layout_height="match_parent"
+            android:gravity="center"
+            android:text="@string/add_my_supplier_name"
+            android:textColor="@color/defalute_text_color"
+            android:textSize="15sp" />
+
+        <View
+            android:layout_width="0.1dp"
+            android:layout_height="17dp"
+            android:layout_gravity="center_vertical"
+            android:background="@color/defalute_text_color_hint" />
+
+        <EditText
+            android:id="@+id/edit_add_my_supplier_num"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_marginLeft="12dp"
+            android:layout_weight="3.5"
+            android:background="@null"
+            android:hint="@string/add_my_supplier_hint"
+            android:textColor="@color/defalute_text_color_hint"
+            android:textSize="15sp" />
+    </LinearLayout>
+
+    <TextView
+        android:id="@+id/tv_add_my_supplier_sure"
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:layout_marginTop="30dp"
+        android:layout_marginLeft="10dp"
+        android:layout_marginRight="10dp"
+        android:background="@drawable/shape_line_blue_bg"
+        android:gravity="center"
+        android:textSize="15sp"
+        android:text="@string/add_my_supplier_suer"
+        android:textColor="@color/white" />
+
+</LinearLayout>
